@@ -1,0 +1,15 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: onsdigital/dp-concourse-tools-nancy
+    tag: latest
+
+inputs:
+  - name: dp-cantabular-metadata-extractor-api
+    path: dp-cantabular-metadata-extractor-api
+
+run:
+  path: dp-cantabular-metadata-extractor-api/ci/scripts/audit.sh
