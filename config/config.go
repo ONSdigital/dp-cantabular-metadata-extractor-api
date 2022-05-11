@@ -12,6 +12,7 @@ type Config struct {
 	GracefulShutdownTimeout    time.Duration `envconfig:"GRACEFUL_SHUTDOWN_TIMEOUT"`
 	HealthCheckInterval        time.Duration `envconfig:"HEALTHCHECK_INTERVAL"`
 	HealthCheckCriticalTimeout time.Duration `envconfig:"HEALTHCHECK_CRITICAL_TIMEOUT"`
+	DatasetAPIURL              string        `envconfig:"DATASET_API_URL"`
 	CantabularExtURL           string        `envconfig:"CANTABULAR_EXT_API_URL"`
 }
 
@@ -29,6 +30,7 @@ func Get() (*Config, error) {
 		GracefulShutdownTimeout:    5 * time.Second,
 		HealthCheckInterval:        30 * time.Second,
 		HealthCheckCriticalTimeout: 90 * time.Second,
+		DatasetAPIURL:              "http://localhost:22000",
 		CantabularExtURL:           "http://localhost:8492",
 	}
 
