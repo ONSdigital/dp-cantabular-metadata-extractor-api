@@ -80,7 +80,7 @@ func TestGetCantabularMetaData(t *testing.T) {
 
 	dims := []string{"Age", "Country"}
 
-	resp := getCantabularMetaData("Teaching-Dataset", dims)
+	resp := GetMetaData("Teaching-Dataset", dims)
 
 	if resp.Dataset.Contact.Email != "census.customerservices@ons.gov.uk" {
 		t.Fail()

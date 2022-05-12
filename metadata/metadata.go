@@ -52,7 +52,7 @@ type Dimension struct {
 }
 
 // TODO add lang: cy
-func getCantabularMetaData(cantDataset string, dimensions []string) (resp Resp) {
+func GetMetaData(cantDataset string, dimensions []string) (resp Resp) {
 	cfg, _ := config.Get()
 
 	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: cfg.CantabularExtURL}, dphttp.NewClient(), nil)
