@@ -150,7 +150,7 @@ func TestRun(t *testing.T) {
 		})
 
 		// ADD CODE: put this code in, if you have Checkers to register
-		Convey("Given that Checkers cannot be registered", func() {
+		/*Convey("Given that Checkers cannot be registered", func() {
 
 			// setup (run before each `Convey` at this scope / indentation):
 			errAddheckFail := errors.New("Error(s) registering checkers for healthcheck")
