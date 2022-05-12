@@ -8,11 +8,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/ONSdigital/dp-api-clients-go/v2/health"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/service"
-	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/service/mock"
 	serviceMock "github.com/ONSdigital/dp-cantabular-metadata-extractor-api/service/mock"
 
 	"github.com/pkg/errors"
@@ -78,12 +78,20 @@ func TestRun(t *testing.T) {
 			return failingServerMock
 		}
 
+		funcDoGetHealthClientOk := func(name string, url string) *health.Client {
+			return &health.Client{
+				URL:  url,
+				Name: name,
+			}
+		}
+
 		Convey("Given that initialising healthcheck returns an error", func() {
 
 			// setup (run before each `Convey` at this scope / indentation):
 			initMock := &serviceMock.InitialiserMock{
 				DoGetHTTPServerFunc:  funcDoGetHTTPServerNil,
 				DoGetHealthCheckFunc: funcDoGetHealthcheckErr,
+				DoGetHealthClientFunc: funcDoGetHealthClientOk,
 			}
 			svcErrors := make(chan error, 1)
 			svcList := service.NewServiceList(initMock)
@@ -105,6 +113,7 @@ func TestRun(t *testing.T) {
 			initMock := &serviceMock.InitialiserMock{
 				DoGetHTTPServerFunc:  funcDoGetHTTPServer,
 				DoGetHealthCheckFunc: funcDoGetHealthcheckOk,
+				DoGetHealthClientFunc: funcDoGetHealthClientOk,
 			}
 			svcErrors := make(chan error, 1)
 			svcList := service.NewServiceList(initMock)
@@ -117,10 +126,13 @@ func TestRun(t *testing.T) {
 			})
 
 			Convey("The checkers are registered and the healthcheck and http server started", func() {
-				So(len(hcMock.AddCheckCalls()), ShouldEqual, 0)
-				So(len(initMock.DoGetHTTPServerCalls()), ShouldEqual, 1)
+				So(hcMock.AddCheckCalls(), ShouldHaveLength, 1)
+				So(hcMock.AddCheckCalls()[0].Name, ShouldResemble, "dataset-api")
+				// TODO: reinstate when find out from SCC what endpoint to check
+				// So(hcMock.AddCheckCalls()[1].Name, ShouldResemble, "cantabular-api-ext")
+				So(initMock.DoGetHTTPServerCalls(), ShouldHaveLength, 1)
 				So(initMock.DoGetHTTPServerCalls()[0].BindAddr, ShouldEqual, "localhost:28300")
-				So(len(hcMock.StartCalls()), ShouldEqual, 1)
+				So(hcMock.StartCalls(), ShouldHaveLength, 1)
 				//!!! a call needed to stop the server, maybe ?
 				serverWg.Wait() // Wait for HTTP server go-routine to finish
 				So(len(serverMock.ListenAndServeCalls()), ShouldEqual, 1)
@@ -170,6 +182,7 @@ func TestRun(t *testing.T) {
 			initMock := &serviceMock.InitialiserMock{
 				DoGetHealthCheckFunc: funcDoGetHealthcheckOk,
 				DoGetHTTPServerFunc:  funcDoGetFailingHTTPSerer,
+				DoGetHealthClientFunc: funcDoGetHealthClientOk,
 			}
 			svcErrors := make(chan error, 1)
 			svcList := service.NewServiceList(initMock)
@@ -207,7 +220,7 @@ func TestClose(t *testing.T) {
 		}
 
 		// server Shutdown will fail if healthcheck is not stopped
-		serverMock := &mock.HTTPServerMock{
+		serverMock := &serviceMock.HTTPServerMock{
 			ListenAndServeFunc: func() error { return nil },
 			ShutdownFunc: func(ctx context.Context) error {
 				if !hcStopped {
@@ -219,11 +232,12 @@ func TestClose(t *testing.T) {
 
 		Convey("Closing the service results in all the dependencies being closed in the expected order", func() {
 
-			initMock := &mock.InitialiserMock{
+			initMock := &serviceMock.InitialiserMock{
 				DoGetHTTPServerFunc: func(bindAddr string, router http.Handler) service.HTTPServer { return serverMock },
 				DoGetHealthCheckFunc: func(cfg *config.Config, buildTime string, gitCommit string, version string) (service.HealthChecker, error) {
 					return hcMock, nil
 				},
+				DoGetHealthClientFunc: func(name, url string) *health.Client { return &health.Client{} },
 			}
 
 			svcErrors := make(chan error, 1)
@@ -239,18 +253,19 @@ func TestClose(t *testing.T) {
 
 		Convey("If services fail to stop, the Close operation tries to close all dependencies and returns an error", func() {
 
-			failingserverMock := &mock.HTTPServerMock{
+			failingserverMock := &serviceMock.HTTPServerMock{
 				ListenAndServeFunc: func() error { return nil },
 				ShutdownFunc: func(ctx context.Context) error {
 					return errors.New("Failed to stop http server")
 				},
 			}
 
-			initMock := &mock.InitialiserMock{
+			initMock := &serviceMock.InitialiserMock{
 				DoGetHTTPServerFunc: func(bindAddr string, router http.Handler) service.HTTPServer { return failingserverMock },
 				DoGetHealthCheckFunc: func(cfg *config.Config, buildTime string, gitCommit string, version string) (service.HealthChecker, error) {
 					return hcMock, nil
 				},
+				DoGetHealthClientFunc: func(name, url string) *health.Client { return &health.Client{} },
 			}
 
 			svcErrors := make(chan error, 1)
@@ -259,14 +274,14 @@ func TestClose(t *testing.T) {
 			So(err, ShouldBeNil)
 
 			err = svc.Close(context.Background())
-			//So(err, ShouldNotBeNil)
+			So(err, ShouldNotBeNil)
 			So(len(hcMock.StopCalls()), ShouldEqual, 1)
 			So(len(failingserverMock.ShutdownCalls()), ShouldEqual, 1)
 		})
 
 		Convey("If service times out while shutting down, the Close operation fails with the expected error", func() {
 			cfg.GracefulShutdownTimeout = 1 * time.Millisecond
-			timeoutServerMock := &mock.HTTPServerMock{
+			timeoutServerMock := &serviceMock.HTTPServerMock{
 				ListenAndServeFunc: func() error { return nil },
 				ShutdownFunc: func(ctx context.Context) error {
 					time.Sleep(2 * time.Millisecond)

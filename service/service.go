@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 
+	"github.com/ONSdigital/dp-api-clients-go/v2/health"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 	"github.com/ONSdigital/log.go/v2/log"
@@ -12,12 +13,12 @@ import (
 
 // Service contains all the configs, server and clients to run the API
 type Service struct {
-	Config      *config.Config
-	Server      HTTPServer
-	Router      *mux.Router
-	Api         *api.API
-	ServiceList *ExternalServiceList
-	HealthCheck HealthChecker
+	Config       *config.Config
+	Server       HTTPServer
+	Router       *mux.Router
+	Api          *api.API
+	ServiceList  *ExternalServiceList
+	HealthCheck  HealthChecker
 }
 
 // Run the service
@@ -27,28 +28,34 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 
 	log.Info(ctx, "using service configuration", log.Data{"config": cfg})
 
-	// Get HTTP Server and ... // TODO: Add any middleware that your service requires
+	// Get HTTP Server
 	r := mux.NewRouter()
 
 	s := serviceList.GetHTTPServer(cfg.BindAddr, r)
 
-	// TODO: Add other(s) to serviceList here
+	// Get health client for dataset-api
+	datasetAPIClient := serviceList.GetHealthClient("dataset-api", cfg.DatasetAPIURL)
+
+	// Get health client for cantabular-api-ext - TODO: reinstate when find out from SCC what endpoint to check
+	// cantabularExtClient := serviceList.GetHealthClient("cantabular-api-ext", cfg.CantabularExtURL)
 
 	// Setup the API
 	a := api.Setup(ctx, r)
 
+	// Get HealthCheck
 	hc, err := serviceList.GetHealthCheck(cfg, buildTime, gitCommit, version)
-
 	if err != nil {
 		log.Fatal(ctx, "could not instantiate healthcheck", err)
 		return nil, err
 	}
 
-	if err := registerCheckers(ctx, hc); err != nil {
+	if err := registerCheckers(ctx, hc, datasetAPIClient); err != nil {
 		return nil, errors.Wrap(err, "unable to register checkers")
 	}
 
 	r.StrictSlash(true).Path("/health").HandlerFunc(hc.Handler)
+
+	// Start healthcheck
 	hc.Start(ctx)
 
 	// Run the http server in a new go-routine
@@ -114,10 +121,22 @@ func (svc *Service) Close(ctx context.Context) error {
 	return nil
 }
 
-func registerCheckers(ctx context.Context,
-	hc HealthChecker) (err error) {
+func registerCheckers(ctx context.Context, hc HealthChecker, datasetAPIClient *health.Client) (err error) {
+	hasErrors := false
 
-	// TODO: add other health checks here, as per dp-upload-service
+	if err = hc.AddCheck("dataset-api", datasetAPIClient.Checker); err != nil {
+		hasErrors = true
+		log.Error(ctx, "error adding check for dataset-api", err)
+	}
 
+	// TODO: reinstate when find out from SCC what endpoint to check
+	// if err = hc.AddCheck("cantabular-api-ext", cantabularExtClient.Checker); err != nil {
+	// 	hasErrors = true
+	// 	log.Error(ctx, "error adding check for cantabular-api-ext", err)
+	// }
+
+	if hasErrors {
+		return errors.New("Error(s) registering checkers for healthcheck")
+	}
 	return nil
 }
