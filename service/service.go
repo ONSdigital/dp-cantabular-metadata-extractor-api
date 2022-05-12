@@ -14,7 +14,6 @@ import (
 // Service contains all the configs, server and clients to run the API
 type Service struct {
 	Config       *config.Config
-	healthClient *health.Client
 	Server       HTTPServer
 	Router       *mux.Router
 	Api          *api.API
@@ -37,8 +36,8 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 	// Get health client for dataset-api
 	datasetAPIClient := serviceList.GetHealthClient("dataset-api", cfg.DatasetAPIURL)
 
-	// Get health client for cantabular-api-ext
-	cantabularExtClient := serviceList.GetHealthClient("cantabular-api-ext", cfg.CantabularExtURL)
+	// Get health client for cantabular-api-ext - TODO: reinstate when find out from SCC what endpoint to check
+	// cantabularExtClient := serviceList.GetHealthClient("cantabular-api-ext", cfg.CantabularExtURL)
 
 	// Setup the API
 	a := api.Setup(ctx, r)
@@ -50,7 +49,7 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 		return nil, err
 	}
 
-	if err := registerCheckers(ctx, hc, datasetAPIClient, cantabularExtClient); err != nil {
+	if err := registerCheckers(ctx, hc, datasetAPIClient); err != nil {
 		return nil, errors.Wrap(err, "unable to register checkers")
 	}
 
@@ -122,7 +121,7 @@ func (svc *Service) Close(ctx context.Context) error {
 	return nil
 }
 
-func registerCheckers(ctx context.Context, hc HealthChecker, datasetAPIClient, cantabularExtClient *health.Client) (err error) {
+func registerCheckers(ctx context.Context, hc HealthChecker, datasetAPIClient *health.Client) (err error) {
 	hasErrors := false
 
 	if err = hc.AddCheck("dataset-api", datasetAPIClient.Checker); err != nil {
@@ -130,10 +129,11 @@ func registerCheckers(ctx context.Context, hc HealthChecker, datasetAPIClient, c
 		log.Error(ctx, "error adding check for dataset-api", err)
 	}
 
-	if err = hc.AddCheck("cantabular-api-ext", cantabularExtClient.Checker); err != nil {
-		hasErrors = true
-		log.Error(ctx, "error adding check for cantabular-api-ext", err)
-	}
+	// TODO: reinstate when find out from SCC what endpoint to check
+	// if err = hc.AddCheck("cantabular-api-ext", cantabularExtClient.Checker); err != nil {
+	// 	hasErrors = true
+	// 	log.Error(ctx, "error adding check for cantabular-api-ext", err)
+	// }
 
 	if hasErrors {
 		return errors.New("Error(s) registering checkers for healthcheck")

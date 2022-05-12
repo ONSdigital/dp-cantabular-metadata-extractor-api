@@ -39,13 +39,6 @@ var funcDoGetHTTPServerNil = func(bindAddr string, router http.Handler) service.
 	return nil
 }
 
-var funcDoGetHealthClientOk = func(name string, url string) *health.Client {
-	return &health.Client{
-		URL:  url,
-		Name: name,
-	}
-}
-
 func TestRun(t *testing.T) {
 
 	Convey("Having a set of mocked dependencies", t, func() {
@@ -280,7 +273,7 @@ func TestClose(t *testing.T) {
 			So(err, ShouldBeNil)
 
 			err = svc.Close(context.Background())
-			//So(err, ShouldNotBeNil)
+			So(err, ShouldNotBeNil)
 			So(len(hcMock.StopCalls()), ShouldEqual, 1)
 			So(len(failingserverMock.ShutdownCalls()), ShouldEqual, 1)
 		})
