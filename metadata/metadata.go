@@ -7,7 +7,6 @@ import (
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 	dphttp "github.com/ONSdigital/dp-net/http"
-	"github.com/ryboe/q"
 )
 
 type Resp struct {
@@ -63,7 +62,6 @@ func getCantabularMetaData(cantDataset string, dimensions []string) (resp Resp) 
 	req.Variables = dimensions
 
 	r, err := cantabularClient.MetadataQuery(context.Background(), req)
-	q.Q(r)
 
 	if err != nil {
 		log.Print(err)
