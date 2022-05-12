@@ -126,9 +126,10 @@ func TestRun(t *testing.T) {
 			})
 
 			Convey("The checkers are registered and the healthcheck and http server started", func() {
-				So(hcMock.AddCheckCalls(), ShouldHaveLength, 2)
+				So(hcMock.AddCheckCalls(), ShouldHaveLength, 1)
 				So(hcMock.AddCheckCalls()[0].Name, ShouldResemble, "dataset-api")
-				So(hcMock.AddCheckCalls()[1].Name, ShouldResemble, "cantabular-api-ext")
+				// TODO: reinstate when find out from SCC what endpoint to check
+				// So(hcMock.AddCheckCalls()[1].Name, ShouldResemble, "cantabular-api-ext")
 				So(initMock.DoGetHTTPServerCalls(), ShouldHaveLength, 1)
 				So(initMock.DoGetHTTPServerCalls()[0].BindAddr, ShouldEqual, "localhost:28300")
 				So(hcMock.StartCalls(), ShouldHaveLength, 1)
