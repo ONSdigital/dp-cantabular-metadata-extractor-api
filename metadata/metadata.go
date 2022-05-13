@@ -5,8 +5,6 @@ import (
 	"log"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
-	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
-	dphttp "github.com/ONSdigital/dp-net/http"
 )
 
 type Resp struct {
@@ -51,17 +49,18 @@ type Dimension struct {
 	Label       string `json:"label"` // Title?
 }
 
-// TODO add lang: cy
-func GetMetaData(cantDataset string, dimensions []string) (resp Resp) {
-	cfg, _ := config.Get()
+// Client is the client for interacting with the Cantabular API
+type Metadata struct {
+	Client *cantabular.Client
+}
 
-	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: cfg.CantabularExtURL}, dphttp.NewClient(), nil)
-	//cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: "http://127.0.0.1:9090"}, dphttp.NewClient(), nil)
+// TODO add lang: cy
+func (m *Metadata) GetMetaData(cantDataset string, dimensions []string) (resp Resp) {
 	req := cantabular.MetadataQueryRequest{}
 	req.Dataset = cantDataset
 	req.Variables = dimensions
 
-	r, err := cantabularClient.MetadataQuery(context.Background(), req)
+	r, err := m.Client.MetadataQuery(context.Background(), req)
 
 	if err != nil {
 		log.Print(err)
