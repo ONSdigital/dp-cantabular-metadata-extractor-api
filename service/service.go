@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 
+	"github.com/ONSdigital/dp-api-clients-go/v2/dataset"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 	"github.com/ONSdigital/log.go/v2/log"
@@ -15,9 +16,10 @@ type Service struct {
 	Config      *config.Config
 	Server      HTTPServer
 	Router      *mux.Router
-	Api         *api.API
+	Api         *api.CantabularMetadataExtractorAPI
 	ServiceList *ExternalServiceList
 	HealthCheck HealthChecker
+	datasetAPI  *dataset.Client
 }
 
 // Run the service
@@ -32,10 +34,10 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 
 	s := serviceList.GetHTTPServer(cfg.BindAddr, r)
 
-	// TODO: Add other(s) to serviceList here
+	d := dataset.NewAPIClient(cfg.DatasetAPIURL)
 
 	// Setup the API
-	a := api.Setup(ctx, r)
+	a := api.Setup(ctx, r, d)
 
 	hc, err := serviceList.GetHealthCheck(cfg, buildTime, gitCommit, version)
 
@@ -65,6 +67,7 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 		HealthCheck: hc,
 		ServiceList: serviceList,
 		Server:      s,
+		datasetAPI:  d,
 	}, nil
 }
 
