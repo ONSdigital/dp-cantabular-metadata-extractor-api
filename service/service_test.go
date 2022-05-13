@@ -89,8 +89,8 @@ func TestRun(t *testing.T) {
 
 			// setup (run before each `Convey` at this scope / indentation):
 			initMock := &serviceMock.InitialiserMock{
-				DoGetHTTPServerFunc:  funcDoGetHTTPServerNil,
-				DoGetHealthCheckFunc: funcDoGetHealthcheckErr,
+				DoGetHTTPServerFunc:   funcDoGetHTTPServerNil,
+				DoGetHealthCheckFunc:  funcDoGetHealthcheckErr,
 				DoGetHealthClientFunc: funcDoGetHealthClientOk,
 			}
 			svcErrors := make(chan error, 1)
@@ -111,8 +111,8 @@ func TestRun(t *testing.T) {
 
 			// setup (run before each `Convey` at this scope / indentation):
 			initMock := &serviceMock.InitialiserMock{
-				DoGetHTTPServerFunc:  funcDoGetHTTPServer,
-				DoGetHealthCheckFunc: funcDoGetHealthcheckOk,
+				DoGetHTTPServerFunc:   funcDoGetHTTPServer,
+				DoGetHealthCheckFunc:  funcDoGetHealthcheckOk,
 				DoGetHealthClientFunc: funcDoGetHealthClientOk,
 			}
 			svcErrors := make(chan error, 1)
@@ -180,8 +180,8 @@ func TestRun(t *testing.T) {
 
 			// setup (run before each `Convey` at this scope / indentation):
 			initMock := &serviceMock.InitialiserMock{
-				DoGetHealthCheckFunc: funcDoGetHealthcheckOk,
-				DoGetHTTPServerFunc:  funcDoGetFailingHTTPSerer,
+				DoGetHealthCheckFunc:  funcDoGetHealthcheckOk,
+				DoGetHTTPServerFunc:   funcDoGetFailingHTTPSerer,
 				DoGetHealthClientFunc: funcDoGetHealthClientOk,
 			}
 			svcErrors := make(chan error, 1)
@@ -280,11 +280,11 @@ func TestClose(t *testing.T) {
 		})
 
 		Convey("If service times out while shutting down, the Close operation fails with the expected error", func() {
-			cfg.GracefulShutdownTimeout = 1 * time.Millisecond
+			cfg.GracefulShutdownTimeout = 10 * time.Millisecond
 			timeoutServerMock := &serviceMock.HTTPServerMock{
 				ListenAndServeFunc: func() error { return nil },
 				ShutdownFunc: func(ctx context.Context) error {
-					time.Sleep(2 * time.Millisecond)
+					time.Sleep(20 * time.Millisecond)
 					return nil
 				},
 			}
