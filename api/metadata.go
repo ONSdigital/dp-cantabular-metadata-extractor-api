@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"net/http"
 
-	datasetAPI "github.com/ONSdigital/dp-api-clients-go/v2/dataset"
 	"github.com/gorilla/mux"
 )
 
@@ -30,11 +29,18 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 	w.Write(json)
 }
 
-func (api *CantabularMetadataExtractorAPI) getDimensions(ctx context.Context, d Dataset) (*datasetAPI.VersionDimensions, error) {
-	dimensions, err := api.datasetAPI.GetVersionDimensions(ctx, "", api.cfg.ServiceAuthToken, "", d.ID, d.Edition, d.Version)
+func (api *CantabularMetadataExtractorAPI) getDimensions(ctx context.Context, d Dataset) ([]string, error) {
+	fullDimensions, err := api.datasetAPI.GetVersionDimensions(ctx, "", api.cfg.ServiceAuthToken, "", d.ID, d.Edition, d.Version)
+
 	if err != nil {
 		return nil, fmt.Errorf("failed to get version dimensions: %w", err)
 	}
 
-	return &dimensions, nil
+	dimensionsSlice := []string{}
+
+	for _, dimension := range fullDimensions.Items {
+		dimensionsSlice = append(dimensionsSlice, dimension.Name)
+	}
+
+	return dimensionsSlice, nil
 }
