@@ -5,10 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"flag"
-	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
 	"reflect"
 	"sort"
 	"testing"
@@ -56,26 +53,7 @@ func TestMockGetCantabularMetaDataHappy(t *testing.T) {
 	})
 }
 
-func testMetadataResponse() ([]byte, error) {
-	b, err := ioutil.ReadFile("metadata_test.json")
-	if err != nil {
-		return nil, fmt.Errorf("failed to read file: %s", err)
-	}
-
-	return b, nil
-}
-
-func Response(body []byte, statusCode int) *http.Response {
-	reader := bytes.NewBuffer(body)
-	readCloser := ioutil.NopCloser(reader)
-
-	return &http.Response{
-		StatusCode: statusCode,
-		Body:       readCloser,
-	}
-}
-
-func TestMockGetCantabularMetaData(t *testing.T) {
+func TestIntGetCantabularMetaData(t *testing.T) {
 
 	if !*intFlag {
 		t.Skip("not doing int tests")
