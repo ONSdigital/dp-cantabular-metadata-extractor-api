@@ -43,7 +43,7 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 	d := dataset.NewAPIClient(cfg.DatasetAPIURL)
 
 	// Setup the API
-	a := api.Setup(ctx, r, d)
+	a := api.Setup(ctx, r,cfg, d)
 
 	// Get HealthCheck
 	hc, err := serviceList.GetHealthCheck(cfg, buildTime, gitCommit, version)
