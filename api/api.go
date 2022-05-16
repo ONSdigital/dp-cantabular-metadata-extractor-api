@@ -23,6 +23,6 @@ func Setup(ctx context.Context, r *mux.Router, d DatasetAPI) *CantabularMetadata
 		datasetAPI: d,
 	}
 
-	r.HandleFunc("/metadata", api.getMetadata).Methods("GET")
+	r.HandleFunc("/metadata/datasets/{datasetID}/editions/{editionID}/versions/{versionID}", api.getMetadata).Methods("GET")
 	return api
 }
