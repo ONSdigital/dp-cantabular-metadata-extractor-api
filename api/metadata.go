@@ -6,6 +6,9 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
+	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/metadata"
+	dphttp "github.com/ONSdigital/dp-net/http"
 	"github.com/gorilla/mux"
 )
 
@@ -25,7 +28,12 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 	if err != nil {
 		w.Write([]byte(err.Error()))
 	}
-	json, _ := json.Marshal(dimensions)
+
+	// TODO err
+	// XXX Cantabular dataset name hardcoded
+	resp := api.getCantMeta(ctx, "Teaching-Dataset", dimensions)
+
+	json, _ := json.Marshal(resp)
 	w.Write(json)
 }
 
@@ -43,4 +51,14 @@ func (api *CantabularMetadataExtractorAPI) getDimensions(ctx context.Context, d 
 	}
 
 	return dimensionsSlice, nil
+}
+
+func (api *CantabularMetadataExtractorAPI) getCantMeta(ctx context.Context, cantDataset string, dims []string) metadata.Resp {
+	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: api.cfg.CantabularExtURL}, dphttp.NewClient(), nil)
+
+	// TODO return error
+	m := &metadata.Metadata{Client: cantabularClient}
+	resp := m.GetMetaData(cantDataset, dims)
+
+	return resp
 }

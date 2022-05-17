@@ -5,6 +5,7 @@ import (
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/dataset"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
+	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/metadata"
 	"github.com/gorilla/mux"
 )
 
@@ -14,9 +15,16 @@ import (
 type DatasetAPI interface {
 	GetVersionDimensions(ctx context.Context, userAuthToken, serviceAuthToken, collectionID, id, edition, version string) (m dataset.VersionDimensions, err error)
 }
+
+// cantExtAPI
+type cantExtAPI interface {
+	GetMetaData(cantDataset string, dimensions []string) (resp metadata.Resp)
+}
+
 type CantabularMetadataExtractorAPI struct {
 	Router     *mux.Router
 	datasetAPI DatasetAPI
+	cantExtAPI cantExtAPI
 	cfg        *config.Config
 }
 
