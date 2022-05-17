@@ -5,17 +5,17 @@ import (
 	"context"
 	"encoding/json"
 	"flag"
-	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
 	"reflect"
 	"sort"
 	"testing"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular/mock"
+	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
+	dphttp "github.com/ONSdigital/dp-net/http"
 
+	//  dphttp "github.com/ONSdigital/dp-net/http"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
@@ -53,34 +53,19 @@ func TestMockGetCantabularMetaDataHappy(t *testing.T) {
 	})
 }
 
-func testMetadataResponse() ([]byte, error) {
-	b, err := ioutil.ReadFile("metadata_test.json")
-	if err != nil {
-		return nil, fmt.Errorf("failed to read file: %s", err)
-	}
-
-	return b, nil
-}
-
-func Response(body []byte, statusCode int) *http.Response {
-	reader := bytes.NewBuffer(body)
-	readCloser := ioutil.NopCloser(reader)
-
-	return &http.Response{
-		StatusCode: statusCode,
-		Body:       readCloser,
-	}
-}
-
-func TestGetCantabularMetaData(t *testing.T) {
+func TestIntGetCantabularMetaData(t *testing.T) {
 
 	if !*intFlag {
 		t.Skip("not doing int tests")
 	}
 
-	dims := []string{"Age", "Country"}
+	cfg, _ := config.Get()
+	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: cfg.CantabularExtURL}, dphttp.NewClient(), nil)
 
-	resp := GetMetaData("Teaching-Dataset", dims)
+	m := &Metadata{Client: cantabularClient}
+
+	dims := []string{"Age", "Country"}
+	resp := m.GetMetaData("Teaching-Dataset", dims)
 
 	if resp.Dataset.Contact.Email != "census.customerservices@ons.gov.uk" {
 		t.Fail()
@@ -117,4 +102,32 @@ func jsonpp(b []byte) (s string) {
 		s = out.String()
 	}
 	return s
+}
+
+func TestGetCantabularMetaData(t *testing.T) {
+
+	mockGQLClient := &mock.GraphQLClientMock{QueryFunc: func(ctx context.Context, query interface{}, vars map[string]interface{}) error {
+		md := query.(*cantabular.MetadataQuery)
+		md.Dataset.Meta.Source.Contact.ContactEmail = "census.customerservices@ons.gov.uk"
+		return nil
+	},
+	}
+	cantabularClient := cantabular.NewClient(
+		cantabular.Config{
+			ExtApiHost: "cantabular.ext.host",
+		},
+		nil,
+		mockGQLClient,
+	)
+
+	dims := []string{"Age", "Country"}
+
+	m := &Metadata{Client: cantabularClient}
+	resp := m.GetMetaData("Teaching-Dataset", dims)
+
+	if resp.Dataset.Contact.Email != "census.customerservices@ons.gov.uk" {
+		t.Fail()
+	}
+
+	// TODO more coverage...
 }
