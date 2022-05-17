@@ -5,7 +5,6 @@ import (
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/dataset"
 	"github.com/ONSdigital/dp-api-clients-go/v2/health"
-	"github.com/ONSdigital/dp-api-clients-go/v2/dataset"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 	"github.com/ONSdigital/log.go/v2/log"
