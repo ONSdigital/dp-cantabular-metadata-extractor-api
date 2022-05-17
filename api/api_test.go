@@ -1,10 +1,13 @@
-package api
+package api_test
 
 import (
 	"context"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api"
+	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api/mock"
+	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 	"github.com/gorilla/mux"
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -13,12 +16,13 @@ func TestSetup(t *testing.T) {
 	Convey("Given an API instance", t, func() {
 		r := mux.NewRouter()
 		ctx := context.Background()
-		api := Setup(ctx, r)
+		d := &mock.DatasetAPIMock{}
+		c, _ := config.Get()
 
-		// TODO: remove hello world example handler route test case
+		api := api.Setup(ctx, r, c, d)
+
 		Convey("When created the following routes should have been added", func() {
-			// Replace the check below with any newly added api endpoints
-			So(hasRoute(api.Router, "/hello", "GET"), ShouldBeTrue)
+			So(hasRoute(api.Router, "/metadata/datasets/{datasetID}/editions/{editionID}/versions/{versionID}", "GET"), ShouldBeTrue)
 		})
 	})
 }
