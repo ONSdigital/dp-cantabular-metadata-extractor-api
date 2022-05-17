@@ -16,15 +16,13 @@ func TestSetup(t *testing.T) {
 	Convey("Given an API instance", t, func() {
 		r := mux.NewRouter()
 		ctx := context.Background()
-		d := mock.DatasetAPIMock{}
+		d := &mock.DatasetAPIMock{}
 		c, _ := config.Get()
 
 		api := api.Setup(ctx, r, c, d)
 
-		// TODO: remove hello world example handler route test case
 		Convey("When created the following routes should have been added", func() {
-			// Replace the check below with any newly added api endpoints
-			So(hasRoute(api.Router, "/hello", "GET"), ShouldBeTrue)
+			So(hasRoute(api.Router, "/metadata/datasets/{datasetID}/editions/{editionID}/versions/{versionID}", "GET"), ShouldBeTrue)
 		})
 	})
 }
