@@ -23,8 +23,8 @@ type cantExtAPI interface {
 
 type CantabularMetadataExtractorAPI struct {
 	Router     *mux.Router
-	datasetAPI DatasetAPI
 	cantExtAPI cantExtAPI
+	DatasetAPI DatasetAPI
 	cfg        *config.Config
 }
 
@@ -32,7 +32,7 @@ type CantabularMetadataExtractorAPI struct {
 func Setup(ctx context.Context, r *mux.Router, config *config.Config, d DatasetAPI) *CantabularMetadataExtractorAPI {
 	api := &CantabularMetadataExtractorAPI{
 		Router:     r,
-		datasetAPI: d,
+		DatasetAPI: d,
 		cfg:        config,
 	}
 
