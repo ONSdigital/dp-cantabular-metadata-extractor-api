@@ -1,0 +1,64 @@
+* /Users/patrick.fleming/Documents/ONS/cant-journey-up-to-date/pubmisc/cantj/dp-cantabular-metadata-extractor-api/api/metadata_test.go 
+  Line 38: - runtime error: invalid memory address or nil pointer dereference 
+  goroutine 36 [running]:
+        /Users/patrick.fleming/go/pkg/mod/github.com/smartystreets/goconvey@v1.7.2/convey/reporting/reports.go:150 +0x3f
+        /Users/patrick.fleming/go/pkg/mod/github.com/smartystreets/goconvey@v1.7.2/convey/reporting/reports.go:123 +0x5d
+        /Users/patrick.fleming/go/pkg/mod/github.com/smartystreets/goconvey@v1.7.2/convey/context.go:253 +0xe5
+  panic({0x13b6ce0, 0x1844e30})
+        /usr/local/Cellar/go/1.17.2/libexec/src/runtime/panic.go:1038 +0x215
+  github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api.(*CantabularMetadataExtractorAPI).GetDimensions(0xc00012f668, {0x15c8950, 0xc00011e008}, {{0x1400a8c, 0x7}, {0x1402b6a, 0xc}, {0x1402b76, 0xc}})
+        /Users/patrick.fleming/Documents/ONS/cant-journey-up-to-date/pubmisc/cantj/dp-cantabular-metadata-extractor-api/api/metadata.go:33 +0x79
+  github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api_test.TestGetVersionDimensions.func1.2()
+        /Users/patrick.fleming/Documents/ONS/cant-journey-up-to-date/pubmisc/cantj/dp-cantabular-metadata-extractor-api/api/metadata_test.go:38 +0x109
+        /Users/patrick.fleming/go/pkg/mod/github.com/smartystreets/goconvey@v1.7.2/convey/discovery.go:89 +0x1b
+        /Users/patrick.fleming/go/pkg/mod/github.com/smartystreets/goconvey@v1.7.2/convey/context.go:279 +0x177
+        /Users/patrick.fleming/go/pkg/mod/github.com/smartystreets/goconvey@v1.7.2/convey/context.go:166 +0x2c
+  github.com/jtolds/gls.(*ContextManager).SetValues.func1(0x0)
+        /Users/patrick.fleming/go/pkg/mod/github.com/jtolds/gls@v4.20.0+incompatible/context.go:97 +0x476
+  github.com/jtolds/gls.EnsureGoroutineId(0xc00032f500)
+        /Users/patrick.fleming/go/pkg/mod/github.com/jtolds/gls@v4.20.0+incompatible/gid.go:19 +0xfb
+  github.com/jtolds/gls.(*ContextManager).SetValues(0xc000111f30, 0xc00032f4a0, 0xc000132540)
+        /Users/patrick.fleming/go/pkg/mod/github.com/jtolds/gls@v4.20.0+incompatible/context.go:63 +0x16a
+        /Users/patrick.fleming/go/pkg/mod/github.com/smartystreets/goconvey@v1.7.2/convey/context.go:165 +0x35c
+        /Users/patrick.fleming/go/pkg/mod/github.com/smartystreets/goconvey@v1.7.2/convey/doc.go:78 +0x75
+  github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api_test.TestGetVersionDimensions.func1()
+        /Users/patrick.fleming/Documents/ONS/cant-journey-up-to-date/pubmisc/cantj/dp-cantabular-metadata-extractor-api/api/metadata_test.go:35 +0x1f3
+        /Users/patrick.fleming/go/pkg/mod/github.com/smartystreets/goconvey@v1.7.2/convey/discovery.go:89 +0x1b
+        /Users/patrick.fleming/go/pkg/mod/github.com/smartystreets/goconvey@v1.7.2/convey/context.go:279 +0x177
+        /Users/patrick.fleming/go/pkg/mod/github.com/smartystreets/goconvey@v1.7.2/convey/context.go:112 +0xce
+  github.com/jtolds/gls.(*ContextManager).SetValues.func1(0x0)
+        /Users/patrick.fleming/go/pkg/mod/github.com/jtolds/gls@v4.20.0+incompatible/context.go:97 +0x476
+  github.com/jtolds/gls.EnsureGoroutineId.func1()
+        /Users/patrick.fleming/go/pkg/mod/github.com/jtolds/gls@v4.20.0+incompatible/gid.go:24 +0x22
+  github.com/jtolds/gls._m(0x13d04e0, 0xc000358501)
+        /Users/patrick.fleming/go/pkg/mod/github.com/jtolds/gls@v4.20.0+incompatible/stack_tags.go:108 +0x22
+  github.com/jtolds/gls.github_com_jtolds_gls_markS(0xc00032f3b0, 0x0)
+        /Users/patrick.fleming/go/pkg/mod/github.com/jtolds/gls@v4.20.0+incompatible/stack_tags.go:56 +0x19
+  github.com/jtolds/gls.addStackTag(...)
+        /Users/patrick.fleming/go/pkg/mod/github.com/jtolds/gls@v4.20.0+incompatible/stack_tags.go:49
+  github.com/jtolds/gls.EnsureGoroutineId(0xc00032f3b0)
+        /Users/patrick.fleming/go/pkg/mod/github.com/jtolds/gls@v4.20.0+incompatible/gid.go:24 +0xd8
+  github.com/jtolds/gls.(*ContextManager).SetValues(0xc000111f30, 0xc00032f350, 0xc00014f440)
+        /Users/patrick.fleming/go/pkg/mod/github.com/jtolds/gls@v4.20.0+incompatible/context.go:63 +0x16a
+        /Users/patrick.fleming/go/pkg/mod/github.com/smartystreets/goconvey@v1.7.2/convey/context.go:107 +0x2a5
+        /Users/patrick.fleming/go/pkg/mod/github.com/smartystreets/goconvey@v1.7.2/convey/doc.go:76 +0x8b
+  github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api_test.TestGetVersionDimensions(0xc0003521a0)
+        /Users/patrick.fleming/Documents/ONS/cant-journey-up-to-date/pubmisc/cantj/dp-cantabular-metadata-extractor-api/api/metadata_test.go:19 +0x130
+  testing.tRunner(0xc0003521a0, 0x1426fd0)
+        /usr/local/Cellar/go/1.17.2/libexec/src/testing/testing.go:1259 +0x102
+  created by testing.(*T).Run
+        /usr/local/Cellar/go/1.17.2/libexec/src/testing/testing.go:1306 +0x35a
+  
+  goroutine 1 [chan receive]:
+  testing.(*T).Run(0xc000105ba0, {0x1408b3a, 0xaf4dba1e4b3d}, 0x1426fd0)
+        /usr/local/Cellar/go/1.17.2/libexec/src/testing/testing.go:1307 +0x375
+  testing.runTests.func1(0xc00032eba0)
+        /usr/local/Cellar/go/1.17.2/libexec/src/testing/testing.go:1598 +0x6e
+  testing.tRunner(0xc000105ba0, 0xc0001add18)
+        /usr/local/Cellar/go/1.17.2/libexec/src/testing/testing.go:1259 +0x102
+  testing.runTests(0xc00017e100, {0x1846500, 0x2, 0x2}, {0x13b4c40, 0xc00032e9f0, 0x18519e0})
+        /usr/local/Cellar/go/1.17.2/libexec/src/testing/testing.go:1596 +0x43f
+  testing.(*M).Run(0xc00017e100)
+        /usr/local/Cellar/go/1.17.2/libexec/src/testing/testing.go:1504 +0x51d
+  main.main()
+        _testmain.go:47 +0x14b

@@ -30,7 +30,7 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 }
 
 func (api *CantabularMetadataExtractorAPI) GetDimensions(ctx context.Context, d Dataset) ([]string, error) {
-	fullDimensions, err := api.datasetAPI.GetVersionDimensions(ctx, "", api.cfg.ServiceAuthToken, "", d.ID, d.Edition, d.Version)
+	fullDimensions, err := api.DatasetAPI.GetVersionDimensions(ctx, "", api.cfg.ServiceAuthToken, "", d.ID, d.Edition, d.Version)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to get version dimensions: %w", err)
