@@ -17,7 +17,10 @@ func TestSetup(t *testing.T) {
 		r := mux.NewRouter()
 		ctx := context.Background()
 		d := &mock.DatasetAPIMock{}
-		c, _ := config.Get()
+		c, err := config.Get()
+		if err != nil {
+			t.Fail()
+		}
 
 		api := api.Setup(ctx, r, c, d)
 
