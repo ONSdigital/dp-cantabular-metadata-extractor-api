@@ -23,7 +23,7 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 	params := mux.Vars(r)
 	dataset := Dataset{ID: params["datasetID"], Edition: params["editionID"], Version: params["versionID"]}
 
-	dimensions, err := api.getDimensions(ctx, dataset)
+	dimensions, err := api.GetDimensions(ctx, dataset)
 
 	if err != nil {
 		w.Write([]byte(err.Error()))
@@ -37,7 +37,7 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 	w.Write(json)
 }
 
-func (api *CantabularMetadataExtractorAPI) getDimensions(ctx context.Context, d Dataset) ([]string, error) {
+func (api *CantabularMetadataExtractorAPI) GetDimensions(ctx context.Context, d Dataset) ([]string, error) {
 	fullDimensions, err := api.datasetAPI.GetVersionDimensions(ctx, "", api.cfg.ServiceAuthToken, "", d.ID, d.Edition, d.Version)
 
 	if err != nil {
