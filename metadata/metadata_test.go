@@ -67,7 +67,7 @@ func TestIntGetCantabularMetaData(t *testing.T) {
 	dims := []string{"Age", "Country"}
 	resp := m.GetMetaData("Teaching-Dataset", dims)
 
-	if resp.Dataset.Contact.Email != "census.customerservices@ons.gov.uk" {
+	if resp.Dataset.Contacts[0].Email != "census.customerservices@ons.gov.uk" {
 		t.Fail()
 	}
 
@@ -125,7 +125,7 @@ func TestGetCantabularMetaData(t *testing.T) {
 	m := &Metadata{Client: cantabularClient}
 	resp := m.GetMetaData("Teaching-Dataset", dims)
 
-	if resp.Dataset.Contact.Email != "census.customerservices@ons.gov.uk" {
+	if resp.Dataset.Contacts[0].Email != "census.customerservices@ons.gov.uk" {
 		t.Fail()
 	}
 
