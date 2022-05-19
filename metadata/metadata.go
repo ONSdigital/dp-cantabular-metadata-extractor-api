@@ -14,11 +14,7 @@ type Resp struct {
 		Description   string `json:"description"` // Summary on page?
 		UnitOfMeasure string `json:"unit_of_measure"`
 
-		Contact struct { // slice? Original js was array (!?)
-			Name      string `json:"name"`
-			Telephone string `json:"telephone"`
-			Email     string `json:"email"`
-		} `json:"contact"`
+		Contacts []Contact `json:"contacts"` // slice/Original js was array (!?)
 
 		Keywords          []string `json:"keywords"`
 		License           string   `json:"license"`
@@ -41,6 +37,12 @@ type Resp struct {
 		// NextReleaseDate?
 		// ReleaseFrequency?
 	} `json:"version"`
+}
+
+type Contact struct {
+	Name      string `json:"name"`
+	Telephone string `json:"telephone"`
+	Email     string `json:"email"`
 }
 
 type Dimension struct {
@@ -68,9 +70,7 @@ func (m *Metadata) GetMetaData(cantDataset string, dimensions []string) (resp Re
 
 	resp.Dataset.Title = string(r.Dataset.Label)             // ???
 	resp.Dataset.Description = string(r.Dataset.Description) // summary?
-	resp.Dataset.Contact.Name = string(r.Dataset.Meta.Source.Contact.ContactName)
-	resp.Dataset.Contact.Email = string(r.Dataset.Meta.Source.Contact.ContactEmail)
-	resp.Dataset.Contact.Telephone = string(r.Dataset.Meta.Source.Contact.ContactPhone)
+	resp.Dataset.Contacts = append(resp.Dataset.Contacts, Contact{Name: string(r.Dataset.Meta.Source.Contact.ContactName), Email: string(r.Dataset.Meta.Source.Contact.ContactEmail), Telephone: string(r.Dataset.Meta.Source.Contact.ContactPhone)})
 	resp.Dataset.License = string(r.Dataset.Meta.Source.Licence)
 	resp.Dataset.Qmi.Href = string(r.Dataset.Meta.Source.MethodologyLink)
 
