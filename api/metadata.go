@@ -54,7 +54,7 @@ func (api *CantabularMetadataExtractorAPI) GetDimensions(ctx context.Context, d 
 }
 
 func (api *CantabularMetadataExtractorAPI) getCantMeta(ctx context.Context, cantDataset string, dims []string) metadata.Resp {
-	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: api.cfg.CantabularExtURL}, dphttp.NewClient(), nil)
+	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: api.Cfg.CantabularExtURL}, dphttp.NewClient(), nil)
 
 	// TODO return error
 	m := &metadata.Metadata{Client: cantabularClient}
