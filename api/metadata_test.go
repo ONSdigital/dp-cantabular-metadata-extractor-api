@@ -8,14 +8,15 @@ import (
 	"github.com/ONSdigital/dp-api-clients-go/v2/dataset"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api/mock"
-	"github.com/ryboe/q"
+	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestGetVersionDimensions(t *testing.T) {
 
 	cantMetadataExtractorApi := &api.CantabularMetadataExtractorAPI{}
-	ctx := context.Background()
+	cantMetadataExtractorApi.Cfg, _ = config.Get()
+
 	Convey("Given a mock DatasetAPI client and dataset", t, func() {
 		cantMetadataExtractorApi.DatasetAPI = &mock.DatasetAPIMock{
 			GetVersionDimensionsFunc: func(ctx context.Context, userAuthToken string, serviceAuthToken string, collectionID string, id string, edition string, version string) (dataset.VersionDimensions, error) {
@@ -34,12 +35,11 @@ func TestGetVersionDimensions(t *testing.T) {
 
 		Convey("getDimensions method should return correct dimensions", func() {
 			expected := []string{"Age", "Country"}
-			q.Q(ctx)
 			actual, err := cantMetadataExtractorApi.GetDimensions(context.Background(), mockDataset)
 			if err != nil {
 				t.Fail()
 			}
-			So(actual, ShouldEqual, expected)
+			So(actual, ShouldResemble, expected)
 
 		})
 	})

@@ -25,7 +25,7 @@ type CantabularMetadataExtractorAPI struct {
 	Router     *mux.Router
 	cantExtAPI cantExtAPI
 	DatasetAPI DatasetAPI
-	cfg        *config.Config
+	Cfg        *config.Config
 }
 
 //Setup function sets up the api and returns an api
@@ -33,7 +33,7 @@ func Setup(ctx context.Context, r *mux.Router, config *config.Config, d DatasetA
 	api := &CantabularMetadataExtractorAPI{
 		Router:     r,
 		DatasetAPI: d,
-		cfg:        config,
+		Cfg:        config,
 	}
 
 	r.HandleFunc("/metadata/datasets/{datasetID}/editions/{editionID}/versions/{versionID}", api.getMetadata).Methods("GET")
