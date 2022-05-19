@@ -3,6 +3,7 @@ package api_test
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"testing"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/dataset"
@@ -40,6 +41,26 @@ func TestGetVersionDimensions(t *testing.T) {
 				t.Fail()
 			}
 			So(actual, ShouldResemble, expected)
+
+		})
+	})
+	Convey("Given a mock DatasetAPI client with GetVersionDimensions returning an error", t, func() {
+		cantMetadataExtractorApi.DatasetAPI = &mock.DatasetAPIMock{
+			GetVersionDimensionsFunc: func(ctx context.Context, userAuthToken string, serviceAuthToken string, collectionID string, id string, edition string, version string) (dataset.VersionDimensions, error) {
+				var mockReturn dataset.VersionDimensions
+				return mockReturn, errors.New("error")
+			},
+		}
+		mockDataset := api.Dataset{
+			ID:      "test_id",
+			Edition: "test_edition",
+			Version: "test_version",
+		}
+
+		Convey("getDimensions method should return an error", func() {
+			expectedErr := errors.New("failed to get version dimensions: error")
+			_, actualErr := cantMetadataExtractorApi.GetDimensions(context.Background(), mockDataset)
+			So(actualErr.Error(), ShouldResemble, expectedErr.Error())
 
 		})
 	})
