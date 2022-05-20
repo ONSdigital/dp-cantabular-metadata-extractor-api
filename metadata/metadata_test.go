@@ -53,6 +53,25 @@ func TestMockGetCantabularMetaDataHappy(t *testing.T) {
 	})
 }
 
+func TestIntGetCantabularMetaData2(t *testing.T) {
+
+	cfg, _ := config.Get()
+	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: cfg.CantabularExtURL}, dphttp.NewClient(), nil)
+
+	m := &Metadata{Client: cantabularClient}
+
+	cm := m.GetMetaData2("LC1117EW")
+
+	// debugging
+	bs, err := json.Marshal(cm)
+
+	if err != nil {
+		t.Fail()
+	}
+
+	println(jsonpp(bs))
+}
+
 func TestIntGetCantabularMetaData(t *testing.T) {
 
 	if !*intFlag {

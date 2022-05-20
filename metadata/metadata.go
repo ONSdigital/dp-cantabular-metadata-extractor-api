@@ -57,6 +57,19 @@ type Metadata struct {
 }
 
 // TODO add lang: cy
+func (m *Metadata) GetMetaData2(datasetID string) *cantabular.MetadataQuery2 {
+	req := cantabular.MetadataQueryRequest2{}
+
+	r, err := m.Client.MetadataQuery2(context.Background(), req)
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	return r
+}
+
+// TODO add lang: cy
 func (m *Metadata) GetMetaData(cantDataset string, dimensions []string) (resp Resp) {
 	req := cantabular.MetadataQueryRequest{}
 	req.Dataset = cantDataset
