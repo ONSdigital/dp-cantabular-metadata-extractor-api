@@ -5,108 +5,127 @@ package mock
 
 import (
 	"context"
-	"github.com/ONSdigital/dp-api-clients-go/v2/dataset"
+	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api"
 	"sync"
 )
 
-// Ensure, that DatasetAPIMock does implement api.DatasetAPI.
+// Ensure, that CantExtAPIMock does implement api.CantExtAPI.
 // If this is not the case, regenerate this file with moq.
-var _ api.DatasetAPI = &DatasetAPIMock{}
+var _ api.CantExtAPI = &CantExtAPIMock{}
 
-// DatasetAPIMock is a mock implementation of api.DatasetAPI.
+// CantExtAPIMock is a mock implementation of api.CantExtAPI.
 //
-// 	func TestSomethingThatUsesDatasetAPI(t *testing.T) {
+// 	func TestSomethingThatUsesCantExtAPI(t *testing.T) {
 //
-// 		// make and configure a mocked api.DatasetAPI
-// 		mockedDatasetAPI := &DatasetAPIMock{
-// 			GetVersionDimensionsFunc: func(ctx context.Context, userAuthToken string, serviceAuthToken string, collectionID string, id string, edition string, version string) (dataset.VersionDimensions, error) {
-// 				panic("mock out the GetVersionDimensions method")
+// 		// make and configure a mocked api.CantExtAPI
+// 		mockedCantExtAPI := &CantExtAPIMock{
+// 			MetadataDatasetQueryFunc: func(ctx context.Context, req cantabular.MetadataDatasetQueryRequest) (*cantabular.MetadataDatasetQuery, error) {
+// 				panic("mock out the MetadataDatasetQuery method")
+// 			},
+// 			MetadataTableQueryFunc: func(ctx context.Context, req cantabular.MetadataTableQueryRequest) (*cantabular.MetadataTableQuery, error) {
+// 				panic("mock out the MetadataTableQuery method")
 // 			},
 // 		}
 //
-// 		// use mockedDatasetAPI in code that requires api.DatasetAPI
+// 		// use mockedCantExtAPI in code that requires api.CantExtAPI
 // 		// and then make assertions.
 //
 // 	}
-type DatasetAPIMock struct {
-	// GetVersionDimensionsFunc mocks the GetVersionDimensions method.
-	GetVersionDimensionsFunc func(ctx context.Context, userAuthToken string, serviceAuthToken string, collectionID string, id string, edition string, version string) (dataset.VersionDimensions, error)
+type CantExtAPIMock struct {
+	// MetadataDatasetQueryFunc mocks the MetadataDatasetQuery method.
+	MetadataDatasetQueryFunc func(ctx context.Context, req cantabular.MetadataDatasetQueryRequest) (*cantabular.MetadataDatasetQuery, error)
+
+	// MetadataTableQueryFunc mocks the MetadataTableQuery method.
+	MetadataTableQueryFunc func(ctx context.Context, req cantabular.MetadataTableQueryRequest) (*cantabular.MetadataTableQuery, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
-		// GetVersionDimensions holds details about calls to the GetVersionDimensions method.
-		GetVersionDimensions []struct {
+		// MetadataDatasetQuery holds details about calls to the MetadataDatasetQuery method.
+		MetadataDatasetQuery []struct {
 			// Ctx is the ctx argument value.
 			Ctx context.Context
-			// UserAuthToken is the userAuthToken argument value.
-			UserAuthToken string
-			// ServiceAuthToken is the serviceAuthToken argument value.
-			ServiceAuthToken string
-			// CollectionID is the collectionID argument value.
-			CollectionID string
-			// ID is the id argument value.
-			ID string
-			// Edition is the edition argument value.
-			Edition string
-			// Version is the version argument value.
-			Version string
+			// Req is the req argument value.
+			Req cantabular.MetadataDatasetQueryRequest
+		}
+		// MetadataTableQuery holds details about calls to the MetadataTableQuery method.
+		MetadataTableQuery []struct {
+			// Ctx is the ctx argument value.
+			Ctx context.Context
+			// Req is the req argument value.
+			Req cantabular.MetadataTableQueryRequest
 		}
 	}
-	lockGetVersionDimensions sync.RWMutex
+	lockMetadataDatasetQuery sync.RWMutex
+	lockMetadataTableQuery   sync.RWMutex
 }
 
-// GetVersionDimensions calls GetVersionDimensionsFunc.
-func (mock *DatasetAPIMock) GetVersionDimensions(ctx context.Context, userAuthToken string, serviceAuthToken string, collectionID string, id string, edition string, version string) (dataset.VersionDimensions, error) {
-	if mock.GetVersionDimensionsFunc == nil {
-		panic("DatasetAPIMock.GetVersionDimensionsFunc: method is nil but DatasetAPI.GetVersionDimensions was just called")
+// MetadataDatasetQuery calls MetadataDatasetQueryFunc.
+func (mock *CantExtAPIMock) MetadataDatasetQuery(ctx context.Context, req cantabular.MetadataDatasetQueryRequest) (*cantabular.MetadataDatasetQuery, error) {
+	if mock.MetadataDatasetQueryFunc == nil {
+		panic("CantExtAPIMock.MetadataDatasetQueryFunc: method is nil but CantExtAPI.MetadataDatasetQuery was just called")
 	}
 	callInfo := struct {
-		Ctx              context.Context
-		UserAuthToken    string
-		ServiceAuthToken string
-		CollectionID     string
-		ID               string
-		Edition          string
-		Version          string
+		Ctx context.Context
+		Req cantabular.MetadataDatasetQueryRequest
 	}{
-		Ctx:              ctx,
-		UserAuthToken:    userAuthToken,
-		ServiceAuthToken: serviceAuthToken,
-		CollectionID:     collectionID,
-		ID:               id,
-		Edition:          edition,
-		Version:          version,
+		Ctx: ctx,
+		Req: req,
 	}
-	mock.lockGetVersionDimensions.Lock()
-	mock.calls.GetVersionDimensions = append(mock.calls.GetVersionDimensions, callInfo)
-	mock.lockGetVersionDimensions.Unlock()
-	return mock.GetVersionDimensionsFunc(ctx, userAuthToken, serviceAuthToken, collectionID, id, edition, version)
+	mock.lockMetadataDatasetQuery.Lock()
+	mock.calls.MetadataDatasetQuery = append(mock.calls.MetadataDatasetQuery, callInfo)
+	mock.lockMetadataDatasetQuery.Unlock()
+	return mock.MetadataDatasetQueryFunc(ctx, req)
 }
 
-// GetVersionDimensionsCalls gets all the calls that were made to GetVersionDimensions.
+// MetadataDatasetQueryCalls gets all the calls that were made to MetadataDatasetQuery.
 // Check the length with:
-//     len(mockedDatasetAPI.GetVersionDimensionsCalls())
-func (mock *DatasetAPIMock) GetVersionDimensionsCalls() []struct {
-	Ctx              context.Context
-	UserAuthToken    string
-	ServiceAuthToken string
-	CollectionID     string
-	ID               string
-	Edition          string
-	Version          string
+//     len(mockedCantExtAPI.MetadataDatasetQueryCalls())
+func (mock *CantExtAPIMock) MetadataDatasetQueryCalls() []struct {
+	Ctx context.Context
+	Req cantabular.MetadataDatasetQueryRequest
 } {
 	var calls []struct {
-		Ctx              context.Context
-		UserAuthToken    string
-		ServiceAuthToken string
-		CollectionID     string
-		ID               string
-		Edition          string
-		Version          string
+		Ctx context.Context
+		Req cantabular.MetadataDatasetQueryRequest
 	}
-	mock.lockGetVersionDimensions.RLock()
-	calls = mock.calls.GetVersionDimensions
-	mock.lockGetVersionDimensions.RUnlock()
+	mock.lockMetadataDatasetQuery.RLock()
+	calls = mock.calls.MetadataDatasetQuery
+	mock.lockMetadataDatasetQuery.RUnlock()
+	return calls
+}
+
+// MetadataTableQuery calls MetadataTableQueryFunc.
+func (mock *CantExtAPIMock) MetadataTableQuery(ctx context.Context, req cantabular.MetadataTableQueryRequest) (*cantabular.MetadataTableQuery, error) {
+	if mock.MetadataTableQueryFunc == nil {
+		panic("CantExtAPIMock.MetadataTableQueryFunc: method is nil but CantExtAPI.MetadataTableQuery was just called")
+	}
+	callInfo := struct {
+		Ctx context.Context
+		Req cantabular.MetadataTableQueryRequest
+	}{
+		Ctx: ctx,
+		Req: req,
+	}
+	mock.lockMetadataTableQuery.Lock()
+	mock.calls.MetadataTableQuery = append(mock.calls.MetadataTableQuery, callInfo)
+	mock.lockMetadataTableQuery.Unlock()
+	return mock.MetadataTableQueryFunc(ctx, req)
+}
+
+// MetadataTableQueryCalls gets all the calls that were made to MetadataTableQuery.
+// Check the length with:
+//     len(mockedCantExtAPI.MetadataTableQueryCalls())
+func (mock *CantExtAPIMock) MetadataTableQueryCalls() []struct {
+	Ctx context.Context
+	Req cantabular.MetadataTableQueryRequest
+} {
+	var calls []struct {
+		Ctx context.Context
+		Req cantabular.MetadataTableQueryRequest
+	}
+	mock.lockMetadataTableQuery.RLock()
+	calls = mock.calls.MetadataTableQuery
+	mock.lockMetadataTableQuery.RUnlock()
 	return calls
 }

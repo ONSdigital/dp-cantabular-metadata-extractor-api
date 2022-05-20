@@ -3,13 +3,15 @@ package service
 import (
 	"context"
 
-	"github.com/ONSdigital/dp-api-clients-go/v2/dataset"
+	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
 	"github.com/ONSdigital/dp-api-clients-go/v2/health"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
+
+	dphttp "github.com/ONSdigital/dp-net/http"
 )
 
 // Service contains all the configs, server and clients to run the API
@@ -20,7 +22,8 @@ type Service struct {
 	Api         *api.CantabularMetadataExtractorAPI
 	ServiceList *ExternalServiceList
 	HealthCheck HealthChecker
-	datasetAPI  *dataset.Client
+	Client      *cantabular.Client // XXX
+	//	datasetAPI  *dataset.Client
 }
 
 // Run the service
@@ -40,10 +43,12 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 
 	// Get health client for cantabular-api-ext - TODO: reinstate when find out from SCC what endpoint to check
 	// cantabularExtClient := serviceList.GetHealthClient("cantabular-api-ext", cfg.CantabularExtURL)
-	d := dataset.NewAPIClient(cfg.DatasetAPIURL)
+	/////d := dataset.NewAPIClient(cfg.DatasetAPIURL)
+
+	c := cantabular.NewClient(cantabular.Config{ExtApiHost: cfg.CantabularExtURL}, dphttp.NewClient(), nil)
 
 	// Setup the API
-	a := api.Setup(ctx, r,cfg, d)
+	a := api.Setup(ctx, r, cfg, c)
 
 	// Get HealthCheck
 	hc, err := serviceList.GetHealthCheck(cfg, buildTime, gitCommit, version)
@@ -75,7 +80,7 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 		HealthCheck: hc,
 		ServiceList: serviceList,
 		Server:      s,
-		datasetAPI:  d,
+		Client:      c,
 	}, nil
 }
 

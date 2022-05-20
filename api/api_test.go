@@ -16,7 +16,7 @@ func TestSetup(t *testing.T) {
 	Convey("Given an API instance", t, func() {
 		r := mux.NewRouter()
 		ctx := context.Background()
-		d := &mock.DatasetAPIMock{}
+		d := &mock.CantExtAPIMock{}
 		c, err := config.Get()
 		if err != nil {
 			t.Fail()
@@ -25,7 +25,7 @@ func TestSetup(t *testing.T) {
 		api := api.Setup(ctx, r, c, d)
 
 		Convey("When created the following routes should have been added", func() {
-			So(hasRoute(api.Router, "/metadata/datasets/{datasetID}/editions/{editionID}/versions/{versionID}", "GET"), ShouldBeTrue)
+			So(hasRoute(api.Router, "/dataset/{datasetID}/cantabular/{cantdataset}/lang/{lang}", "GET"), ShouldBeTrue)
 		})
 	})
 }
