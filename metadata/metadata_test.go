@@ -198,11 +198,10 @@ func jsonpp(b []byte) (s string) {
 	return s
 }
 
-/*
 func TestGetCantabularMetaData(t *testing.T) {
 
 	mockGQLClient := &mock.GraphQLClientMock{QueryFunc: func(ctx context.Context, query interface{}, vars map[string]interface{}) error {
-		md := query.(*cantabular.MetadataQuery)
+		md := query.(*cantabular.MetadataDatasetQuery)
 		md.Dataset.Meta.Source.Contact.ContactEmail = "census.customerservices@ons.gov.uk"
 		return nil
 	},
@@ -218,15 +217,14 @@ func TestGetCantabularMetaData(t *testing.T) {
 	dims := []string{"Age", "Country"}
 
 	m := &Metadata{Client: cantabularClient}
-	resp := m.GetMetaData("Teaching-Dataset", dims)
+	resp := m.GetMetadataDataset("Teaching-Dataset", dims)
 
-	if resp.Dataset.Contacts[0].Email != "census.customerservices@ons.gov.uk" {
+	if resp.Dataset.Meta.Source.Contact.ContactEmail != "census.customerservices@ons.gov.uk" {
 		t.Fail()
 	}
 
 	// TODO more coverage...
 }
-*/
 
 func serialize(s cantabular.MetadataQueryResult) {
 	b := new(bytes.Buffer)
