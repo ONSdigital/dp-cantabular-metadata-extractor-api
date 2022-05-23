@@ -70,7 +70,7 @@ func (m *Metadata) GetMetaData2(datasetID string) *cantabular.MetadataQuery2 {
 }
 
 // TODO add lang: cy
-func (m *Metadata) GetMetaData(cantDataset string, dimensions []string) (resp Resp) {
+func (m *Metadata) XGetMetaData(cantDataset string, dimensions []string) (resp Resp) {
 	req := cantabular.MetadataQueryRequest{}
 	req.Dataset = cantDataset
 	req.Variables = dimensions
@@ -103,4 +103,19 @@ func (m *Metadata) GetMetaData(cantDataset string, dimensions []string) (resp Re
 	}
 
 	return resp
+}
+
+// TODO add lang: cy
+func (m *Metadata) GetMetaData(cantDataset string, dimensions []string) *cantabular.MetadataQuery {
+	req := cantabular.MetadataQueryRequest{}
+	req.Dataset = cantDataset
+	req.Variables = dimensions
+
+	r, err := m.Client.MetadataQuery(context.Background(), req)
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	return r
 }

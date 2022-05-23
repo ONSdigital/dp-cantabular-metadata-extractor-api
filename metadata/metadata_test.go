@@ -5,9 +5,9 @@ import (
 	"context"
 	"encoding/json"
 	"flag"
+	"fmt"
 	"log"
-	"reflect"
-	"sort"
+	"regexp"
 	"testing"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
@@ -53,8 +53,73 @@ func TestMockGetCantabularMetaDataHappy(t *testing.T) {
 	})
 }
 
+// Regexp definitions
+var keyMatchRegex = regexp.MustCompile(`\"(\w+)\":`)
+var wordBarrierRegex = regexp.MustCompile(`(\w)([A-Z])`)
+
+type conventionalMarshaller struct {
+	Value interface{}
+}
+
+func (c conventionalMarshaller) MarshalJSON() ([]byte, error) {
+	marshalled, err := json.Marshal(c.Value)
+
+	converted := keyMatchRegex.ReplaceAllFunc(
+		marshalled,
+		func(match []byte) []byte {
+			return bytes.ToLower(wordBarrierRegex.ReplaceAll(
+				match,
+				[]byte(`${1}_${2}`),
+			))
+		},
+	)
+
+	return converted, err
+}
+
+func TestSuper(t *testing.T) {
+	cfg, _ := config.Get()
+	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: cfg.CantabularExtURL}, dphttp.NewClient(), nil)
+
+	m := &Metadata{Client: cantabularClient}
+
+	cm2 := m.GetMetaData2("LC1117EW")
+
+	//vars := cm2.Service.Tables[0].Vars // dimensions
+
+	dims := []string{"Region", "Sex", "Age"}      // XXXXXXXXXXXXXXXXXXXXXXX
+	cm := m.GetMetaData("Teaching-Dataset", dims) // XXXXXXXXXXXXXXXXXXXXXXX
+
+	type Super struct {
+		TableQueryResult   *cantabular.MetadataQuery2
+		DatasetQueryResult *cantabular.MetadataQuery
+	}
+
+	s := Super{DatasetQueryResult: cm, TableQueryResult: cm2}
+
+	encoded, _ := json.MarshalIndent(conventionalMarshaller{s}, "", "  ")
+
+	fmt.Println(string(encoded))
+
+	/*
+
+		q.Q(s)
+		bs, err := json.Marshal(s)
+
+		println(string(bs))
+
+		if err != nil {
+			t.Fail()
+		}
+
+		println(jsonpp(bs))
+
+	*/
+}
+
 func TestIntGetCantabularMetaData2(t *testing.T) {
 
+	// INT
 	cfg, _ := config.Get()
 	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: cfg.CantabularExtURL}, dphttp.NewClient(), nil)
 
@@ -72,6 +137,7 @@ func TestIntGetCantabularMetaData2(t *testing.T) {
 	println(jsonpp(bs))
 }
 
+/*
 func TestIntGetCantabularMetaData(t *testing.T) {
 
 	if !*intFlag {
@@ -84,7 +150,7 @@ func TestIntGetCantabularMetaData(t *testing.T) {
 	m := &Metadata{Client: cantabularClient}
 
 	dims := []string{"Age", "Country"}
-	resp := m.GetMetaData("Teaching-Dataset", dims)
+	resp := m.GetMetaData("Teaching-Dataset", dims) // XXXXXXXXXXXXXXXXXXXXXXX
 
 	if resp.Dataset.Contacts[0].Email != "census.customerservices@ons.gov.uk" {
 		t.Fail()
@@ -112,6 +178,7 @@ func TestIntGetCantabularMetaData(t *testing.T) {
 	println(jsonpp(bs))
 
 }
+*/
 
 func jsonpp(b []byte) (s string) {
 	var out bytes.Buffer
@@ -123,6 +190,7 @@ func jsonpp(b []byte) (s string) {
 	return s
 }
 
+/*
 func TestGetCantabularMetaData(t *testing.T) {
 
 	mockGQLClient := &mock.GraphQLClientMock{QueryFunc: func(ctx context.Context, query interface{}, vars map[string]interface{}) error {
@@ -150,3 +218,4 @@ func TestGetCantabularMetaData(t *testing.T) {
 
 	// TODO more coverage...
 }
+*/
