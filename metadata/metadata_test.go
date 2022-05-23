@@ -10,6 +10,7 @@ import (
 	"log"
 	"reflect"
 	"regexp"
+	"sort"
 	"testing"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
@@ -80,7 +81,7 @@ func (c conventionalMarshaller) MarshalJSON() ([]byte, error) {
 	return converted, err
 }
 
-func TestSuper(t *testing.T) {
+func TestMetadataQueryResult(t *testing.T) {
 	cfg, _ := config.Get()
 	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: cfg.CantabularExtURL}, dphttp.NewClient(), nil)
 
@@ -155,8 +156,7 @@ func TestIntGetCantabularMetaData2(t *testing.T) {
 	println(jsonpp(bs))
 }
 
-/*
-func TestIntGetCantabularMetaData(t *testing.T) {
+func TestIntGetMetadataDataset(t *testing.T) {
 
 	if !*intFlag {
 		t.Skip("not doing int tests")
@@ -168,35 +168,25 @@ func TestIntGetCantabularMetaData(t *testing.T) {
 	m := &Metadata{Client: cantabularClient}
 
 	dims := []string{"Age", "Country"}
-	resp := m.GetMetaData("Teaching-Dataset", dims) // XXXXXXXXXXXXXXXXXXXXXXX
+	resp := m.GetMetadataDataset("Teaching-Dataset", dims) // XXXXXXXXXXXXXXXXXXXXXXX
 
-	if resp.Dataset.Contacts[0].Email != "census.customerservices@ons.gov.uk" {
+	if resp.Dataset.Meta.Source.Contact.ContactEmail != "census.customerservices@ons.gov.uk" {
 		t.Fail()
+
 	}
 
 	var respDims []string
-
-	for _, v := range resp.Version.Dimensions {
-		respDims = append(respDims, v.Name)
+	for _, v := range resp.Dataset.Variables.Edges {
+		respDims = append(respDims, string(v.Node.Name))
 	}
+
 	sort.Strings(respDims)
 	sort.Strings(dims)
 
 	if !reflect.DeepEqual(dims, respDims) {
 		t.Error("didn't get the same dims back as we sent!")
 	}
-
-	// debugging
-	bs, err := json.Marshal(resp)
-
-	if err != nil {
-		t.Fail()
-	}
-
-	println(jsonpp(bs))
-
 }
-*/
 
 func jsonpp(b []byte) (s string) {
 	var out bytes.Buffer
