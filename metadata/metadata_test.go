@@ -3,10 +3,12 @@ package metadata
 import (
 	"bytes"
 	"context"
+	"encoding/gob"
 	"encoding/json"
 	"flag"
-	"fmt"
+	"io/ioutil"
 	"log"
+	"reflect"
 	"regexp"
 	"testing"
 
@@ -14,10 +16,16 @@ import (
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular/mock"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 	dphttp "github.com/ONSdigital/dp-net/http"
+	"github.com/ryboe/q"
 
 	//  dphttp "github.com/ONSdigital/dp-net/http"
 	. "github.com/smartystreets/goconvey/convey"
 )
+
+type Super struct {
+	TableQueryResult   *cantabular.MetadataQuery2
+	DatasetQueryResult *cantabular.MetadataQuery
+}
 
 var intFlag = flag.Bool("int", false, "perform int tests")
 
@@ -89,17 +97,32 @@ func TestSuper(t *testing.T) {
 
 	dims := []string{"Region", "Sex", "Age"}      // XXXXXXXXXXXXXXXXXXXXXXX
 	cm := m.GetMetaData("Teaching-Dataset", dims) // XXXXXXXXXXXXXXXXXXXXXXX
-
-	type Super struct {
-		TableQueryResult   *cantabular.MetadataQuery2
-		DatasetQueryResult *cantabular.MetadataQuery
-	}
-
 	s := Super{DatasetQueryResult: cm, TableQueryResult: cm2}
 
-	encoded, _ := json.MarshalIndent(conventionalMarshaller{s}, "", "  ")
+	s.TableQueryResult.Service.Tables[0].Meta.Keywords = nil
+	s.TableQueryResult.Service.Tables[0].Meta.Publications = nil
+	s.TableQueryResult.Service.Tables[0].Meta.RelatedDatasets = nil
+	s.DatasetQueryResult.Dataset.Variables.Edges[0].Node.Meta.ONSVariable.Keywords = nil
 
-	fmt.Println(string(encoded))
+	//serialize(s)
+
+	expected, err := deserialize()
+	if err != nil {
+		t.Error(err)
+	}
+
+	q.Q(expected)
+
+	if !reflect.DeepEqual(s, expected) {
+		t.Errorf("not equal")
+
+	}
+
+	//	encoded, _ := json.MarshalIndent(conventionalMarshaller{expected}, "", "  ")
+	//	fmt.Println(string(encoded))
+
+	//encoded, _ := json.MarshalIndent(conventionalMarshaller{s}, "", "  ")
+	//fmt.Println(string(encoded))
 
 	/*
 
@@ -219,3 +242,30 @@ func TestGetCantabularMetaData(t *testing.T) {
 	// TODO more coverage...
 }
 */
+
+func serialize(s Super) {
+	b := new(bytes.Buffer)
+	e := gob.NewEncoder(b)
+	err := e.Encode(s)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err = ioutil.WriteFile("serialized.gob", b.Bytes(), 0644); err != nil {
+		log.Print(err)
+	}
+}
+
+func deserialize() (Super, error) {
+	s := Super{}
+	b, err := ioutil.ReadFile("serialized.gob")
+	if err != nil {
+		return s, err
+	}
+	d := gob.NewDecoder(bytes.NewReader(b))
+	// Decoding the serialised data
+	err = d.Decode(&s)
+	if err != nil {
+		return s, err
+	}
+	return s, nil
+}
