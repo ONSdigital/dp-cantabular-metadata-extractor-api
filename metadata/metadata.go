@@ -109,7 +109,7 @@ func (m *Metadata) XGetMetaData(cantDataset string, dimensions []string) (resp R
 
 // TODO add lang: cy
 // XXXXXXXXXXXXXXXXXXXXXXXX rename
-func (m *Metadata) GetMetaData(cantDataset string, dimensions []string) *cantabular.MetadataDatasetQuery {
+func (m *Metadata) GetMetadataDataset(cantDataset string, dimensions []string) *cantabular.MetadataDatasetQuery {
 	req := cantabular.MetadataDatasetQueryRequest{}
 	req.Dataset = cantDataset
 	req.Variables = dimensions

@@ -58,7 +58,8 @@ func (api *CantabularMetadataExtractorAPI) getCantMeta(ctx context.Context, cant
 
 	// TODO return error
 	m := &metadata.Metadata{Client: cantabularClient}
-	resp := m.GetMetaData(cantDataset, dims)
+	resp := m.GetMetadataDataset(cantDataset, dims)
+	//resp := m.GetMetaData(cantDataset, dims)
 
 	return resp
 }

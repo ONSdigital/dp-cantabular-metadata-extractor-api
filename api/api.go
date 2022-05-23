@@ -18,7 +18,8 @@ type DatasetAPI interface {
 
 // cantExtAPI
 type cantExtAPI interface {
-	GetMetaData(cantDataset string, dimensions []string) (resp metadata.Resp)
+	GetMetadataDataset(cantDataset string, dimensions []string) (resp metadata.Resp)
+	//GetMetaData(cantDataset string, dimensions []string) (resp metadata.Resp)
 }
 
 type CantabularMetadataExtractorAPI struct {

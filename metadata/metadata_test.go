@@ -90,8 +90,8 @@ func TestSuper(t *testing.T) {
 
 	//vars := cm2.Service.Tables[0].Vars // dimensions
 
-	dims := []string{"Region", "Sex", "Age"}      // XXXXXXXXXXXXXXXXXXXXXXX
-	cm := m.GetMetaData("Teaching-Dataset", dims) // XXXXXXXXXXXXXXXXXXXXXXX
+	dims := []string{"Region", "Sex", "Age"}             // XXXXXXXXXXXXXXXXXXXXXXX
+	cm := m.GetMetadataDataset("Teaching-Dataset", dims) // XXXXXXXXXXXXXXXXXXXXXXX
 	s := cantabular.MetadataQueryResult{DatasetQueryResult: cm, TableQueryResult: cm2}
 
 	s.TableQueryResult.Service.Tables[0].Meta.Keywords = nil
