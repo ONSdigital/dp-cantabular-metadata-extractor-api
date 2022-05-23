@@ -57,10 +57,10 @@ type Metadata struct {
 }
 
 // TODO add lang: cy
-func (m *Metadata) GetMetaData2(datasetID string) *cantabular.MetadataQuery2 {
-	req := cantabular.MetadataQueryRequest2{}
+func (m *Metadata) GetMetadataTable(datasetID string) *cantabular.MetadataTableQuery {
+	req := cantabular.MetadataTableQueryRequest{}
 
-	r, err := m.Client.MetadataQuery2(context.Background(), req)
+	r, err := m.Client.MetadataTableQuery(context.Background(), req)
 
 	if err != nil {
 		log.Print(err)
@@ -69,6 +69,7 @@ func (m *Metadata) GetMetaData2(datasetID string) *cantabular.MetadataQuery2 {
 	return r
 }
 
+/*
 // TODO add lang: cy
 func (m *Metadata) XGetMetaData(cantDataset string, dimensions []string) (resp Resp) {
 	req := cantabular.MetadataQueryRequest{}
@@ -104,14 +105,15 @@ func (m *Metadata) XGetMetaData(cantDataset string, dimensions []string) (resp R
 
 	return resp
 }
+*/
 
 // TODO add lang: cy
-func (m *Metadata) GetMetaData(cantDataset string, dimensions []string) *cantabular.MetadataQuery {
-	req := cantabular.MetadataQueryRequest{}
+func (m *Metadata) GetMetaData(cantDataset string, dimensions []string) *cantabular.MetadataDatasetQuery {
+	req := cantabular.MetadataDatasetQueryRequest{}
 	req.Dataset = cantDataset
 	req.Variables = dimensions
 
-	r, err := m.Client.MetadataQuery(context.Background(), req)
+	r, err := m.Client.MetadataDatasetQuery(context.Background(), req)
 
 	if err != nil {
 		log.Print(err)

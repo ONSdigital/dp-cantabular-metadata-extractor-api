@@ -22,11 +22,6 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-type Super struct {
-	TableQueryResult   *cantabular.MetadataQuery2
-	DatasetQueryResult *cantabular.MetadataQuery
-}
-
 var intFlag = flag.Bool("int", false, "perform int tests")
 
 // this probably belongs in dp-api-clients-go but is here as a stopgap
@@ -36,7 +31,7 @@ func TestMockGetCantabularMetaDataHappy(t *testing.T) {
 		testCtx := context.Background()
 
 		mockGQLClient := &mock.GraphQLClientMock{QueryFunc: func(ctx context.Context, query interface{}, vars map[string]interface{}) error {
-			md := query.(*cantabular.MetadataQuery)
+			md := query.(*cantabular.MetadataDatasetQuery)
 			md.Dataset.Meta.Source.Contact.ContactEmail = "census.customerservices@ons.gov.uk"
 			return nil
 		},
@@ -50,8 +45,8 @@ func TestMockGetCantabularMetaDataHappy(t *testing.T) {
 		)
 
 		Convey("When the MetadataQuery method is called", func() {
-			req := cantabular.MetadataQueryRequest{}
-			md, err := cantabularClient.MetadataQuery(testCtx, req)
+			req := cantabular.MetadataDatasetQueryRequest{}
+			md, err := cantabularClient.MetadataDatasetQuery(testCtx, req)
 			So(err, ShouldBeNil)
 
 			Convey("Then the expected metadata information should be returned", func() {
@@ -91,13 +86,13 @@ func TestSuper(t *testing.T) {
 
 	m := &Metadata{Client: cantabularClient}
 
-	cm2 := m.GetMetaData2("LC1117EW")
+	cm2 := m.GetMetadataTable("LC1117EW")
 
 	//vars := cm2.Service.Tables[0].Vars // dimensions
 
 	dims := []string{"Region", "Sex", "Age"}      // XXXXXXXXXXXXXXXXXXXXXXX
 	cm := m.GetMetaData("Teaching-Dataset", dims) // XXXXXXXXXXXXXXXXXXXXXXX
-	s := Super{DatasetQueryResult: cm, TableQueryResult: cm2}
+	s := cantabular.MetadataQueryResult{DatasetQueryResult: cm, TableQueryResult: cm2}
 
 	s.TableQueryResult.Service.Tables[0].Meta.Keywords = nil
 	s.TableQueryResult.Service.Tables[0].Meta.Publications = nil
@@ -148,7 +143,7 @@ func TestIntGetCantabularMetaData2(t *testing.T) {
 
 	m := &Metadata{Client: cantabularClient}
 
-	cm := m.GetMetaData2("LC1117EW")
+	cm := m.GetMetadataTable("LC1117EW")
 
 	// debugging
 	bs, err := json.Marshal(cm)
@@ -243,7 +238,7 @@ func TestGetCantabularMetaData(t *testing.T) {
 }
 */
 
-func serialize(s Super) {
+func serialize(s cantabular.MetadataQueryResult) {
 	b := new(bytes.Buffer)
 	e := gob.NewEncoder(b)
 	err := e.Encode(s)
@@ -255,8 +250,8 @@ func serialize(s Super) {
 	}
 }
 
-func deserialize() (Super, error) {
-	s := Super{}
+func deserialize() (cantabular.MetadataQueryResult, error) {
+	s := cantabular.MetadataQueryResult{}
 	b, err := ioutil.ReadFile("serialized.gob")
 	if err != nil {
 		return s, err
