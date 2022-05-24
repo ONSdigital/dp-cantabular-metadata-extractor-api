@@ -24,7 +24,7 @@ type cantExtAPI interface {
 
 type CantabularMetadataExtractorAPI struct {
 	Router     *mux.Router
-	cantExtAPI cantExtAPI
+	cantExtAPI cantExtAPI // XXX
 	DatasetAPI DatasetAPI
 	Cfg        *config.Config
 }
