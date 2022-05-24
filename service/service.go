@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 
-	"github.com/ONSdigital/dp-api-clients-go/v2/dataset"
 	"github.com/ONSdigital/dp-api-clients-go/v2/health"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
@@ -20,7 +19,7 @@ type Service struct {
 	Api         *api.CantabularMetadataExtractorAPI
 	ServiceList *ExternalServiceList
 	HealthCheck HealthChecker
-	datasetAPI  *dataset.Client
+	//	datasetAPI  *dataset.Client
 }
 
 // Run the service
@@ -40,10 +39,14 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 
 	// Get health client for cantabular-api-ext - TODO: reinstate when find out from SCC what endpoint to check
 	// cantabularExtClient := serviceList.GetHealthClient("cantabular-api-ext", cfg.CantabularExtURL)
-	d := dataset.NewAPIClient(cfg.DatasetAPIURL)
+	/////d := dataset.NewAPIClient(cfg.DatasetAPIURL)
+
+	var c api.CantExtAPI
+
+	c = nil
 
 	// Setup the API
-	a := api.Setup(ctx, r,cfg, d)
+	a := api.Setup(ctx, r, cfg, c)
 
 	// Get HealthCheck
 	hc, err := serviceList.GetHealthCheck(cfg, buildTime, gitCommit, version)
@@ -75,7 +78,7 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 		HealthCheck: hc,
 		ServiceList: serviceList,
 		Server:      s,
-		datasetAPI:  d,
+		//		datasetAPI:  d,
 	}, nil
 }
 

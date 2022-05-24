@@ -82,18 +82,19 @@ func (c conventionalMarshaller) MarshalJSON() ([]byte, error) {
 }
 
 func TestMetadataQueryResult(t *testing.T) {
+	// int - [ ]
 	cfg, _ := config.Get()
 	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: cfg.CantabularExtURL}, dphttp.NewClient(), nil)
 
 	m := &Metadata{Client: cantabularClient}
 
-	cm2 := m.GetMetadataTable("LC1117EW")
+	mt, dims, err := m.GetMetadataTable("LC1117EW")
+	if err != nil {
+		t.Error(err)
+	}
 
-	//vars := cm2.Service.Tables[0].Vars // dimensions
-
-	dims := []string{"Region", "Sex", "Age"}             // XXXXXXXXXXXXXXXXXXXXXXX
 	cm := m.GetMetadataDataset("Teaching-Dataset", dims) // XXXXXXXXXXXXXXXXXXXXXXX
-	s := cantabular.MetadataQueryResult{DatasetQueryResult: cm, TableQueryResult: cm2}
+	s := cantabular.MetadataQueryResult{DatasetQueryResult: cm, TableQueryResult: mt}
 
 	s.TableQueryResult.Service.Tables[0].Meta.Keywords = nil
 	s.TableQueryResult.Service.Tables[0].Meta.Publications = nil
@@ -144,10 +145,15 @@ func TestIntGetCantabularMetaData2(t *testing.T) {
 
 	m := &Metadata{Client: cantabularClient}
 
-	cm := m.GetMetadataTable("LC1117EW")
+	mt, dims, err := m.GetMetadataTable("LC1117EW")
+	if err != nil {
+		t.Error(err)
+	}
+
+	q.Q(dims) // XXXXXXXXXX
 
 	// debugging
-	bs, err := json.Marshal(cm)
+	bs, err := json.Marshal(mt)
 
 	if err != nil {
 		t.Fail()

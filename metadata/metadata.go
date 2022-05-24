@@ -2,9 +2,11 @@ package metadata
 
 import (
 	"context"
+	"errors"
 	"log"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
+	"github.com/ryboe/q"
 )
 
 type Resp struct {
@@ -57,55 +59,26 @@ type Metadata struct {
 }
 
 // TODO add lang: cy
-func (m *Metadata) GetMetadataTable(datasetID string) *cantabular.MetadataTableQuery {
+func (m *Metadata) GetMetadataTable(datasetID string) (mt *cantabular.MetadataTableQuery, dims []string, err error) {
 	req := cantabular.MetadataTableQueryRequest{}
 
-	r, err := m.Client.MetadataTableQuery(context.Background(), req)
-
+	mt, err = m.Client.MetadataTableQuery(context.Background(), req)
 	if err != nil {
-		log.Print(err)
+		return mt, dims, err
 	}
 
-	return r
+	q.Q(mt.Service.Tables[0].Vars)
+
+	if len(mt.Service.Tables) == 0 {
+		return mt, dims, errors.New("no dims/vars")
+	}
+
+	for _, v := range mt.Service.Tables[0].Vars {
+		dims = append(dims, string(v))
+	}
+
+	return mt, dims, err
 }
-
-/*
-// TODO add lang: cy
-func (m *Metadata) XGetMetaData(cantDataset string, dimensions []string) (resp Resp) {
-	req := cantabular.MetadataQueryRequest{}
-	req.Dataset = cantDataset
-	req.Variables = dimensions
-
-	r, err := m.Client.MetadataQuery(context.Background(), req)
-
-	if err != nil {
-		log.Print(err)
-	}
-
-	resp.Dataset.Title = string(r.Dataset.Label)             // ???
-	resp.Dataset.Description = string(r.Dataset.Description) // summary?
-	resp.Dataset.Contacts = append(resp.Dataset.Contacts, Contact{Name: string(r.Dataset.Meta.Source.Contact.ContactName), Email: string(r.Dataset.Meta.Source.Contact.ContactEmail), Telephone: string(r.Dataset.Meta.Source.Contact.ContactPhone)})
-	resp.Dataset.License = string(r.Dataset.Meta.Source.Licence)
-	resp.Dataset.Qmi.Href = string(r.Dataset.Meta.Source.MethodologyLink)
-
-	if string(r.Dataset.Meta.Source.NationalStatisticCertified) == "Y" {
-		resp.Dataset.NationalStatistic = true
-	}
-
-	for _, edge := range r.Dataset.Variables.Edges {
-
-		resp.Version.Dimensions = append(resp.Version.Dimensions, Dimension{Name: string(edge.Node.Name), Description: string(edge.Node.Meta.ONSVariable.VariableDescription)})
-
-		resp.Dataset.UnitOfMeasure = string(edge.Node.Meta.ONSVariable.StatisticalUnit.StatisticalUnit)
-
-		for _, kw := range edge.Node.Meta.ONSVariable.Keywords {
-			resp.Dataset.Keywords = append(resp.Dataset.Keywords, string(kw))
-		}
-	}
-
-	return resp
-}
-*/
 
 // TODO add lang: cy
 // XXXXXXXXXXXXXXXXXXXXXXXX rename

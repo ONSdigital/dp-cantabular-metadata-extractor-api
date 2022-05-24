@@ -3,42 +3,52 @@ package api
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/metadata"
 	"github.com/gorilla/mux"
+	"github.com/ryboe/q"
 
 	//   dphttp "github.com/ONSdigital/dp-net/http"
 	dphttp "github.com/ONSdigital/dp-net/http"
 )
 
-type Dataset struct {
-	ID      string
-	Edition string
-	Version string
-}
-
+// getMetadata is the main entry point
 func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	params := mux.Vars(r)
-	dataset := Dataset{ID: params["datasetID"], Edition: params["editionID"], Version: params["versionID"]}
 
-	dimensions, err := api.GetDimensions(ctx, dataset)
+	mt, dimensions, _ := api.getMetadataTable(ctx, params["dataset"]) // XXX
+	q.Q(mt)
 
-	if err != nil {
-		w.Write([]byte(err.Error()))
-	}
+	md := api.getMetadataDataset(ctx, params["cantdataset"], dimensions)
 
-	// TODO err
-	// XXX Cantabular dataset name hardcoded
-	resp := api.getCantMeta(ctx, "Teaching-Dataset", dimensions)
+	m := cantabular.MetadataQueryResult{TableQueryResult: mt, DatasetQueryResult: md}
 
-	json, _ := json.Marshal(resp)
+	json, _ := json.Marshal(m)
 	w.Write(json)
 }
 
+func (api *CantabularMetadataExtractorAPI) getMetadataTable(ctx context.Context, cantDataset string) (*cantabular.MetadataTableQuery, []string, error) {
+	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: api.Cfg.CantabularExtURL}, dphttp.NewClient(), nil)
+
+	// TODO return error
+	m := &metadata.Metadata{Client: cantabularClient}
+	return m.GetMetadataTable(cantDataset)
+
+}
+
+func (api *CantabularMetadataExtractorAPI) getMetadataDataset(ctx context.Context, cantDataset string, dims []string) *cantabular.MetadataDatasetQuery {
+	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: api.Cfg.CantabularExtURL}, dphttp.NewClient(), nil)
+
+	// TODO return error
+	m := &metadata.Metadata{Client: cantabularClient}
+	return m.GetMetadataDataset(cantDataset, dims)
+
+}
+
+/*
 func (api *CantabularMetadataExtractorAPI) GetDimensions(ctx context.Context, d Dataset) ([]string, error) {
 	fullDimensions, err := api.DatasetAPI.GetVersionDimensions(ctx, "", api.Cfg.ServiceAuthToken, "", d.ID, d.Edition, d.Version)
 
@@ -54,10 +64,4 @@ func (api *CantabularMetadataExtractorAPI) GetDimensions(ctx context.Context, d 
 
 	return dimensionsSlice, nil
 }
-func (api *CantabularMetadataExtractorAPI) getCantMeta(ctx context.Context, cantDataset string, dims []string) *cantabular.MetadataDatasetQuery {
-	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: api.Cfg.CantabularExtURL}, dphttp.NewClient(), nil)
-
-	// TODO return error
-	m := &metadata.Metadata{Client: cantabularClient}
-	return m.GetMetadataDataset(cantDataset, dims)
-}
+*/
