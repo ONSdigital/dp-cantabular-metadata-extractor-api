@@ -2,14 +2,7 @@ package api
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-	"net/http"
-
-	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
-	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/metadata"
-	dphttp "github.com/ONSdigital/dp-net/http"
-	"github.com/gorilla/mux"
 )
 
 type Dataset struct {
@@ -18,6 +11,7 @@ type Dataset struct {
 	Version string
 }
 
+/* XXXXXXXXXXXXXXXXXXXXXXX
 func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	params := mux.Vars(r)
@@ -37,6 +31,8 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 	w.Write(json)
 }
 
+*/
+
 func (api *CantabularMetadataExtractorAPI) GetDimensions(ctx context.Context, d Dataset) ([]string, error) {
 	fullDimensions, err := api.DatasetAPI.GetVersionDimensions(ctx, "", api.Cfg.ServiceAuthToken, "", d.ID, d.Edition, d.Version)
 
@@ -53,6 +49,7 @@ func (api *CantabularMetadataExtractorAPI) GetDimensions(ctx context.Context, d 
 	return dimensionsSlice, nil
 }
 
+/* XXXXXXXXXXXXXXXXXXXXX
 func (api *CantabularMetadataExtractorAPI) getCantMeta(ctx context.Context, cantDataset string, dims []string) metadata.Resp {
 	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: api.Cfg.CantabularExtURL}, dphttp.NewClient(), nil)
 
@@ -63,3 +60,4 @@ func (api *CantabularMetadataExtractorAPI) getCantMeta(ctx context.Context, cant
 
 	return resp
 }
+*/
