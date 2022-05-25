@@ -59,7 +59,7 @@ type Metadata struct {
 
 // TODO add lang: cy
 func (m *Metadata) GetMetadataTable(datasetID string) (mt *cantabular.MetadataTableQuery, dims []string, err error) {
-	req := cantabular.MetadataTableQueryRequest{}
+	req := cantabular.MetadataTableQueryRequest{Variables: []string{datasetID}}
 
 	mt, err = m.Client.MetadataTableQuery(context.Background(), req)
 	if err != nil {

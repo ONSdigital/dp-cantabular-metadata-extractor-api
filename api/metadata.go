@@ -18,7 +18,7 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 	ctx := r.Context()
 	params := mux.Vars(r)
 
-	mt, dimensions, _ := api.getMetadataTable(ctx, params["dataset"])
+	mt, dimensions, _ := api.getMetadataTable(ctx, params["datasetID"])
 
 	md := api.getMetadataDataset(ctx, params["cantdataset"], dimensions)
 
