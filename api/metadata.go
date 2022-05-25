@@ -14,14 +14,14 @@ import (
 	dphttp "github.com/ONSdigital/dp-net/http"
 )
 
-// getMetadata is the main entry point
-func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r *http.Request) {
+// GetMetadata is the main entry point
+func (api *CantabularMetadataExtractorAPI) GetMetadata(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	params := mux.Vars(r)
 
-	mt, dimensions, _ := api.getMetadataTable(ctx, params["datasetID"])
+	mt, dimensions, _ := api.GetMetadataTable(ctx, params["datasetID"])
 
-	md := api.getMetadataDataset(ctx, params["cantdataset"], dimensions)
+	md := api.GetMetadataDataset(ctx, params["cantdataset"], dimensions)
 
 	m := cantabular.MetadataQueryResult{TableQueryResult: mt, DatasetQueryResult: md}
 
@@ -29,7 +29,7 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 	w.Write(json)
 }
 
-func (api *CantabularMetadataExtractorAPI) getMetadataTable(ctx context.Context, cantDataset string) (*cantabular.MetadataTableQuery, []string, error) {
+func (api *CantabularMetadataExtractorAPI) GetMetadataTable(ctx context.Context, cantDataset string) (*cantabular.MetadataTableQuery, []string, error) {
 	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: api.Cfg.CantabularExtURL}, dphttp.NewClient(), nil)
 
 	// TODO return error
@@ -38,7 +38,7 @@ func (api *CantabularMetadataExtractorAPI) getMetadataTable(ctx context.Context,
 
 }
 
-func (api *CantabularMetadataExtractorAPI) getMetadataDataset(ctx context.Context, cantDataset string, dims []string) *cantabular.MetadataDatasetQuery {
+func (api *CantabularMetadataExtractorAPI) GetMetadataDataset(ctx context.Context, cantDataset string, dims []string) *cantabular.MetadataDatasetQuery {
 	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: api.Cfg.CantabularExtURL}, dphttp.NewClient(), nil)
 
 	// TODO return error

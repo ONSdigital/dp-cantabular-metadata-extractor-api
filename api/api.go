@@ -41,6 +41,6 @@ func Setup(ctx context.Context, r *mux.Router, config *config.Config, c CantExtA
 		Cfg:        config,
 	}
 
-	r.HandleFunc("/dataset/{datasetID}/cantabular/{cantdataset}/lang/{lang}", api.getMetadata).Methods("GET")
+	r.HandleFunc("/dataset/{datasetID}/cantabular/{cantdataset}/lang/{lang}", api.GetMetadata).Methods("GET")
 	return api
 }
