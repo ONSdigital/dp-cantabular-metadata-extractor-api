@@ -3,7 +3,6 @@ package metadata
 import (
 	"context"
 	"errors"
-	"log"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
 )
@@ -78,17 +77,12 @@ func (m *Metadata) GetMetadataTable(datasetID string) (mt *cantabular.MetadataTa
 }
 
 // TODO add lang: cy
-// XXXXXXXXXXXXXXXXXXXXXXXX rename
-func (m *Metadata) GetMetadataDataset(cantDataset string, dimensions []string) *cantabular.MetadataDatasetQuery {
+func (m *Metadata) GetMetadataDataset(cantDataset string, dimensions []string) (*cantabular.MetadataDatasetQuery, error) {
 	req := cantabular.MetadataDatasetQueryRequest{}
 	req.Dataset = cantDataset
 	req.Variables = dimensions
 
 	r, err := m.Client.MetadataDatasetQuery(context.Background(), req)
 
-	if err != nil {
-		log.Print(err)
-	}
-
-	return r
+	return r, err
 }

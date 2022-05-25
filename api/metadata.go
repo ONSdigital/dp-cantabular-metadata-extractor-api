@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
@@ -42,7 +43,12 @@ func (api *CantabularMetadataExtractorAPI) getMetadataDataset(ctx context.Contex
 
 	// TODO return error
 	m := &metadata.Metadata{Client: cantabularClient}
-	return m.GetMetadataDataset(cantDataset, dims)
+
+	r, err := m.GetMetadataDataset(cantDataset, dims)
+	if err != nil {
+		log.Print(err)
+	} // fix me return
+	return r
 
 }
 

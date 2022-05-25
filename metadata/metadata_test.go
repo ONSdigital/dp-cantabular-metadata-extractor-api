@@ -93,7 +93,12 @@ func TestMetadataQueryResult(t *testing.T) {
 		t.Error(err)
 	}
 
-	cm := m.GetMetadataDataset("Teaching-Dataset", dims) // XXXXXXXXXXXXXXXXXXXXXXX
+	cm, err := m.GetMetadataDataset("Teaching-Dataset", dims) // XXXXXXXXXXXXXXXXXXXXXXX
+
+	if err != nil {
+		t.Error(err)
+	}
+
 	s := cantabular.MetadataQueryResult{DatasetQueryResult: cm, TableQueryResult: mt}
 
 	s.TableQueryResult.Service.Tables[0].Meta.Keywords = nil
@@ -172,7 +177,10 @@ func TestIntGetMetadataDataset(t *testing.T) {
 	m := &Metadata{Client: cantabularClient}
 
 	dims := []string{"Age", "Country"}
-	resp := m.GetMetadataDataset("Teaching-Dataset", dims) // XXXXXXXXXXXXXXXXXXXXXXX
+	resp, err := m.GetMetadataDataset("Teaching-Dataset", dims) // XXXXXXXXXXXXXXXXXXXXXXX
+	if err != nil {
+		t.Fail()
+	}
 
 	if resp.Dataset.Meta.Source.Contact.ContactEmail != "census.customerservices@ons.gov.uk" {
 		t.Fail()
@@ -221,7 +229,11 @@ func TestGetCantabularMetaData(t *testing.T) {
 	dims := []string{"Age", "Country"}
 
 	m := &Metadata{Client: cantabularClient}
-	resp := m.GetMetadataDataset("Teaching-Dataset", dims)
+	resp, err := m.GetMetadataDataset("Teaching-Dataset", dims)
+
+	if err != nil {
+		t.Fail()
+	}
 
 	if resp.Dataset.Meta.Source.Contact.ContactEmail != "census.customerservices@ons.gov.uk" {
 		t.Fail()

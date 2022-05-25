@@ -1,18 +1,69 @@
 package api_test
 
 import (
-	"context"
-	"encoding/json"
-	"errors"
 	"testing"
 
-	"github.com/ONSdigital/dp-api-clients-go/v2/dataset"
+	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api/mock"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
+	"github.com/shurcooL/graphql"
+
 	. "github.com/smartystreets/goconvey/convey"
 )
 
+func TestGetMetadataTable(t *testing.T) {
+
+	cantMetadataExtractorApi := &api.CantabularMetadataExtractorAPI{}
+	cantMetadataExtractorApi.Cfg, _ = config.Get()
+
+	Convey("Given a mock CantExtAPI client and datasetID/cantabular table", t, func() {
+		cantMetadataExtractorApi.CantExtAPI = &mock.CantExtAPIMock{
+			GetMetadataTableFunc: func(datasetID string) (*cantabular.MetadataTableQuery, []string, error) {
+				mt := &cantabular.MetadataTableQuery{}
+				return mt, []string{"Age", "Sex"}, nil
+			},
+		}
+	})
+
+	Convey("getDimensions method should return correct dimensions", t, func() {
+		expected := []string{"Age", "Sex"}
+		_, dims, err := cantMetadataExtractorApi.CantExtAPI.GetMetadataTable("Teaching-Dataset")
+		if err != nil {
+			t.Fail()
+		}
+		So(dims, ShouldResemble, expected)
+	})
+
+	// ... moar
+}
+
+func TestGetMetadataDataset(t *testing.T) {
+
+	cantMetadataExtractorApi := &api.CantabularMetadataExtractorAPI{}
+	cantMetadataExtractorApi.Cfg, _ = config.Get()
+
+	Convey("Given a mock CantExtAPI client and datasetID/cantabular table", t, func() {
+		cantMetadataExtractorApi.CantExtAPI = &mock.CantExtAPIMock{
+			GetMetadataDatasetFunc: func(cantDataset string, dimensions []string) (*cantabular.MetadataDatasetQuery, error) {
+				md := &cantabular.MetadataDatasetQuery{}
+				md.Dataset.Description = graphql.String("This is some summary test...")
+				return md, nil
+			},
+		}
+	})
+
+	Convey("getDimensions method should return correct dimensions", t, func() {
+		md, err := cantMetadataExtractorApi.CantExtAPI.GetMetadataDataset("Teaching-Dataset", []string{"Age", "Sex"})
+		if err != nil {
+			t.Fail()
+		}
+		So(md.Dataset.Description, ShouldResemble, graphql.String("This is some summary test..."))
+
+	})
+}
+
+/*
 func TestGetVersionDimensions(t *testing.T) {
 
 	cantMetadataExtractorApi := &api.CantabularMetadataExtractorAPI{}
@@ -65,3 +116,4 @@ func TestGetVersionDimensions(t *testing.T) {
 		})
 	})
 }
+*/

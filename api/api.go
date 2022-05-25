@@ -8,7 +8,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-//go:generate moq -out mock/datasetapi.go -pkg mock . DatasetAPI
+//go:generate moq -out mock/datasetapi.go -pkg mock . CantExtAPI
 
 /*
 // DatasetAPI - An interface used to access the DatasetAPI
@@ -20,7 +20,7 @@ type DatasetAPI interface {
 // cantExtAPI
 type CantExtAPI interface {
 	// does interface need var names? XXX
-	GetMetadataDataset(cantDataset string, dimensions []string) *cantabular.MetadataDatasetQuery
+	GetMetadataDataset(cantDataset string, dimensions []string) (*cantabular.MetadataDatasetQuery, error)
 	GetMetadataTable(datasetID string) (*cantabular.MetadataTableQuery, []string, error)
 }
 
