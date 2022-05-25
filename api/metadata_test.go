@@ -12,6 +12,10 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
+func TestGetMetadata(t *testing.T) {
+
+}
+
 func TestGetMetadataTable(t *testing.T) {
 
 	cantMetadataExtractorApi := &api.CantabularMetadataExtractorAPI{}

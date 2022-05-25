@@ -10,18 +10,20 @@ import (
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/metadata"
 	"github.com/gorilla/mux"
 
-	//   dphttp "github.com/ONSdigital/dp-net/http"
 	dphttp "github.com/ONSdigital/dp-net/http"
 )
 
-// GetMetadata is the main entry point
-func (api *CantabularMetadataExtractorAPI) GetMetadata(w http.ResponseWriter, r *http.Request) {
+// getMetadata is the main entry point
+func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	params := mux.Vars(r)
 
 	mt, dimensions, _ := api.GetMetadataTable(ctx, params["datasetID"])
 
-	md := api.GetMetadataDataset(ctx, params["cantdataset"], dimensions)
+	md, err := api.GetMetadataDataset(ctx, params["cantdataset"], dimensions)
+	if err != nil {
+		log.Print(err) // XXX
+	}
 
 	m := cantabular.MetadataQueryResult{TableQueryResult: mt, DatasetQueryResult: md}
 
@@ -32,23 +34,16 @@ func (api *CantabularMetadataExtractorAPI) GetMetadata(w http.ResponseWriter, r 
 func (api *CantabularMetadataExtractorAPI) GetMetadataTable(ctx context.Context, cantDataset string) (*cantabular.MetadataTableQuery, []string, error) {
 	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: api.Cfg.CantabularExtURL}, dphttp.NewClient(), nil)
 
-	// TODO return error
 	m := &metadata.Metadata{Client: cantabularClient}
 	return m.GetMetadataTable(cantDataset)
 
 }
 
-func (api *CantabularMetadataExtractorAPI) GetMetadataDataset(ctx context.Context, cantDataset string, dims []string) *cantabular.MetadataDatasetQuery {
+func (api *CantabularMetadataExtractorAPI) GetMetadataDataset(ctx context.Context, cantDataset string, dims []string) (*cantabular.MetadataDatasetQuery, error) {
 	cantabularClient := cantabular.NewClient(cantabular.Config{ExtApiHost: api.Cfg.CantabularExtURL}, dphttp.NewClient(), nil)
 
-	// TODO return error
 	m := &metadata.Metadata{Client: cantabularClient}
-
-	r, err := m.GetMetadataDataset(cantDataset, dims)
-	if err != nil {
-		log.Print(err)
-	} // fix me return
-	return r
+	return m.GetMetadataDataset(cantDataset, dims)
 
 }
 
