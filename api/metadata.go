@@ -8,7 +8,6 @@ import (
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/metadata"
 	"github.com/gorilla/mux"
-	"github.com/ryboe/q"
 
 	//   dphttp "github.com/ONSdigital/dp-net/http"
 	dphttp "github.com/ONSdigital/dp-net/http"
@@ -19,8 +18,7 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 	ctx := r.Context()
 	params := mux.Vars(r)
 
-	mt, dimensions, _ := api.getMetadataTable(ctx, params["dataset"]) // XXX
-	q.Q(mt)
+	mt, dimensions, _ := api.getMetadataTable(ctx, params["dataset"])
 
 	md := api.getMetadataDataset(ctx, params["cantdataset"], dimensions)
 

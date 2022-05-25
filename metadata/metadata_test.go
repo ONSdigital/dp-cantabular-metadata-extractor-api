@@ -108,8 +108,6 @@ func TestMetadataQueryResult(t *testing.T) {
 		t.Error(err)
 	}
 
-	q.Q(expected)
-
 	if !reflect.DeepEqual(s, expected) {
 		t.Errorf("not equal")
 

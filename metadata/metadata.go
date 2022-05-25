@@ -6,7 +6,6 @@ import (
 	"log"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
-	"github.com/ryboe/q"
 )
 
 type Resp struct {
@@ -66,8 +65,6 @@ func (m *Metadata) GetMetadataTable(datasetID string) (mt *cantabular.MetadataTa
 	if err != nil {
 		return mt, dims, err
 	}
-
-	q.Q(mt.Service.Tables[0].Vars)
 
 	if len(mt.Service.Tables) == 0 {
 		return mt, dims, errors.New("no dims/vars")
