@@ -22,8 +22,7 @@ type Service struct {
 	Api         *api.CantabularMetadataExtractorAPI
 	ServiceList *ExternalServiceList
 	HealthCheck HealthChecker
-	Client      *cantabular.Client // XXX
-	//	datasetAPI  *dataset.Client
+	Client      *cantabular.Client
 }
 
 // Run the service
@@ -43,8 +42,6 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 
 	// Get health client for cantabular-api-ext - TODO: reinstate when find out from SCC what endpoint to check
 	// cantabularExtClient := serviceList.GetHealthClient("cantabular-api-ext", cfg.CantabularExtURL)
-	/////d := dataset.NewAPIClient(cfg.DatasetAPIURL)
-
 	c := cantabular.NewClient(cantabular.Config{ExtApiHost: cfg.CantabularExtURL}, dphttp.NewClient(), nil)
 
 	// Setup the API

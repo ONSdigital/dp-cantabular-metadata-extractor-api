@@ -5,13 +5,12 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"log"
 	"net/http"
 	"regexp"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
+	"github.com/ONSdigital/log.go/v2/log"
 	"github.com/gorilla/mux"
-	"github.com/ryboe/q"
 )
 
 // Temporary Hack (TM) to convert CamelCase to snake_case
@@ -45,25 +44,38 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 	ctx := r.Context()
 	params := mux.Vars(r)
 
-	mt, dimensions, _ := api.GetMetadataTable(ctx, params["datasetID"])
+	// TODO handle  params["lang"]
+
+	mt, dimensions, err := api.GetMetadataTable(ctx, params["datasetID"])
+	if err != nil {
+		log.Error(ctx, err.Error(), err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	md, err := api.GetMetadataDataset(ctx, params["cantdataset"], dimensions)
 	if err != nil {
-		log.Print(err) // XXX
+		log.Error(ctx, err.Error(), err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	m := cantabular.MetadataQueryResult{TableQueryResult: mt, DatasetQueryResult: md}
 
-	// TODO handle error
+	// REMOVE IN PHASE 2
+	json, err := json.MarshalIndent(conventionalMarshaller{m}, "", "  ")
+	//json, err := json.Marshal(m)
+	if err != nil {
+		log.Error(ctx, err.Error(), err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-	json, _ := json.MarshalIndent(conventionalMarshaller{m}, "", "  ")
-	//json, _ := json.Marshal(m)
 	w.Write(json)
 }
 
 func (api *CantabularMetadataExtractorAPI) GetMetadataTable(ctx context.Context, cantDataset string) (*cantabular.MetadataTableQuery, []string, error) {
 
-	q.Q(api)
 	req := cantabular.MetadataTableQueryRequest{Variables: []string{cantDataset}}
 
 	var dims []string

@@ -16,13 +16,13 @@ func TestSetup(t *testing.T) {
 	Convey("Given an API instance", t, func() {
 		r := mux.NewRouter()
 		ctx := context.Background()
-		d := &mock.CantExtAPIMock{}
-		c, err := config.Get()
+		c := &mock.CantExtAPIMock{}
+		cfg, err := config.Get()
 		if err != nil {
 			t.Fail()
 		}
 
-		api := api.Setup(ctx, r, c, d)
+		api := api.Setup(ctx, r, cfg, c)
 
 		Convey("When created the following routes should have been added", func() {
 			So(hasRoute(api.Router, "/dataset/{datasetID}/cantabular/{cantdataset}/lang/{lang}", "GET"), ShouldBeTrue)
