@@ -29,7 +29,7 @@ func TestGetMetadataTable(t *testing.T) {
 		}
 		Convey("GetMetadataTable method should return correct dimensions", func() { // XXX
 			expected := []string{"Region", "Ethnic Group", "Sex", "Age"}
-			_, dims, err := cantMetadataExtractorApi.GetMetadataTable(ctx, "Teaching-Dataset")
+			_, dims, err := cantMetadataExtractorApi.GetMetadataTable(ctx, "Teaching-Dataset", "en")
 			if err != nil {
 				t.Error(err)
 			}
@@ -57,7 +57,7 @@ func TestGetMetadataDataset(t *testing.T) {
 		}
 
 		Convey("getDimensions method should return correct dimensions", func() { // XXX
-			md, err := cantMetadataExtractorApi.GetMetadataDataset(ctx, "Teaching-Dataset", []string{"Age", "Sex"})
+			md, err := cantMetadataExtractorApi.GetMetadataDataset(ctx, "Teaching-Dataset", []string{"Age", "Sex"}, "en")
 			if err != nil {
 				t.Fail()
 			}

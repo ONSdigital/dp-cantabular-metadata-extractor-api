@@ -44,16 +44,18 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 	ctx := r.Context()
 	params := mux.Vars(r)
 
-	// TODO handle  params["lang"]
+	if params["lang"] == "" {
+		params["lang"] = "en"
+	}
 
-	mt, dimensions, err := api.GetMetadataTable(ctx, params["datasetID"])
+	mt, dimensions, err := api.GetMetadataTable(ctx, params["datasetID"], params["lang"])
 	if err != nil {
 		log.Error(ctx, err.Error(), err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	md, err := api.GetMetadataDataset(ctx, params["cantdataset"], dimensions)
+	md, err := api.GetMetadataDataset(ctx, params["cantdataset"], dimensions, params["lang"])
 	if err != nil {
 		log.Error(ctx, err.Error(), err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -74,9 +76,9 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 	w.Write(json)
 }
 
-func (api *CantabularMetadataExtractorAPI) GetMetadataTable(ctx context.Context, cantDataset string) (*cantabular.MetadataTableQuery, []string, error) {
+func (api *CantabularMetadataExtractorAPI) GetMetadataTable(ctx context.Context, cantDataset string, lang string) (*cantabular.MetadataTableQuery, []string, error) {
 
-	req := cantabular.MetadataTableQueryRequest{Variables: []string{cantDataset}}
+	req := cantabular.MetadataTableQueryRequest{Variables: []string{cantDataset}, Lang: lang}
 
 	var dims []string
 	mt, err := api.CantExtAPI.MetadataTableQuery(context.Background(), req)
@@ -95,11 +97,12 @@ func (api *CantabularMetadataExtractorAPI) GetMetadataTable(ctx context.Context,
 	return mt, dims, err
 }
 
-func (api *CantabularMetadataExtractorAPI) GetMetadataDataset(ctx context.Context, cantDataset string, dimensions []string) (*cantabular.MetadataDatasetQuery, error) {
+func (api *CantabularMetadataExtractorAPI) GetMetadataDataset(ctx context.Context, cantDataset string, dimensions []string, lang string) (*cantabular.MetadataDatasetQuery, error) {
 
 	req := cantabular.MetadataDatasetQueryRequest{}
 	req.Dataset = cantDataset
 	req.Variables = dimensions
+	req.Lang = lang
 
 	md, err := api.CantExtAPI.MetadataDatasetQuery(ctx, req)
 
