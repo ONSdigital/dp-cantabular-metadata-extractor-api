@@ -9,6 +9,8 @@ replace github.com/miekg/dns => github.com/miekg/dns v1.1.49
 
 replace github.com/prometheus/client_golang => github.com/prometheus/client_golang v1.12.2
 
+replace gopkg.in/yaml.v3 => gopkg.in/yaml.v3 v3.0.0
+
 // point at feature/cantabular-metadata-runtime-terror2 branch which we don't want to merge yet
 replace github.com/ONSdigital/dp-api-clients-go/v2 => github.com/ONSdigital/dp-api-clients-go/v2 v2.120.1-0.20220527134344-85877ce00f3f
 
