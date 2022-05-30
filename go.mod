@@ -12,13 +12,13 @@ replace github.com/prometheus/client_golang => github.com/prometheus/client_gola
 replace gopkg.in/yaml.v3 => gopkg.in/yaml.v3 v3.0.0
 
 // point at feature/cantabular-metadata-runtime-terror2 branch which we don't want to merge yet
-replace github.com/ONSdigital/dp-api-clients-go/v2 => github.com/ONSdigital/dp-api-clients-go/v2 v2.120.1-0.20220527134344-85877ce00f3f
+replace github.com/ONSdigital/dp-api-clients-go/v2 => github.com/ONSdigital/dp-api-clients-go/v2 v2.120.1-0.20220530141822-fa6cc6c85e88
 
 // DO NOT COMMIT XXX
 //replace github.com/ONSdigital/dp-api-clients-go/v2 => /home/steve/work/pubmisc/cantj/dp-api-clients-go
 
 require (
-	github.com/ONSdigital/dp-api-clients-go/v2 v2.120.1-0.20220527134344-85877ce00f3f
+	github.com/ONSdigital/dp-api-clients-go/v2 v2.120.1-0.20220530141822-fa6cc6c85e88
 	github.com/ONSdigital/dp-component-test v0.7.0
 	github.com/ONSdigital/dp-healthcheck v1.3.0
 	github.com/ONSdigital/dp-net v1.4.1
