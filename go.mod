@@ -12,7 +12,7 @@ replace github.com/ONSdigital/dp-api-clients-go/v2 => github.com/ONSdigital/dp-a
 //replace github.com/ONSdigital/dp-api-clients-go/v2 => /home/steve/work/pubmisc/cantj/dp-api-clients-go
 
 require (
-	github.com/ONSdigital/dp-api-clients-go/v2 v2.120.1-0.20220511134409-ec9f2fa446f5
+	github.com/ONSdigital/dp-api-clients-go/v2 v2.120.1-0.20220527134344-85877ce00f3f
 	github.com/ONSdigital/dp-component-test v0.7.0
 	github.com/ONSdigital/dp-healthcheck v1.3.0
 	github.com/ONSdigital/dp-net v1.4.1
