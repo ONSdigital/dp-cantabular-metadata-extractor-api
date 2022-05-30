@@ -8,6 +8,8 @@ replace github.com/coreos/etcd => github.com/coreos/etcd v3.3.24+incompatible
 // point at feature/cantabular-metadata-runtime-terror2 branch which we don't want to merge yet
 replace github.com/ONSdigital/dp-api-clients-go/v2 => github.com/ONSdigital/dp-api-clients-go/v2 v2.120.1-0.20220527134344-85877ce00f3f
 
+replace github.com/miekg/dns => github.com/miekg/dns v1.1.49
+
 // DO NOT COMMIT XXX
 //replace github.com/ONSdigital/dp-api-clients-go/v2 => /home/steve/work/pubmisc/cantj/dp-api-clients-go
 
