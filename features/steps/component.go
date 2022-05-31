@@ -2,11 +2,13 @@ package steps
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/service"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/service/mock"
-	"net/http"
 
+	"github.com/ONSdigital/dp-api-clients-go/v2/health"
 	componenttest "github.com/ONSdigital/dp-component-test"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 )
@@ -38,8 +40,9 @@ func NewComponent() (*Component, error) {
 	}
 
 	initMock := &mock.InitialiserMock{
-		DoGetHealthCheckFunc: c.DoGetHealthcheckOk,
-		DoGetHTTPServerFunc:  c.DoGetHTTPServer,
+		DoGetHealthCheckFunc:  c.DoGetHealthcheckOk,
+		DoGetHTTPServerFunc:   c.DoGetHTTPServer,
+		DoGetHealthClientFunc: c.DoGetHealthClient,
 	}
 
 	c.svcList = service.NewServiceList(initMock)
@@ -78,6 +81,7 @@ func (c *Component) DoGetHealthcheckOk(cfg *config.Config, buildTime string, git
 		AddCheckFunc: func(name string, checker healthcheck.Checker) error { return nil },
 		StartFunc:    func(ctx context.Context) {},
 		StopFunc:     func() {},
+		HandlerFunc:  func(w http.ResponseWriter, req *http.Request) {},
 	}, nil
 }
 
@@ -85,4 +89,8 @@ func (c *Component) DoGetHTTPServer(bindAddr string, router http.Handler) servic
 	c.HTTPServer.Addr = bindAddr
 	c.HTTPServer.Handler = router
 	return c.HTTPServer
+}
+
+func (c *Component) DoGetHealthClient(name, url string) *health.Client {
+	return health.NewClient(name, url)
 }
