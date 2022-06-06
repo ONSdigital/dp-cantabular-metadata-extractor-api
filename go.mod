@@ -3,19 +3,7 @@ module github.com/ONSdigital/dp-cantabular-metadata-extractor-api
 go 1.17
 
 // Fix security issues
-replace github.com/coreos/etcd => github.com/coreos/etcd v3.3.24+incompatible
-
-replace github.com/miekg/dns => github.com/miekg/dns v1.1.49
-
-replace github.com/prometheus/client_golang => github.com/prometheus/client_golang v1.12.2
-
-replace gopkg.in/yaml.v3 => gopkg.in/yaml.v3 v3.0.0
-
-// point at feature/cantabular-metadata-runtime-terror2 branch which we don't want to merge yet
-replace github.com/ONSdigital/dp-api-clients-go/v2 => github.com/ONSdigital/dp-api-clients-go/v2 v2.120.1-0.20220530141822-fa6cc6c85e88
-
-// DO NOT COMMIT XXX
-//replace github.com/ONSdigital/dp-api-clients-go/v2 => /home/steve/work/pubmisc/cantj/dp-api-clients-go
+replace github.com/spf13/cobra => github.com/spf13/cobra v1.4.0
 
 require (
 	github.com/ONSdigital/dp-api-clients-go/v2 v2.120.1-0.20220530141822-fa6cc6c85e88
@@ -60,7 +48,6 @@ require (
 	github.com/jtolds/gls v4.20.0+incompatible // indirect
 	github.com/justinas/alice v1.2.0 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
-	github.com/kr/pretty v0.3.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
