@@ -6,6 +6,7 @@ go 1.18
 replace github.com/spf13/cobra => github.com/spf13/cobra v1.4.0
 
 require (
+	// point dp-api-clients-go at feature/cantabular-metadata-runtime-terror2 branch which we don't want to merge yet
 	github.com/ONSdigital/dp-api-clients-go/v2 v2.120.1-0.20220530141822-fa6cc6c85e88
 	github.com/ONSdigital/dp-component-test v0.7.0
 	github.com/ONSdigital/dp-healthcheck v1.3.0
