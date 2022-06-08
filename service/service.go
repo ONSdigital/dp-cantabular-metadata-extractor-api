@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
-	"github.com/ONSdigital/dp-api-clients-go/v2/health"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 	"github.com/ONSdigital/log.go/v2/log"
@@ -37,11 +36,6 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 
 	s := serviceList.GetHTTPServer(cfg.BindAddr, r)
 
-	// Get health client for dataset-api
-	datasetAPIClient := serviceList.GetHealthClient("dataset-api", cfg.DatasetAPIURL)
-
-	// Get health client for cantabular-api-ext - TODO: reinstate when find out from SCC what endpoint to check
-	// cantabularExtClient := serviceList.GetHealthClient("cantabular-api-ext", cfg.CantabularExtURL)
 	c := cantabular.NewClient(cantabular.Config{ExtApiHost: cfg.CantabularExtURL}, dphttp.NewClient(), nil)
 
 	// Setup the API
@@ -54,7 +48,7 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 		return nil, err
 	}
 
-	if err := registerCheckers(ctx, hc, datasetAPIClient); err != nil {
+	if err := registerCheckers(ctx, hc, c); err != nil {
 		return nil, errors.Wrap(err, "unable to register checkers")
 	}
 
@@ -127,22 +121,19 @@ func (svc *Service) Close(ctx context.Context) error {
 	return nil
 }
 
-func registerCheckers(ctx context.Context, hc HealthChecker, datasetAPIClient *health.Client) (err error) {
+func registerCheckers(ctx context.Context, hc HealthChecker, c *cantabular.Client) (err error) {
 	hasErrors := false
 
-	if err = hc.AddCheck("dataset-api", datasetAPIClient.Checker); err != nil {
+	if err = hc.AddCheck("cantabular-api-ext", c.CheckerAPIExt); err != nil {
 		hasErrors = true
-		log.Error(ctx, "error adding check for dataset-api", err)
+		log.Error(ctx, "error adding check for cantabular-api-ext", err)
+	} else {
+		log.Info(ctx, "added check for cantabular-api-ext")
 	}
-
-	// TODO: reinstate when find out from SCC what endpoint to check
-	// if err = hc.AddCheck("cantabular-api-ext", cantabularExtClient.Checker); err != nil {
-	// 	hasErrors = true
-	// 	log.Error(ctx, "error adding check for cantabular-api-ext", err)
-	// }
 
 	if hasErrors {
 		return errors.New("Error(s) registering checkers for healthcheck")
 	}
+
 	return nil
 }
