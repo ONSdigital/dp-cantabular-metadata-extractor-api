@@ -1,8 +1,3 @@
-# stolen from https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
-.PHONY: help
-help: ## This help
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-z0-9A-Z_-]+:.*?## / {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
-
 BINPATH ?= build
 
 BUILD_TIME=$(shell date +%s)
@@ -66,4 +61,10 @@ cover:	## aggregate coverage hat tip @efragkiadaki
 .PHONY: check-generate
 check-generate: generate	## check no manual commits to auto-generated files on a clean tree
 	  @[ "$$(git diff)" = "" ] || (echo "commits to autogen file?" && exit 1)
+
+# stolen from https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
+.PHONY: help
+help: ## This help
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-z0-9A-Z_-]+:.*?## / {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+
 
