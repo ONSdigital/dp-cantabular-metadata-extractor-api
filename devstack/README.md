@@ -24,6 +24,6 @@ This is used to populate the recipe at the start of the journey.
 
 * edit_meta_jor.side
 
-This is a Seleniium IDE (browser plugin) script to run the "edit_metadata"
+This is a Selenium IDE (browser plugin) script to run the "edit_metadata"
 journey.
 
