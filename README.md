@@ -17,6 +17,7 @@ Supply Cantabular metadata for Florence metadata journey.
 | GRACEFUL_SHUTDOWN_TIMEOUT    | 5s        | The graceful shutdown timeout in seconds (`time.Duration` format)
 | HEALTHCHECK_INTERVAL         | 30s       | Time between self-healthchecks (`time.Duration` format)
 | HEALTHCHECK_CRITICAL_TIMEOUT | 90s       | Time to wait until an unhealthy dependent propagates its state to make this app unhealthy (`time.Duration` format)
+| CANTABULAR_EXT_API_URL       | :8492     | Host and port for `dp-cantabular-api-ext`
 
 ### Contributing
 
