@@ -9,9 +9,11 @@ now works to check out and run known versions of repos as used by
 `dp-compose/cantabular-import`
 
 The versions are specified via lines like
-`dp-api-router,4a775fb3aa62dd005996e471587625f29429fa08` These *old* versions
-have been tested to "work" (for certain values of!) in combination.  If you are
-working on a particular repo you may need to manually bump that version via git.
+`dp-api-router,4a775fb3aa62dd005996e471587625f29429fa08` 
+
+These *old* versions have been tested to "work" (for certain values of!) in
+combination.  If you are working on a particular repo you may need to manually
+bump that version via git.
 
 The script will check out directories underneath itself, you probably want to copy it
 to the root of the directory hierarchy you want.
@@ -69,7 +71,7 @@ $ cd dp-compose/cantabular-import
 $ ./logs dp-cantabular-api-ext
 ```
 
-You may also need to `docker rmi`a particular image and rebuild it from scratch
+You may also need to `docker rmi` a particular image and rebuild it from scratch
 (`mvn clean` type targets might be needed for Java builds etc.)  Sometimes
 running `make debug` to run outside docker gives insight into issues.
 
