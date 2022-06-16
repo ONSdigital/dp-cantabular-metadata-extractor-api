@@ -364,7 +364,7 @@
         ["xpath=//div[@id='app']/div/div/div/div[2]/input", "xpath:idRelative"],
         ["xpath=//input", "xpath:position"]
       ],
-      "value": "test"
+      "value": "LC1117EW"
     }, {
       "id": "b626a8c2-b580-4d04-a3c9-4a5084f2b42d",
       "comment": "",
@@ -377,7 +377,7 @@
         ["xpath=//div[@id='app']/div/div/div/ul/li/div/a", "xpath:idRelative"],
         ["xpath=//a[contains(@href, '/florence/collections/mycollection2-d9285bbd1705c12ebc16090d6d468d7e75efaf9933474db045161b8e1aa2e658/datasets/create/Testing-for-metadata-demo-v3/la2e031b-3064-427d-8fed-4b35c99bf1a0')]", "xpath:href"],
         ["xpath=//div/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Testing for metadata demo v3')]", "xpath:innerText"]
+        ["xpath=//a[contains(.,'LC1117EW')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
@@ -397,15 +397,15 @@
       "id": "9dd9d0e1-ee2e-432e-9f60-40130e74684b",
       "comment": "",
       "command": "click",
-      "target": "linkText=Testing-for-metadata-demo-v3",
+      "target": "linkText=LC1117EW",
       "targets": [
-        ["linkText=Testing-for-metadata-demo-v3", "linkText"],
+        ["linkText=LC1117EW", "linkText"],
         ["css=.simple-select-list__item:nth-child(3) .simple-select-list__title", "css:finder"],
-        ["xpath=//a[contains(text(),'Testing-for-metadata-demo-v3')]", "xpath:link"],
+        ["xpath=//a[contains(text(),'LC1117EW')]", "xpath:link"],
         ["xpath=//div[@id='app']/div/div/div/ul/li[3]/div/a", "xpath:idRelative"],
         ["xpath=//a[contains(@href, '/florence/collections/mycollection2-d9285bbd1705c12ebc16090d6d468d7e75efaf9933474db045161b8e1aa2e658/datasets/Testing-for-metadata-demo-v3')]", "xpath:href"],
         ["xpath=//li[3]/div/a", "xpath:position"],
-        ["xpath=//a[contains(.,'Testing-for-metadata-demo-v3')]", "xpath:innerText"]
+        ["xpath=//a[contains(.,'LC1117EW')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
