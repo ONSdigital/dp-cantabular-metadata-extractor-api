@@ -2,6 +2,7 @@ package api_test
 
 import (
 	"context"
+	"encoding/json"
 	"testing"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
@@ -28,7 +29,7 @@ func TestGetMetadataTable(t *testing.T) {
 			},
 		}
 		Convey("GetMetadataTable method should return correct dimensions", func() { // XXX
-			expected := []string{"Region", "Ethnic Group", "Sex", "Age"}
+			expected := []string{"Region", "Occupation", "Age"}
 			_, dims, err := cantMetadataExtractorApi.GetMetadataTable(ctx, "Teaching-Dataset", "en")
 			if err != nil {
 				t.Error(err)
@@ -69,131 +70,59 @@ func TestGetMetadataDataset(t *testing.T) {
 
 func getMT() cantabular.MetadataTableQuery {
 
-	return cantabular.MetadataTableQuery{Service: struct {
-		Tables []struct {
-			Name        graphql.String
-			Label       graphql.String
-			Description graphql.String
-			Vars        []graphql.String
-			Meta        struct {
-				Contact struct {
-					ContactName    graphql.String "graphql:\"Contact_Name\""
-					ContactEmail   graphql.String "graphql:\"Contact_Email\""
-					ContactPhone   graphql.String "graphql:\"Contact_Phone\""
-					ContactWebsite graphql.String "graphql:\"Contact_Website\""
-				} "graphql:\"Contact\""
-				CensusReleases []struct {
-					CensusReleaseDescription graphql.String "graphql:\"Census_Release_Description\""
-					CensusReleaseNumber      graphql.String "graphql:\"Census_Release_Number\""
-					ReleaseDate              graphql.String "graphql:\"Release_Date\""
-				} "graphql:\"Census_Releases\""
-				DatasetMnemonic2011        graphql.String   "graphql:\"Dataset_Mnemonic_2011\""
-				DatasetPopulation          graphql.String   "graphql:\"Dataset_Population\""
-				DisseminationSource        graphql.String   "graphql:\"Dissemination_Source\""
-				GeographicCoverage         graphql.String   "graphql:\"Geographic_Coverage\""
-				GeographicVariableMnemonic graphql.String   "graphql:\"Geographic_Variable_Mnemonic\""
-				LastUpdated                graphql.String   "graphql:\"Last_Updated\""
-				Keywords                   []graphql.String "graphql:\"Keywords\""
-				Publications               []struct {
-					PublisherName    graphql.String "graphql:\"Publisher_Name\""
-					PublicationTitle graphql.String "graphql:\"Publication_Title\""
-					PublisherWebsite graphql.String "graphql:\"Publisher_Website\""
-				} "graphql:\"Publications\""
-				RelatedDatasets  []graphql.String "graphql:\"Related_Datasets\""
-				ReleaseFrequency graphql.String   "graphql:\"Release_Frequency\""
-				StatisticalUnit  struct {
-					StatisticalUnit            graphql.String "graphql:\"Statistical_Unit\""
-					StatisticalUnitDescription graphql.String "graphql:\"Statistical_Unit_Description\""
-				} "graphql:\"Statistical_Unit\""
-				UniqueUrl graphql.String "graphql:\"Unique_Url\""
-				Version   graphql.String "graphql:\"Version\""
-			}
-		} "graphql:\"tables(names: $vars)\""
-	}{Tables: []struct {
-		Name        graphql.String
-		Label       graphql.String
-		Description graphql.String
-		Vars        []graphql.String
-		Meta        struct {
-			Contact struct {
-				ContactName    graphql.String "graphql:\"Contact_Name\""
-				ContactEmail   graphql.String "graphql:\"Contact_Email\""
-				ContactPhone   graphql.String "graphql:\"Contact_Phone\""
-				ContactWebsite graphql.String "graphql:\"Contact_Website\""
-			} "graphql:\"Contact\""
-			CensusReleases []struct {
-				CensusReleaseDescription graphql.String "graphql:\"Census_Release_Description\""
-				CensusReleaseNumber      graphql.String "graphql:\"Census_Release_Number\""
-				ReleaseDate              graphql.String "graphql:\"Release_Date\""
-			} "graphql:\"Census_Releases\""
-			DatasetMnemonic2011        graphql.String   "graphql:\"Dataset_Mnemonic_2011\""
-			DatasetPopulation          graphql.String   "graphql:\"Dataset_Population\""
-			DisseminationSource        graphql.String   "graphql:\"Dissemination_Source\""
-			GeographicCoverage         graphql.String   "graphql:\"Geographic_Coverage\""
-			GeographicVariableMnemonic graphql.String   "graphql:\"Geographic_Variable_Mnemonic\""
-			LastUpdated                graphql.String   "graphql:\"Last_Updated\""
-			Keywords                   []graphql.String "graphql:\"Keywords\""
-			Publications               []struct {
-				PublisherName    graphql.String "graphql:\"Publisher_Name\""
-				PublicationTitle graphql.String "graphql:\"Publication_Title\""
-				PublisherWebsite graphql.String "graphql:\"Publisher_Website\""
-			} "graphql:\"Publications\""
-			RelatedDatasets  []graphql.String "graphql:\"Related_Datasets\""
-			ReleaseFrequency graphql.String   "graphql:\"Release_Frequency\""
-			StatisticalUnit  struct {
-				StatisticalUnit            graphql.String "graphql:\"Statistical_Unit\""
-				StatisticalUnitDescription graphql.String "graphql:\"Statistical_Unit_Description\""
-			} "graphql:\"Statistical_Unit\""
-			UniqueUrl graphql.String "graphql:\"Unique_Url\""
-			Version   graphql.String "graphql:\"Version\""
-		}
-	}{{Name: "LC2101EW", Label: "Ethnic group by sex by age", Description: "This dataset provides 2011 Census estimates that classify usual residents in England and Wales by ethnic group, by sex and by age. The estimates are as at census day, 27 March 2011.\n\nThis information helps public bodies meet statutory obligations relating to race equality. It is also used for resource allocation and to develop and monitor policy on improving the life-chances for disadvantaged groups, including many ethnic minority groups.\n\nThe statistics also provide a better understanding of communities and are used for the government-wide race equality and community cohesion strategy, which seeks to improve race equality outcomes in areas such as housing, education, health and criminal justice for all groups across society.", Vars: []graphql.String{"Region", "Ethnic Group", "Sex", "Age"}, Meta: struct {
-		Contact struct {
-			ContactName    graphql.String "graphql:\"Contact_Name\""
-			ContactEmail   graphql.String "graphql:\"Contact_Email\""
-			ContactPhone   graphql.String "graphql:\"Contact_Phone\""
-			ContactWebsite graphql.String "graphql:\"Contact_Website\""
-		} "graphql:\"Contact\""
-		CensusReleases []struct {
-			CensusReleaseDescription graphql.String "graphql:\"Census_Release_Description\""
-			CensusReleaseNumber      graphql.String "graphql:\"Census_Release_Number\""
-			ReleaseDate              graphql.String "graphql:\"Release_Date\""
-		} "graphql:\"Census_Releases\""
-		DatasetMnemonic2011        graphql.String   "graphql:\"Dataset_Mnemonic_2011\""
-		DatasetPopulation          graphql.String   "graphql:\"Dataset_Population\""
-		DisseminationSource        graphql.String   "graphql:\"Dissemination_Source\""
-		GeographicCoverage         graphql.String   "graphql:\"Geographic_Coverage\""
-		GeographicVariableMnemonic graphql.String   "graphql:\"Geographic_Variable_Mnemonic\""
-		LastUpdated                graphql.String   "graphql:\"Last_Updated\""
-		Keywords                   []graphql.String "graphql:\"Keywords\""
-		Publications               []struct {
-			PublisherName    graphql.String "graphql:\"Publisher_Name\""
-			PublicationTitle graphql.String "graphql:\"Publication_Title\""
-			PublisherWebsite graphql.String "graphql:\"Publisher_Website\""
-		} "graphql:\"Publications\""
-		RelatedDatasets  []graphql.String "graphql:\"Related_Datasets\""
-		ReleaseFrequency graphql.String   "graphql:\"Release_Frequency\""
-		StatisticalUnit  struct {
-			StatisticalUnit            graphql.String "graphql:\"Statistical_Unit\""
-			StatisticalUnitDescription graphql.String "graphql:\"Statistical_Unit_Description\""
-		} "graphql:\"Statistical_Unit\""
-		UniqueUrl graphql.String "graphql:\"Unique_Url\""
-		Version   graphql.String "graphql:\"Version\""
-	}{Contact: struct {
-		ContactName    graphql.String "graphql:\"Contact_Name\""
-		ContactEmail   graphql.String "graphql:\"Contact_Email\""
-		ContactPhone   graphql.String "graphql:\"Contact_Phone\""
-		ContactWebsite graphql.String "graphql:\"Contact_Website\""
-	}{ContactName: "Census Customer Services", ContactEmail: "census.customerservices@ons.gov.uk", ContactPhone: "01329 444 972", ContactWebsite: "https://www.ons.gov.uk/census/censuscustomerservices"}, CensusReleases: []struct {
-		CensusReleaseDescription graphql.String "graphql:\"Census_Release_Description\""
-		CensusReleaseNumber      graphql.String "graphql:\"Census_Release_Number\""
-		ReleaseDate              graphql.String "graphql:\"Release_Date\""
-	}{{CensusReleaseDescription: "Example release: ethnicity, national identity, language and religion", CensusReleaseNumber: "2", ReleaseDate: "30/07/2013"}}, DatasetMnemonic2011: "LC2101EW", DatasetPopulation: "All usual residents", DisseminationSource: "Census 2011", GeographicCoverage: "England and Wales", GeographicVariableMnemonic: "Region", LastUpdated: "30/07/2013", Keywords: []graphql.String{"Ethnic group", "Sex", "Age"}, Publications: []struct {
-		PublisherName    graphql.String "graphql:\"Publisher_Name\""
-		PublicationTitle graphql.String "graphql:\"Publication_Title\""
-		PublisherWebsite graphql.String "graphql:\"Publisher_Website\""
-	}{}, RelatedDatasets: []graphql.String{"LC2107EW"}, ReleaseFrequency: "", StatisticalUnit: struct {
-		StatisticalUnit            graphql.String "graphql:\"Statistical_Unit\""
-		StatisticalUnitDescription graphql.String "graphql:\"Statistical_Unit_Description\""
-	}{StatisticalUnit: "People", StatisticalUnitDescription: "People living in England and Wales"}, UniqueUrl: "", Version: "1"}}}}}
+	j := `{
+    "service": {
+      "tables": [
+        {
+          "name": "LC6112EW",
+          "label": "Occupation by age",
+          "description": "This dataset provides 2011 Census estimates that classify all usual residents in employment the week before the census in England and Wales by occupation and by age. The estimates are as at census day, 27 March 2011.",
+          "vars": [
+            "Region",
+            "Occupation",
+            "Age"
+          ],
+          "meta": {
+            "contact": {
+              "contact_name": "Census Customer Services",
+              "contact_email": "census.customerservices@ons.gov.uk",
+              "contact_phone": "01329 444 972",
+              "contact_website": "https://www.ons.gov.uk/census/censuscustomerservices"
+            },
+            "census_releases": [
+              {
+                "census_release_description": "Example release: labour market, housing and qualifications",
+                "census_release_number": "3",
+                "release_date": "26/02/2014"
+              }
+            ],
+            "dataset_mnemonic2011": "LC6112EW",
+            "dataset_population": "All usual residents",
+            "dissemination_source": "Census 2011",
+            "geographic_coverage": "England and Wales",
+            "geographic_variable_mnemonic": "Region",
+            "last_updated": "26/02/2014",
+            "keywords": [],
+            "publications": [],
+            "related_datasets": [
+              "LC6107EW"
+            ],
+            "release_frequency": "",
+            "statistical_unit": {
+              "statistical_unit": "People",
+              "statistical_unit_description": "People living in England and Wales"
+            },
+            "unique_url": "",
+            "version": "1"
+          }
+        }
+      ]
+    }
+}`
+
+	mtq := cantabular.MetadataTableQuery{}
+
+	json.Unmarshal([]byte(j), &mtq)
+
+	return mtq
 }
