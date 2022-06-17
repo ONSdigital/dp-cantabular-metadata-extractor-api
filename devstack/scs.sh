@@ -19,7 +19,7 @@ dp-cantabular-csv-exporter,57a14a73076d72ad26b06ea78680acdd2eec2c95
 dp-cantabular-dimension-api,1432fc302a41089de5050f531dbaf2cf1228050e
 dp-cantabular-filter-flex-api,f86d1eedd65f08ba8d89688b8579a03e2f69152c
 dp-cantabular-metadata-exporter,036f8a9e261c329ebd1e66124e8e568bcca60b5a
-dp-cantabular-metadata-service,da353edc16c6240c9d859064486724b01a1ce14c
+dp-cantabular-metadata-service,86ae7981b3497dd57c44457774540fff3bae58e6
 dp-cantabular-server,abc98c5004bfb44b5499fd073a009dcd594af82f
 dp-cantabular-xlsx-exporter,4b30806bb3062fa2367f538c966bb69a597c9491
 dp-compose,58902f633997b7703e898a74a0ba72e59006d4b9
@@ -34,7 +34,7 @@ dp-import-cantabular-dataset,0cc80b45f88e13bcf9e5606375fa9f7c95cd58a3
 dp-import-cantabular-dimension-options,0f87c20d6f13748f84e2779a701f8468ca9be23d
 dp-publishing-dataset-controller,027b4a070e538c5e73b39e1d858328a7d135828e
 dp-recipe-api,ec16d92b27c2c6d6b31cf8a8797e52f24a86e330
-florence,f2ae973fc5d5f2e8c54f33320176ffe7a3d2c04f
+florence,16ff90f98e33e5effcef078110b8e8e28e68d65d
 zebedee,f4c7da4cb0c0abebb7a926942cbb308fe2142d3c
 "
 
@@ -66,7 +66,7 @@ logSuccess() {
 splash() {
     echo "Start Cantabular Services (SCS)"
     echo ""
-    echo "usual workflow 'clone','setup'"
+    echo "usual workflow 'goodclone','setup'"
     echo ""
     echo "Simple script to run cantabular import service locally and all the dependencies"
     echo ""
