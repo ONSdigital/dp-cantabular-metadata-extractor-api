@@ -18,7 +18,7 @@ type Service struct {
 	Config      *config.Config
 	Server      HTTPServer
 	Router      *mux.Router
-	Api         *api.CantabularMetadataExtractorAPI
+	API         *api.CantabularMetadataExtractorAPI
 	ServiceList *ExternalServiceList
 	HealthCheck HealthChecker
 	Client      *cantabular.Client
@@ -67,7 +67,7 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 	return &Service{
 		Config:      cfg,
 		Router:      r,
-		Api:         a,
+		API:         a,
 		HealthCheck: hc,
 		ServiceList: serviceList,
 		Server:      s,
@@ -105,7 +105,7 @@ func (svc *Service) Close(ctx context.Context) error {
 	<-ctx.Done()
 
 	// timeout expired
-	if ctx.Err() == context.DeadlineExceeded {
+	if errors.Is(ctx.Err(), context.DeadlineExceeded) {
 		log.Error(ctx, "shutdown timed out", ctx.Err())
 		return ctx.Err()
 	}

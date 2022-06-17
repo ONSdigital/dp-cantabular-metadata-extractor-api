@@ -43,7 +43,10 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 		return
 	}
 
-	w.Write(json)
+	_, err = w.Write(json)
+	if err != nil {
+		log.Error(ctx, err.Error(), err)
+	}
 }
 
 func (api *CantabularMetadataExtractorAPI) GetMetadataTable(ctx context.Context, cantDataset string, lang string) (*cantabular.MetadataTableQuery, []string, error) {

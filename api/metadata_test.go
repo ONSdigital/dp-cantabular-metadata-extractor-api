@@ -17,20 +17,23 @@ import (
 func TestGetMetadataTable(t *testing.T) {
 	ctx := context.Background()
 
-	cantMetadataExtractorApi := &api.CantabularMetadataExtractorAPI{}
-	cantMetadataExtractorApi.Cfg, _ = config.Get()
+	cantMetadataExtractorAPI := &api.CantabularMetadataExtractorAPI{}
+	cantMetadataExtractorAPI.Cfg, _ = config.Get()
 
 	Convey("Given a mock CantExtAPI client and datasetID/cantabular table", t, func() {
-		cantMetadataExtractorApi.CantExtAPI = &mock.CantExtAPIMock{
+		cantMetadataExtractorAPI.CantExtAPI = &mock.CantExtAPIMock{
 
 			MetadataTableQueryFunc: func(ctx context.Context, req cantabular.MetadataTableQueryRequest) (*cantabular.MetadataTableQuery, error) {
-				mt := getMT()
+				mt, err := getMT()
+				if err != nil {
+					t.Error(err)
+				}
 				return &mt, nil
 			},
 		}
 		Convey("GetMetadataTable method should return correct dimensions", func() { // XXX
 			expected := []string{"Region", "Occupation", "Age"}
-			_, dims, err := cantMetadataExtractorApi.GetMetadataTable(ctx, "Teaching-Dataset", "en")
+			_, dims, err := cantMetadataExtractorAPI.GetMetadataTable(ctx, "Teaching-Dataset", "en")
 			if err != nil {
 				t.Error(err)
 			}
@@ -44,11 +47,11 @@ func TestGetMetadataTable(t *testing.T) {
 func TestGetMetadataDataset(t *testing.T) {
 
 	ctx := context.Background()
-	cantMetadataExtractorApi := &api.CantabularMetadataExtractorAPI{}
-	cantMetadataExtractorApi.Cfg, _ = config.Get()
+	cantMetadataExtractorAPI := &api.CantabularMetadataExtractorAPI{}
+	cantMetadataExtractorAPI.Cfg, _ = config.Get()
 
 	Convey("Given a mock CantExtAPI client and datasetID/cantabular table", t, func() {
-		cantMetadataExtractorApi.CantExtAPI = &mock.CantExtAPIMock{
+		cantMetadataExtractorAPI.CantExtAPI = &mock.CantExtAPIMock{
 
 			MetadataDatasetQueryFunc: func(ctx context.Context, req cantabular.MetadataDatasetQueryRequest) (*cantabular.MetadataDatasetQuery, error) {
 				md := &cantabular.MetadataDatasetQuery{}
@@ -58,7 +61,7 @@ func TestGetMetadataDataset(t *testing.T) {
 		}
 
 		Convey("getDimensions method should return correct dimensions", func() { // XXX
-			md, err := cantMetadataExtractorApi.GetMetadataDataset(ctx, "Teaching-Dataset", []string{"Age", "Sex"}, "en")
+			md, err := cantMetadataExtractorAPI.GetMetadataDataset(ctx, "Teaching-Dataset", []string{"Age", "Sex"}, "en")
 			if err != nil {
 				t.Fail()
 			}
@@ -68,7 +71,7 @@ func TestGetMetadataDataset(t *testing.T) {
 	})
 }
 
-func getMT() cantabular.MetadataTableQuery {
+func getMT() (cantabular.MetadataTableQuery, error) {
 
 	j := `{
     "service": {
@@ -122,7 +125,9 @@ func getMT() cantabular.MetadataTableQuery {
 
 	mtq := cantabular.MetadataTableQuery{}
 
-	json.Unmarshal([]byte(j), &mtq)
+	if err := json.Unmarshal([]byte(j), &mtq); err != nil {
+		return mtq, err
+	}
 
-	return mtq
+	return mtq, nil
 }
