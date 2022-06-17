@@ -22,7 +22,7 @@ type CantabularMetadataExtractorAPI struct {
 	Cfg        *config.Config
 }
 
-//Setup function sets up the api and returns an api
+// Setup function sets up the api and returns an api
 func Setup(ctx context.Context, r *mux.Router, config *config.Config, c CantExtAPI) *CantabularMetadataExtractorAPI {
 
 	api := &CantabularMetadataExtractorAPI{
