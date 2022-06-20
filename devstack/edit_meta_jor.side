@@ -117,7 +117,7 @@
       "value": ""
     }, {
       "id": "5e0e23da-8ba9-4882-8990-5052479f7a79",
-      "comment": "",
+      "comment": "Wait for Dimensions to pop up (long timeout)",
       "command": "waitForElementPresent",
       "target": "css=.margin-bottom--1:nth-child(4)",
       "targets": [],
