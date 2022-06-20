@@ -10,4 +10,3 @@ sleep 10
 ./scs.sh init-db
 # delete collections
 sudo rm -rf $zebedee_root/zebedee/collections/*
-./cant-recipe.sh
