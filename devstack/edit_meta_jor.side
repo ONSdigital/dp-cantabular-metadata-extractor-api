@@ -118,15 +118,10 @@
     }, {
       "id": "5e0e23da-8ba9-4882-8990-5052479f7a79",
       "comment": "",
-      "command": "waitForTextPresent",
-      "target": "age",
-      "targets": [
-        ["css=.btn", "css:finder"],
-        ["xpath=//div[@id='app']/div/div/form/div[2]/button", "xpath:idRelative"],
-        ["xpath=//button", "xpath:position"],
-        ["xpath=//button[contains(.,'Submit to publishing')]", "xpath:innerText"]
-      ],
-      "value": ""
+      "command": "waitForElementPresent",
+      "target": "css=.margin-bottom--1:nth-child(4)",
+      "targets": [],
+      "value": "90000"
     }, {
       "id": "52b14ba5-0d43-4a5c-bc49-ea8bd7d8fb64",
       "comment": "",
