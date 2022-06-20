@@ -34,7 +34,7 @@ dp-import-cantabular-dataset,0cc80b45f88e13bcf9e5606375fa9f7c95cd58a3
 dp-import-cantabular-dimension-options,0f87c20d6f13748f84e2779a701f8468ca9be23d
 dp-publishing-dataset-controller,027b4a070e538c5e73b39e1d858328a7d135828e
 dp-recipe-api,ec16d92b27c2c6d6b31cf8a8797e52f24a86e330
-florence,dfc5353b0d966e9bb3e7fceef1d5b23b3b2e7516q
+florence,dfc5353b0d966e9bb3e7fceef1d5b23b3b2e7516
 zebedee,f4c7da4cb0c0abebb7a926942cbb308fe2142d3c
 "
 
