@@ -51,6 +51,10 @@ for debugging.  I've seen CRITICAL errors for some things (e.g. S3 uploaders)
 which haven't broken my use case.  Maybe it's best to save a copy of the output
 once things work to help with debugging future breakage
 
+* nuke-db.sh
+
+This resets the mongo database to a fresh state
+
 * ver.sh
 
 This is used to help maintain "pinned" versions in `scs.sh` and can be ignored
@@ -85,9 +89,10 @@ Good luck!
 
 * cant-recipe.sh
 
-This is used to populate the recipe at the start of the journey.
+This is used to populate the recipe at the start of the journey, usually after
+`nuke-db.sh`.
 
 * edit_meta_jor.side
 
 This is a Selenium IDE (browser plugin) script to run the "edit_metadata"
-journey on florence.
+journey on florence.  Looking at it may be useful for related journeys.
