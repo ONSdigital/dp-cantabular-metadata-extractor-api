@@ -2,6 +2,11 @@
 
 ## General scripts for Cantabular Import Journey
 
+Create an "ons" directory and copy the shell scripts in this directory into it
+and run those copies.
+
+A description of the scripts follows.
+
 * scs.sh
 
 This is a wrapper script I forked after being given it by members of Team B which
@@ -28,9 +33,8 @@ $ scs.sh goodclone
 $ scs.sh setup
 ```
 
-Beware services can take a long time to start.  Florence, in particular, can
-take 5 mins to fully work.  Use florence to confirm the stack works as
-expected. 
+Beware services can take a long time to start.  The whole system can take 5
+mins to fully work.  Use florence to confirm the stack works as expected. 
 
 It's not likely to work first time and debugging (see below) is often needed.
 

@@ -7,7 +7,7 @@ typeset -A port
 #port["dp-cantabular-metadata-service"]=
 #port["dp-cantabular-server"]=
 #port["dp-frontend-dataset-controller"]=20200 ???
-#port["dp-frontend-filter-flex-dataset"]=20200 ???
+#port["dp-frontend-filter-flex-dataset"]=20100
 port["dp-api-router"]=23200
 port["dp-cantabular-csv-exporter"]=26300
 port["dp-cantabular-dimension-api"]=27200
