@@ -199,6 +199,11 @@ setupServices () {
     cd "$DP_CANTABULAR_API_EXT_DIR" || exit
     make setup
     logSuccess "Preparing dp-cantabular-api-ext... Done."
+
+    cd "Preparing dp-frontend-filter-flex-dataset..."
+    cd "$DIR/dp-frontend-filter-flex-dataset" || exit
+    make generate-prod
+    logSuccess "Preparing dp-frontend-filter-flex-dataset... Done."
     
     upServices
 
