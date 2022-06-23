@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   title: "dp-cantabular-metadata-extractor-api"
-  description: "Supply Cantabular metadata for Florence metadata journey."
+  description: "Supply Cantabular metadata (2011) for Florence metadata journey."
   version: 1.0.0
   license:
     name: "Open Government Licence v3.0"
@@ -10,29 +10,40 @@ basePath: "/v1"
 schemes:
   - http
 tags:
-  - name: "hello"
-  - name: "private"
+  - name: "public"
 paths:
-  /hello:
+
+  /dataset/{dataset}/cantabular/{cant-dataset}/lang/{lang}:
     get:
+      parameters:
+      - name: dataset
+        type: string
+        in: path
+        required: true
+      - name: cant-dataset
+        type: string
+        in: path
+        required: true
+      - name: lang
+        type: string
+        in: path
+        required: true
       tags:
-        - hello
-      summary: Example hello world endpoint
-      description: Returns an example payload.
+        - public
+      summary: 2011 Metadata Endpoint
+      description: Returns all available 2011 Metadata.
       produces:
         - application/json
       responses:
         200:
-          description: OK
-          schema:
-            $ref: "#/definitions/HelloResponse"
+          description: response
         500:
           $ref: '#/responses/InternalError'
 
   /health:
     get:
       tags:
-        - private
+        - public
       summary: "Returns API's health status"
       description: "Returns health status of the API and checks on dependent services"
       produces:
@@ -52,13 +63,6 @@ responses:
     description: "Failed to process the request due to an internal error"
 
 definitions:
-  HelloResponse:
-    type: object
-    properties:
-      message:
-        type: string
-        description: "Message returned by hello world endpoint"
-        example: "Hello, world!"
   Health:
     type: object
     properties:
