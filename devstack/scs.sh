@@ -19,7 +19,7 @@ dp-cantabular-csv-exporter,57a14a73076d72ad26b06ea78680acdd2eec2c95
 dp-cantabular-dimension-api,1432fc302a41089de5050f531dbaf2cf1228050e
 dp-cantabular-filter-flex-api,f86d1eedd65f08ba8d89688b8579a03e2f69152c
 dp-cantabular-metadata-exporter,036f8a9e261c329ebd1e66124e8e568bcca60b5a
-dp-cantabular-metadata-extractor-api,23f8a4f2ffe8bc661de512c035e112369c387d2e
+dp-cantabular-metadata-extractor-api,c1bd3796c23454ed67e2a2616c6cfbd08a24cda4
 dp-cantabular-metadata-service,86ae7981b3497dd57c44457774540fff3bae58e6
 dp-cantabular-server,abc98c5004bfb44b5499fd073a009dcd594af82f
 dp-cantabular-xlsx-exporter,4b30806bb3062fa2367f538c966bb69a597c9491
