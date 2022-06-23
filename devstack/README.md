@@ -29,11 +29,13 @@ works for all cantabular journeys, but it should help.
 Usual workflow to provision is
 
 ```
+$ scs.sh rmdocker # if you have old docker containers clean start
 $ scs.sh goodclone
+# after this point you might want to checkout branches in particular repos you are working on
 $ scs.sh setup
 ```
 
-Beware services can take a long time to start.  The whole system can take 5
+Beware services can take a long time to start.  The whole system can take many
 mins to fully work.  Use florence to confirm the stack works as expected. 
 
 It's not likely to work first time and debugging (see below) is often needed.
@@ -79,6 +81,9 @@ $ cd dp-compose/cantabular-import
 $ ./logs dp-cantabular-api-ext
 ```
 
+Note `health.sh` can't check the health of things exclusively accessible from
+docker.
+
 You may also need to `docker rmi` a particular image and rebuild it from scratch
 (`mvn clean` type targets might be needed for Java builds etc.)  Sometimes
 running `make debug` to run outside docker gives insight into issues.
@@ -86,6 +91,14 @@ running `make debug` to run outside docker gives insight into issues.
 Once working due to the number of services the whole stack isn't that stable
 even in 16G of memory.  I would avoid updating it too frequently unless it's
 really needed for your work.
+
+You may have to fix up permissions with 
+
+```
+$ scs.sh chown
+```
+
+If you want to remove directories.
 
 Good luck!
 
