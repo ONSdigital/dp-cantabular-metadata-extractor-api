@@ -109,6 +109,12 @@ Good luck!
 This is used to populate the recipe at the start of the journey, usually after
 `nuke-db.sh`.
 
+You will need to set your florence web password like
+
+```
+export FLORENCE_WEB_PW=XXXXX
+```
+
 * edit_meta_jor.side
 
 This is a Selenium IDE (browser plugin) script to run the "edit_metadata"
