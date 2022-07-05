@@ -17,8 +17,8 @@ SERVICES=(
     "dp-api-router,479c4c05d9d506993915d6cee0af356f7ed525be|"
     "dp-cantabular-api-ext,7dafd3c8cd8832b5644008a8248d57e5ee2924dc|make setup"
     "dp-cantabular-dimension-api,2872fdc4234d953ec050be6dc4b595c0a16eb260|"
-    "dp-cantabular-metadata-extractor-api,d3a786fff20662c3f79e83d013e7bd83bab4f596|"
-    "dp-cantabular-metadata-service,684c92c3cd8ed42f5ba2a5da640218de4f5f3ffb|make setup"
+    "dp-cantabular-metadata-extractor-api,4f994ffc13616defda0057a9166d237ca0ff6953|"
+    "dp-cantabular-metadata-service,d28e66ded9489a27f2e17c91ddb5897d9be7ff9c|make setup"
     "dp-cantabular-server,36bc476a7279c49efe405b8cf1fec25510f723d4|make setup"
     "dp-compose,2b4b94a7ce8894365d28a13fec315ed0d6a610e7|"
     "dp-dataset-api,fd48f0d07455363ce0a26273a8fa51f29d643c64|"
@@ -98,6 +98,7 @@ goodCloneServices() {
         git reset --hard "$sha"
         cd ..
         logSuccess "Cloned $repo"
+        echo
     done
 }
 

@@ -6,8 +6,8 @@ go 1.18
 replace github.com/spf13/cobra => github.com/spf13/cobra v1.4.0
 
 require (
-	// point dp-api-clients-go at feature/md-server-direct branch which we don't want to merge yet
-	github.com/ONSdigital/dp-api-clients-go/v2 v2.142.1-0.20220630123729-a2105bd509a7
+	// point dp-api-clients-go at feature/2021-md-stopgap branch which we don't want to merge yet
+	github.com/ONSdigital/dp-api-clients-go/v2 v2.142.1-0.20220715151843-809f8aa64763
 	github.com/ONSdigital/dp-component-test v0.7.0
 	github.com/ONSdigital/dp-healthcheck v1.3.0
 	github.com/ONSdigital/dp-net v1.4.1

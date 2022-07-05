@@ -27,7 +27,10 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 		return
 	}
 
-	md, err := api.GetMetadataDataset(ctx, params["cantdataset"], dimensions, params["lang"])
+	// XXX Are all vars in the same (cantabular) dataset?
+	cantdataset := string(mt.Service.Tables[0].DatasetName)
+
+	md, err := api.GetMetadataDataset(ctx, cantdataset, dimensions, params["lang"])
 	if err != nil {
 		log.Error(ctx, err.Error(), err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
