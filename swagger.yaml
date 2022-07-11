@@ -13,7 +13,7 @@ tags:
   - name: "public"
 paths:
 
-  /dataset/{dataset}/cantabular/{cant-dataset}/lang/{lang}:
+  /cantabular-metadata/dataset/{dataset}/cantabular/{cant-dataset}/lang/{lang}:
     get:
       parameters:
       - name: dataset

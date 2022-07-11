@@ -25,7 +25,7 @@ func TestSetup(t *testing.T) {
 		api := api.Setup(ctx, r, cfg, c)
 
 		Convey("When created the following routes should have been added", func() {
-			So(hasRoute(api.Router, "/dataset/{datasetID}/cantabular/{cantdataset}/lang/{lang}", "GET"), ShouldBeTrue)
+			So(hasRoute(api.Router, "/cantabular-metadata/dataset/{datasetID}/cantabular/{cantdataset}/lang/{lang}", "GET"), ShouldBeTrue)
 		})
 	})
 }
