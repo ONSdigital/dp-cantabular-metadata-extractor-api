@@ -28,7 +28,7 @@ func TestConfig(t *testing.T) {
 					GracefulShutdownTimeout:    5 * time.Second,
 					HealthCheckInterval:        30 * time.Second,
 					HealthCheckCriticalTimeout: 90 * time.Second,
-					CantabularExtURL:           "http://localhost:8492",
+					CantabularMetadataURL:      "http://localhost:8493",
 					ServiceAuthToken:           "FD0108EA-825D-411C-9B1D-41EF7727F465",
 				})
 			})

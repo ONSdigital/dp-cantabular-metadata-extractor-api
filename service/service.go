@@ -36,7 +36,7 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 
 	s := serviceList.GetHTTPServer(cfg.BindAddr, r)
 
-	c := cantabular.NewClient(cantabular.Config{ExtApiHost: cfg.CantabularExtURL}, dphttp.NewClient(), nil)
+	c := cantabular.NewClient(cantabular.Config{ExtApiHost: cfg.CantabularMetadataURL}, dphttp.NewClient(), nil)
 
 	// Setup the API
 	a := api.Setup(ctx, r, cfg, c)
