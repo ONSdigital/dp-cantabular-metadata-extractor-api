@@ -17,3 +17,5 @@ Session.vim
 
 coverage.out
 
+# Go
+.go/
