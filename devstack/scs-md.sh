@@ -1,6 +1,7 @@
-#!/usr/bin/env bash 
-# STM forked this from an existing copy
+#!/usr/bin/env bash
+# STM forked this from an existing version by Paulo Monteiro
 
+#set -x
 #set -e
 
 ##################### VARIABLES ##########################
@@ -10,56 +11,44 @@ GREEN="\e[32m"
 RESET="\e[0m"
 
 # services
-SERVICES="
-The-Train,9147c1fd7c3158059ec8e5ef7354c8aaaaf582a4
-babbage,dc7fe09edc188d1589360ad3cf74e8ecbef5c069
-dp-api-router,79c062a93180763f2036d086c7558a8b3e8a5183
-dp-cantabular-api-ext,a564bfa6ecab9acd9d1b2dc7c0014e74b5ce5774
-dp-cantabular-csv-exporter,57a14a73076d72ad26b06ea78680acdd2eec2c95
-dp-cantabular-dimension-api,1432fc302a41089de5050f531dbaf2cf1228050e
-dp-cantabular-filter-flex-api,f86d1eedd65f08ba8d89688b8579a03e2f69152c
-dp-cantabular-metadata-exporter,036f8a9e261c329ebd1e66124e8e568bcca60b5a
-dp-cantabular-metadata-extractor-api,c1bd3796c23454ed67e2a2616c6cfbd08a24cda4
-dp-cantabular-metadata-service,5b2e2ae67b267cbd1153531d025433a90795c47f
-dp-cantabular-server,abc98c5004bfb44b5499fd073a009dcd594af82f
-dp-cantabular-xlsx-exporter,4b30806bb3062fa2367f538c966bb69a597c9491
-dp-compose,53a6760a287958218d7c5a4a3307b2ce8e56efa8
-dp-dataset-api,91ce52a4b9fd72f813bfb03546b6cdbe3a710abd
-dp-download-service,286dfefa44ae48d584fe83555674dec0408b571e
-dp-filter-api,77b815b2433bd6578809be2bc9463989deb1a4fd
-dp-frontend-dataset-controller,89f49220392c6d2a10aabf4de403509e2045832e
-dp-frontend-filter-flex-dataset,d699162bd75b836c677349b9a7eafbde6b3cd6fd
-dp-frontend-router,0386e60c36248c8dd034947326b202d2d84774f2
-dp-import-api,13e04509e7da30fe989a17493fd488b06f8f361b
-dp-import-cantabular-dataset,0cc80b45f88e13bcf9e5606375fa9f7c95cd58a3
-dp-import-cantabular-dimension-options,0f87c20d6f13748f84e2779a701f8468ca9be23d
-dp-publishing-dataset-controller,027b4a070e538c5e73b39e1d858328a7d135828e
-dp-recipe-api,ec16d92b27c2c6d6b31cf8a8797e52f24a86e330
-florence,dfc5353b0d966e9bb3e7fceef1d5b23b3b2e7516
-zebedee,f4c7da4cb0c0abebb7a926942cbb308fe2142d3c
-"
+# special dp-compose & dp-cantabular-server
+SERVICES=(
+    "babbage,9addfc57ab7db67d1a2ac77b526bd6016a5eebb5|make build"
+    "dp-api-router,479c4c05d9d506993915d6cee0af356f7ed525be|"
+    "dp-cantabular-api-ext,7dafd3c8cd8832b5644008a8248d57e5ee2924dc|make setup"
+    "dp-cantabular-dimension-api,2872fdc4234d953ec050be6dc4b595c0a16eb260|"
+    "dp-cantabular-metadata-extractor-api,cba5436ea407ae9f8cb4467b0737e732b5f33dcb|"
+    "dp-cantabular-metadata-service,684c92c3cd8ed42f5ba2a5da640218de4f5f3ffb|make setup"
+    "dp-cantabular-server,36bc476a7279c49efe405b8cf1fec25510f723d4|make setup"
+    "dp-compose,921b616d84e351a968d5a11e4d76f5eeed12f540|"
+    "dp-dataset-api,fd48f0d07455363ce0a26273a8fa51f29d643c64|"
+    "dp-download-service,286dfefa44ae48d584fe83555674dec0408b571e|"
+    "dp-frontend-dataset-controller,9af0dc34764eb740eb9841abb5238aeddb0d3d1f|make generate-prod"
+    "dp-frontend-router,e325614d0b2fa5269e41bd8dc67fe15eaa42c00c|"
+    "dp-import-api,42363ef883f3de178e12258c386bbcf248f73dad|"
+    "dp-import-cantabular-dataset,ce7003ae2b9c3030e0b193eb91138bc3c8abe392|"
+    "dp-import-cantabular-dimension-options,8a8c4984e9126f1b3c142bbca3484f33f75747c0|"
+    "dp-publishing-dataset-controller,027b4a070e538c5e73b39e1d858328a7d135828e|"
+    "dp-recipe-api,bc72f556a36395b195b34cb94480d759b287c649|"
+    "florence,b086ec4e0a078942daad612582c95611a13ba465|make build"
+    "zebedee,b72fad73eeaeee792d22effc05fca874c4891ff6|make build"
+)
 
 # current directory
 DIR="$PWD"
-
-# directories
-DP_BABBAGE_DIR="$DIR/babbage"
-DP_CANTABULAR_API_EXT_DIR="$DIR/dp-cantabular-api-ext"
 DP_COMPOSE_DIR="$DIR/dp-compose"
-DP_CANTABULAR_IMPORT_DIR="$DP_COMPOSE_DIR/cantabular-import"
-DP_CANTABULAR_SERVER_DIR="$DIR/dp-cantabular-server"
-DP_CANTABULAR_METADATA_SERVER_DIR="$DIR/dp-cantabular-metadata-service"
-DP_FLORENCE_DIR="$DIR/florence"
-DP_FRONTEND_DATASET_CONTROLLER_DIR="$DIR/dp-frontend-dataset-controller"
-DP_FRONTEND_ROUTER_DIR="$DIR/dp-frontend-router"
-DP_THE_TRAIN_DIR="$DIR/The-Train"
-DP_ZEBEDEE_DIR="$DIR/zebedee"
-#DP_RECIPE_API_IMPORT_RECIPES_DIR="$DIR/dp-recipe-api/import-recipes" # STM
-#DP_DATASET_API_IMPORT_SCRIPT_DIR="$DIR/dp-dataset-api/import-script" # STM
-
 ACTION=$1
 
 ##################### FUNCTIONS ##########################
+
+getvalues() {
+    service=$1
+    repo="${service%,*}"
+    values="${service#*,}"
+    sha="${values%|*}"
+    cmd="${values#*|}"
+}
+
 logSuccess() {
     echo -e "$GREEN ${1} $RESET"
 }
@@ -92,8 +81,8 @@ splash() {
 
 cloneServices() {
     cd "$DIR" || exit
-    for service in $SERVICES; do
-        repo="${service%,*}"
+    for service in "${SERVICES[@]}"; do
+        getvalues "$service"
         git clone git@github.com:ONSdigital/"${repo}".git 2> /dev/null
         logSuccess "Cloned $repo"
     done
@@ -101,9 +90,8 @@ cloneServices() {
 
 goodCloneServices() {
     cd "$DIR" || exit
-    for service in $SERVICES; do
-        repo="${service%,*}"
-        sha="${service#*,}"
+    for service in "${SERVICES[@]}"; do
+        getvalues "$service"
         git clone git@github.com:ONSdigital/"${repo}".git 2> /dev/null
         cd "$repo" || exit
         git reset --hard "$sha"
@@ -116,8 +104,8 @@ rmServices() {
     cd "$DIR" || exit
     doChown
     chmod +w -R .
-    for service in $SERVICES; do
-        repo="${service%,*}"
+    for service in "${SERVICES[@]}"; do
+        getvalues "$service"
         rm -rf "$repo"
     done
 }
@@ -125,8 +113,8 @@ rmServices() {
 
 quickCloneServices() {
     cd "$DIR" || exit
-    for service in $SERVICES; do
-        repo="${service%,*}"
+    for service in "${SERVICES[@]}"; do
+        getvalues "$service"
         git clone --depth 1 git@github.com:ONSdigital/"${repo}".git 2> /dev/null
         logSuccess "Cloned $repo"
     done
@@ -144,100 +132,50 @@ pull() {
 
 initDB() {
     echo "Importing Recipes & Dataset documents..."
+    DP_CANTABULAR_IMPORT_DIR="$DP_COMPOSE_DIR/cantabular-import"
     cd "$DP_CANTABULAR_IMPORT_DIR" || exit
     make init-db
     logSuccess "Importing Recipes & Dataset documents... Done."
 }
 
 setupServices () {
+    cd "$DIR" || exit
+    for service in "${SERVICES[@]}"; do
+        getvalues "$service"
+        if [[ $cmd != "" ]]; then
+            cd "$repo" || exit
+            eval "$cmd"
+            cd "$DIR" || exit
+        fi
+    done
 
-    echo "Clean..."
-    cd "$DP_CANTABULAR_IMPORT_DIR" || exit
-    make full-clean
-    logSuccess "Clean... Done."
-
-    echo "Make Assets for dp-frontend-router..."
-    cd "$DP_FRONTEND_ROUTER_DIR" || exit
-    make assets
-    logSuccess "Make Assets for dp-frontend-router... Done."
-
-    echo "Generate prod for dp-frontend-dataset-controller..."
-    cd "$DP_FRONTEND_DATASET_CONTROLLER_DIR" || exit
-    make generate-prod
-    logSuccess "Generate prod for dp-frontend-dataset-controller... Done."
-
-    echo "Build florence..."
-    cd "$DP_FLORENCE_DIR" || exit
-    make build
-    logSuccess "Build florence...  Done."
-
-    echo "Build zebedee..."
-    cd "$DP_ZEBEDEE_DIR" || exit
-    make build
-    logSuccess "Build zebedee...  Done."
-
-    echo "Build babbage..."
-    cd "$DP_BABBAGE_DIR" || exit
-    make build
-    logSuccess "Build babbage...  Done."
-
-    echo "Build the-train..."
-    cd "$DP_THE_TRAIN_DIR" || exit
-    make build
-    logSuccess "Build the-train... Done."
-
-    echo "Preparing dp-cantabular-server..."
-    cd "$DP_CANTABULAR_SERVER_DIR" || exit
-    make setup
-    logSuccess "Preparing dp-cantabular-server... Done."
-
-    echo "Preparing dp-cantabular-metadata-service..."
-    cd "$DP_CANTABULAR_METADATA_SERVER_DIR" || exit
-    make setup
-    logSuccess "Preparing dp-cantabular-metadata-service... Done."
-
-    echo "Preparing dp-cantabular-api-ext..."
-    cd "$DP_CANTABULAR_API_EXT_DIR" || exit
-    make setup
-    logSuccess "Preparing dp-cantabular-api-ext... Done."
-
-    cd "Preparing dp-frontend-filter-flex-dataset..."
-    cd "$DIR/dp-frontend-filter-flex-dataset" || exit
-    make generate-prod
-    logSuccess "Preparing dp-frontend-filter-flex-dataset... Done."
-    
     upServices
 
     initDB
 }
 
 upServices () {
-    echo "Starting dp cantabular import..."
-    cd "$DP_CANTABULAR_IMPORT_DIR" || exit
-    make start-detached
-    echo "Starting dp cantabular import... Done."
+    echo "Starting cantabular-metadata-pub..."
+    cd "$DP_COMPOSE_DIR/cantabular-metadata-pub" || exit
+    ./compose.sh up -d
+    echo "Starting dp cantabular metadata pub... Done."
     pollFlorence
     logSuccess "Florence is available at http://localhost:8081/florence"
     logSuccess "         if 1st time accessing it the credentials are: florence@magicroundabout.ons.gov.uk / Doug4l"
     logSuccess "You may need to clear cookies"
 }
 
-
 downServices () {
-    echo "Stopping base services..."
-    cd "$DP_COMPOSE_DIR" || exit
-    docker-compose down
-    logSuccess "Stopping base services... Done."
-
-    echo "Stopping dp cantabular import..."
-    cd "$DP_CANTABULAR_IMPORT_DIR" || exit
-    make stop
-    logSuccess "Stopping dp cantabular import... Done."
+    echo "Stopping cantabular-metadata-pub..."
+    cd "$DP_COMPOSE_DIR/cantabular-metadata-pub" || exit
+    ./compose.sh stop
+    echo "Stopping cantabular-metadata-pub... Done"
 }
 
 doChown () {
     sudo chown -R "$USER": "$DIR"
 }
+
 
 rmDocker() {
     # Stop all containers

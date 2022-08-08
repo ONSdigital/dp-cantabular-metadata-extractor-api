@@ -7,7 +7,7 @@ and run those copies.
 
 A description of the scripts follows.
 
-* scs.sh
+* scs-md.sh
 
 This is a wrapper script I forked after being given it by members of Team B which
 now works to check out and run known versions of repos as used by
@@ -29,10 +29,10 @@ works for all cantabular journeys, but it should help.
 Usual workflow to provision is
 
 ```
-$ scs.sh rmdocker # if you have old docker containers clean start
-$ scs.sh goodclone
+$ scs-md.sh rmdocker # if you have old docker containers clean start
+$ scs-md.sh goodclone
 # after this point you might want to checkout branches in particular repos you are working on
-$ scs.sh setup
+$ scs-md.sh setup
 ```
 
 Beware services can take a long time to start.  The whole system can take many
@@ -43,11 +43,11 @@ It's not likely to work first time and debugging (see below) is often needed.
 Restarting everything can be done via
 
 ```
-$ scs.sh down
-$ scs.sh up
+$ scs-md.sh down
+$ scs-md.sh up
 ```
 
-There is a nuclear option `scs.sh rmdocker` to aggressively remove docker instances
+There is a nuclear option `scs-md.sh rmdocker` to aggressively remove docker instances
 etc. if you need to restart from scratch.
 
 * health.sh
@@ -63,7 +63,7 @@ This resets the mongo database to a fresh state
 
 * ver.sh
 
-This is used to help maintain "pinned" versions in `scs.sh` and can be ignored
+This is used to help maintain "pinned" versions in `scs-md.sh` and can be ignored
 in normal use.
 
 ## General Debugging Suggestions
@@ -95,7 +95,7 @@ really needed for your work.
 You may have to fix up permissions with 
 
 ```
-$ scs.sh chown
+$ scs-md.sh chown
 ```
 
 If you want to remove directories.
