@@ -11,7 +11,7 @@ A description of the scripts follows.
 
 This is a wrapper script I forked after being given it by members of Team B which
 now works to check out and run known versions of repos as used by
-`dp-compose/cantabular-import`
+`dp-compose/cantabular-metadata-pub`
 
 The versions are specified via lines like
 `dp-api-router,4a775fb3aa62dd005996e471587625f29429fa08|` 
