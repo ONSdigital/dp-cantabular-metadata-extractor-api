@@ -15,7 +15,7 @@ RESET="\e[0m"
 SERVICES=(
     "babbage,9addfc57ab7db67d1a2ac77b526bd6016a5eebb5|make build"
     "dp-api-router,479c4c05d9d506993915d6cee0af356f7ed525be|"
-    "dp-cantabular-api-ext,7dafd3c8cd8832b5644008a8248d57e5ee2924dc|make setup"
+    "dp-cantabular-api-ext,777ecae90671b38c0bdf466693fc0d9c838463cf|make setup"
     "dp-cantabular-dimension-api,2872fdc4234d953ec050be6dc4b595c0a16eb260|"
     "dp-cantabular-metadata-extractor-api,cba5436ea407ae9f8cb4467b0737e732b5f33dcb|"
     "dp-cantabular-metadata-service,684c92c3cd8ed42f5ba2a5da640218de4f5f3ffb|make setup"
