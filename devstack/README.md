@@ -14,7 +14,7 @@ now works to check out and run known versions of repos as used by
 `dp-compose/cantabular-import`
 
 The versions are specified via lines like
-`dp-api-router,4a775fb3aa62dd005996e471587625f29429fa08` 
+`dp-api-router,4a775fb3aa62dd005996e471587625f29429fa08|` 
 
 These *old* versions have been tested to "work" (for certain values of!) in
 combination.  If you are working on a particular repo you may need to manually
@@ -40,6 +40,9 @@ mins to fully work.  Use florence to confirm the stack works as expected.
 
 It's not likely to work first time and debugging (see below) is often needed.
 
+Hopefully recent versions of `scs-md.sh` should provision a more minimal and
+stable stack.
+
 Restarting everything can be done via
 
 ```
@@ -48,7 +51,8 @@ $ scs-md.sh up
 ```
 
 There is a nuclear option `scs-md.sh rmdocker` to aggressively remove docker instances
-etc. if you need to restart from scratch.
+etc. if you need to restart from scratch.  This will destroy all traces of docker data
+not just this stack.
 
 * health.sh
 
@@ -73,12 +77,12 @@ On Linux, I found adding extra swap helped.
 
 It's not unusual for the whole stack to take quite a while to debug.  Look at
 the output of `health.sh` above and try to identify which services are broken
-(not running, not responding etc.).  Try restarting those docker containers and
-looking at container logs, e.g.
+(not running, not responding etc.).  Although this script can only contact
+ports exposed on localhost and not all the docker internal ones. Try restarting
+those docker containers and looking at container logs, e.g.
 
 ```
-$ cd dp-compose/cantabular-import
-$ ./logs dp-cantabular-api-ext
+$ docker logs -f cantabular-metadata-pub_dp-cantabular-metadata-extractor-api_1
 ```
 
 Note `health.sh` can't check the health of things exclusively accessible from
