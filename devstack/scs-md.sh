@@ -24,7 +24,7 @@ SERVICES=(
     "dp-dataset-api,fd48f0d07455363ce0a26273a8fa51f29d643c64|"
     "dp-download-service,286dfefa44ae48d584fe83555674dec0408b571e|"
     "dp-frontend-dataset-controller,9af0dc34764eb740eb9841abb5238aeddb0d3d1f|make generate-prod"
-    "dp-frontend-router,e325614d0b2fa5269e41bd8dc67fe15eaa42c00c|"
+    "dp-frontend-router,e325614d0b2fa5269e41bd8dc67fe15eaa42c00c|make assets"
     "dp-import-api,42363ef883f3de178e12258c386bbcf248f73dad|"
     "dp-import-cantabular-dataset,ce7003ae2b9c3030e0b193eb91138bc3c8abe392|"
     "dp-import-cantabular-dimension-options,8a8c4984e9126f1b3c142bbca3484f33f75747c0|"
