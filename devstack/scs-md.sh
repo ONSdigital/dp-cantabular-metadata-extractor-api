@@ -32,6 +32,7 @@ SERVICES=(
     "dp-recipe-api,bc72f556a36395b195b34cb94480d759b287c649|"
     "florence,b086ec4e0a078942daad612582c95611a13ba465|make build"
     "zebedee,b72fad73eeaeee792d22effc05fca874c4891ff6|make build"
+    "The-Train,9147c1fd7c3158059ec8e5ef7354c8aaaaf582a4|make build"
 )
 
 # current directory
