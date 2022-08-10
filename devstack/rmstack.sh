@@ -8,6 +8,6 @@ for cont in "${conts[@]}"; do
 done
 
 images=($(docker images "$NAME*" --format={{.Repository}}))
-for image in "${conts[@]}"; do
+for image in "${images[@]}"; do
     docker rmi -f $image
 done
