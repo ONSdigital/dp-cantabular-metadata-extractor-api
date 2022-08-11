@@ -106,6 +106,7 @@ goodCloneServices() {
 bumpOurs() {
     cd "$DIR" || exit
     cd dp-cantabular-metadata-extractor-api
+    git checkout feature/devstack-minimal-2021
     git pull
     cd ..
     # TODO florence etc.
