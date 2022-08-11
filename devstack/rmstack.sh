@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-NAME="cantabular-metadata-pub"
+NAME="cantabular-metadata-pub-2021"
 
 conts=($(docker ps -a --filter=name="$NAME" --format="{{.Names}}"))
 for cont in "${conts[@]}"; do
