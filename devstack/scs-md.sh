@@ -100,6 +100,15 @@ goodCloneServices() {
         logSuccess "Cloned $repo"
         echo
     done
+    bumpOurs
+}
+
+bumpOurs() {
+    cd "$DIR" || exit
+    cd dp-cantabular-metadata-extractor-api
+    git pull
+    cd ..
+    # TODO florence etc.
 }
 
 rmServices() {
