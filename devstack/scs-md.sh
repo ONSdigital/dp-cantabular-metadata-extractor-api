@@ -26,7 +26,7 @@ SERVICES=(
     "dp-frontend-dataset-controller,9af0dc34764eb740eb9841abb5238aeddb0d3d1f|make generate-prod"
     "dp-frontend-router,e325614d0b2fa5269e41bd8dc67fe15eaa42c00c|make assets"
     "dp-import-api,42363ef883f3de178e12258c386bbcf248f73dad|"
-    "dp-import-cantabular-dataset,ce7003ae2b9c3030e0b193eb91138bc3c8abe392|"
+    "dp-import-cantabular-dataset,12d261dad5a33c44f16a1a065dfedfa15c9235c9|"
     "dp-import-cantabular-dimension-options,8a8c4984e9126f1b3c142bbca3484f33f75747c0|"
     "dp-publishing-dataset-controller,027b4a070e538c5e73b39e1d858328a7d135828e|"
     "dp-recipe-api,bc72f556a36395b195b34cb94480d759b287c649|"
