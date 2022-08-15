@@ -7,5 +7,5 @@ conts=($(docker ps --filter=name="cantabular-metadata-pub" --format="{{.Names}}"
 for cont in "${conts[@]}"; do
     echo
     echo "$cont"
-    docker logs $cont | tail "-$LINES"
+    docker logs $cont > $cont.log
 done
