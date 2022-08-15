@@ -19,7 +19,7 @@ SERVICES=(
     "dp-cantabular-dimension-api,2872fdc4234d953ec050be6dc4b595c0a16eb260|"
     "dp-cantabular-metadata-extractor-api,2809afb1228611da7cec107ae2e48483283b0270|"
     "dp-cantabular-metadata-service,d28e66ded9489a27f2e17c91ddb5897d9be7ff9c|make setup"
-    "dp-cantabular-server,36bc476a7279c49efe405b8cf1fec25510f723d4|make setup"
+    "dp-cantabular-server,3a5a2e83762152b3e45df3dabb37ef5ad9bde244|make setup"
     "dp-compose,41f6429098632ee6738bb5b06ac69e89df0332c3|"
     "dp-dataset-api,fd48f0d07455363ce0a26273a8fa51f29d643c64|"
     "dp-download-service,286dfefa44ae48d584fe83555674dec0408b571e|"
