@@ -1,19 +1,8 @@
 #!/usr/bin/env bash
 #set -x
  
-# This is RM003 ("Dataset_Mnemonic_2011": "LC4402EW") but with no geography dimension
-# due to a mismatch between the real 2021 metadata & synthetic 2021 data.
-#
-# This should be something like OA or RGNCD(?)
-#
-#           {
-#            "href": "http://localhost:22400/code-lists/RGNCD",
-#            "id": "RGNCD",
-#            "is_hierarchy": false,
-#            "name": "Region",
-#            "is_cantabular_geography": true,
-#            "is_cantabular_default_geography": true
-#          },
+# This is RM003 ("Dataset_Mnemonic_2011": "LC4402EW") but with "ladcd" rather than "oa"
+# since "oa" doesn't work!
 
 url=http://localhost:8082/login
 token=$(curl -s -d "{\"email\":\"florence@magicroundabout.ons.gov.uk\",\"password\":\"$FLORENCE_WEB_PW\"}" $url)
@@ -27,6 +16,15 @@ payload='{
     {
        
         "code_lists": [
+           {
+            "href": "http://localhost:22400/code-lists/ladcd",
+            "id": "ladcd",
+            "is_hierarchy": false,
+            "name": "Region",
+            "is_cantabular_geography": true,
+            "is_cantabular_default_geography": true
+          },
+
           {
             "href": "http://localhost:22400/code-lists/accommodation_type_5a",
             "id": "accommodation_type_5a",
