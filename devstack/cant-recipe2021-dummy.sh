@@ -20,7 +20,7 @@ payload='{
             "href": "http://localhost:22400/code-lists/ladcd",
             "id": "ladcd",
             "is_hierarchy": false,
-            "name": "Region",
+            "name": "LAD (XXX should be OA)",
             "is_cantabular_geography": true,
             "is_cantabular_default_geography": true
           },
