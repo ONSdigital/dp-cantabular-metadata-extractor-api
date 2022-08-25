@@ -7,41 +7,33 @@ token=$(curl -s -d "{\"email\":\"florence@magicroundabout.ons.gov.uk\",\"passwor
 
 payload='{
   "alias": "Testing for metadata demo v3",
-  "cantabular_blob": "Teaching-Dataset",
+  "cantabular_blob": "dp_synth_dataset",
   "format": "cantabular_table",
   "id": "la2e031b-3064-427d-8fed-4b35c99bf1a0",
   "output_instances": [
+  {
+
+    "code_lists": [
     {
-       
-        "code_lists": [
-           {
-            "href": "http://localhost:22400/code-lists/region",
-            "id": "region",
-            "is_hierarchy": false,
-            "name": "Region",
-            "is_cantabular_geography": true,
-            "is_cantabular_default_geography": true
-          },
-          {
-            "href": "http://localhost:22400/code-lists/sex",
-            "id": "sex",
-            "is_hierarchy": false,
-            "name": "Sex",
-            "is_cantabular_geography": false,
-             "is_cantabular_default_geography": false
-          },
-          {
-            "href": "http://localhost:22400/code-lists/age",
-            "id": "age",
-            "is_hierarchy": false,
-            "name": "Age",
-            "is_cantabular_geography": false,
-             "is_cantabular_default_geography": false
-          }
-      ],
-      "dataset_id": "LC1117EW",
-      "editions": [
-        "2021"
+      "href": "http://localhost:22400/code-lists/ltla",
+      "id": "ltla",
+      "is_hierarchy": false,
+      "name": "ltla",
+      "is_cantabular_geography": true,
+      "is_cantabular_default_geography": true
+    },
+    {
+      "href": "http://localhost:22400/code-lists/sex",
+      "id": "sex",
+      "is_hierarchy": false,
+      "name": "sex",
+      "is_cantabular_geography": false,
+      "is_cantabular_default_geography": false
+    }
+    ],
+    "dataset_id": "TS009",
+    "editions": [
+    "2021"
       ],
       "title": "Testing for metadata demo v3"
     }
