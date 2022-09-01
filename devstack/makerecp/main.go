@@ -16,20 +16,36 @@ func main() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	var id, host string
+	var id, host, extapihost, checkdims string
 	var check, setalias, list bool
 	flag.StringVar(&id, "id", "TS009", "specify pre-defined query id")
 	flag.StringVar(&host, "host", "http://localhost:28300", "specify extractor-api url")
+	flag.StringVar(&extapihost, "extapihost", "http://localhost:8492", "specify extapi url")
+	flag.StringVar(&checkdims, "checkdims", "", "check list of dims, eg. \"ltla,sex\" ")
 	flag.BoolVar(&setalias, "setalias", false, "set alias/name automatically from metadata server label")
-	flag.BoolVar(&check, "check", false, "")
+	flag.BoolVar(&check, "check", false, "check specified id")
 	flag.BoolVar(&list, "list", false, "list ids known to this program")
 	flag.Parse()
 
-	cr := createrecipe.New(id, host)
+	cr := createrecipe.New(id, host, extapihost)
 
 	if list {
 		fmt.Println(strings.Join(cr.ValidIDs, " "))
 		os.Exit(0)
+	}
+
+	if checkdims != "" {
+		cr.Dimensions = strings.Split(checkdims, ",")
+		if !cr.OKDimsInDS() {
+			log.Fatalf("dims '%#v' not fully present in '%s' dataset", cr.Dimensions, "dp_synth_dataset") // XXX
+		} else {
+			fmt.Println("dims OK")
+		}
+		os.Exit(0)
+	}
+
+	if !cr.OKDimsInDS() {
+		log.Fatalf("dims '%#v' not fully present in '%s' dataset", cr.Dimensions, "dp_synth_dataset") // XXX
 	}
 
 	if !cr.CheckID() {

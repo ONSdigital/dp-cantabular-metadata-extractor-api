@@ -6,7 +6,9 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"sort"
+	"strings"
 )
 
 type Recipe struct {
@@ -63,16 +65,22 @@ type CreateRecipe struct {
 	ONSDataSetID string
 	Dimensions   []string
 	Host         string
+	ExtApiHost   string
 	ValidIDs     []string
 }
 
-func New(id, host string) *CreateRecipe {
+func New(id, host, extApiHost string) *CreateRecipe {
 	var validIDs []string
 	for k := range GetMap() {
 		validIDs = append(validIDs, k)
 	}
 	sort.Strings(validIDs)
-	return &CreateRecipe{ONSDataSetID: id, Host: host, Dimensions: GetMap()[id], ValidIDs: validIDs}
+	return &CreateRecipe{
+		ONSDataSetID: id,
+		Host:         host,
+		ExtApiHost:   extApiHost,
+		Dimensions:   GetMap()[id],
+		ValidIDs:     validIDs}
 }
 
 func (cr *CreateRecipe) GetMetaData() (TableFrag, error) {
@@ -118,6 +126,35 @@ func (cr *CreateRecipe) CheckID() bool {
 	return InSlice(cr.ONSDataSetID, cr.ValidIDs)
 }
 
+func (cr *CreateRecipe) OKDimsInDS() bool {
+
+	query := `variables={}&query={
+dataset(name:"dp_synth_dataset") {
+	variables(names:["%s"]) {
+	  edges {
+		node {
+		  name 
+		  description
+		  label
+		}
+	  }
+	}
+   }
+ } `
+
+	payload := url.PathEscape(fmt.Sprintf(query, strings.Join(cr.Dimensions, "\",\"")))
+
+	resp, err := http.Get(fmt.Sprintf("%s/graphql?%s", cr.ExtApiHost, payload))
+	if err != nil {
+		log.Print(err)
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+
+	return !strings.Contains(string(body), "does not exist")
+
+}
+
 // GetMap returns our definitions as the Golden Source of Truth (maybe)
 func GetMap() map[string][]string {
 	// these are the real values and we overside the geo ones, eg. oa
@@ -128,7 +165,7 @@ func GetMap() map[string][]string {
 		"AP011": {"oa", "main_language_11a"},                        // broken in MD release
 		"AP025": {"oa", "industry_current_9a"},                      // broken in MD release
 		"AP026": {"oa", "occupation_current_10a"},                   // broken in MD release
-		"AP027": {"ltla", "transport_to_work"},                      // WORKS
+		"AP027": {"ltla", "transport_to_work"},                      // broken dataset lacks dims
 		"RM014": {"ltla", "workplace_travel_5a", "resident_age_6a"}, // broken in MD release
 		"TS009": {"ltla", "sex"},                                    // WORKS
 	}
