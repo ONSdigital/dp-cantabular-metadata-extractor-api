@@ -171,6 +171,7 @@ func GetMap() map[string][]string {
 		"RM154": {"oa", "welsh_skills_speak", "has_ever_worked"}, // WORKS
 		"TS002": {"oa", "legal_partnership_status"},              // WORKS
 		"TS009": {"ltla", "sex"},                                 // WORKS
+		"TS013": {"oa", "passports_all"},                         // WORKS
 	}
 
 	for _, v := range m {
