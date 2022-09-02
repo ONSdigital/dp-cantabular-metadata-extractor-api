@@ -89,9 +89,9 @@ func main() {
 
 	r := createrecipe.Recipe{
 		Alias:          alias,
-		CantabularBlob: "dp_synth_dataset",
+		CantabularBlob: "dp_synth_dataset", // XXX
 		Format:         "cantabular_table",
-		ID:             "la2e031b-3064-427d-8fed-4b35c99bf1a0", // XXX
+		ID:             cr.UUID,
 	}
 
 	r.OutputInstances = []createrecipe.OutputInstance{{ // XXX

@@ -1,6 +1,7 @@
 package createrecipe
 
 import (
+	"crypto/rand"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -67,6 +68,7 @@ type CreateRecipe struct {
 	Host         string
 	ExtApiHost   string
 	ValidIDs     []string
+	UUID         string
 }
 
 func New(id, host, extApiHost string) *CreateRecipe {
@@ -80,7 +82,9 @@ func New(id, host, extApiHost string) *CreateRecipe {
 		Host:         host,
 		ExtApiHost:   extApiHost,
 		Dimensions:   GetMap()[id],
-		ValidIDs:     validIDs}
+		ValidIDs:     validIDs,
+		UUID:         uuidV4(),
+	}
 }
 
 func (cr *CreateRecipe) GetMetaData() (TableFrag, error) {
@@ -219,4 +223,22 @@ func InSlice(s string, ss []string) bool {
 	}
 
 	return false
+}
+
+func uuidV4() (uuid string) {
+	b := make([]byte, 16)
+	_, err := rand.Read(b)
+	if err != nil {
+		fmt.Println("Error: ", err)
+		return uuid
+	}
+
+	// for version 4 (rand) uuid
+	// this makes sure that the 13th character is "4"
+	b[6] = (b[6] | 0x40) & 0x4F
+	// this makes sure that the 17th is "8", "9", "a", or "b"
+	b[8] = (b[8] | 0x80) & 0xBF
+
+	uuid = fmt.Sprintf("%x-%x-%x-%x-%x", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
+	return uuid
 }
