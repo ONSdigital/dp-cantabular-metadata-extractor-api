@@ -2,6 +2,8 @@
 
 `makerecp` as its name suggests will create the JSON payload for the Recipe API
 
+All below commands need running from this directory.
+
 It can also check whether the expected data exists in the metadata server.
 
 A list of "working" (in the sense of the metadata journey working to preview) 
