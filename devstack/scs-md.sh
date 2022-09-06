@@ -35,6 +35,7 @@ SERVICES=(
     "The-Train,9147c1fd7c3158059ec8e5ef7354c8aaaaf582a4|make build"
     "dp-filter-api,9e02b82e27cedc56010505b4176a2f6c12b1174c|"
     "dp-cantabular-csv-exporter,500a1e4a4646f503f7f055b85c837c6358b6ba65|"
+    "dp-topic-api,df14142836c9fa95411a0347c3a372148c6778d9|"
 )
 
 # current directory
