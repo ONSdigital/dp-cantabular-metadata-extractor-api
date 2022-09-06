@@ -178,6 +178,9 @@ func GetMap() map[string][]string {
 		"TS013": {"oa", "passports_all"},                         // WORKS
 	}
 
+	// Following should also work
+	//TS008, TS015,  TS024, TS027, TS029, TS030, TS032, TS033, TS034, TS035, TS036, TS037, TS038, TS039, TS055, TS059, TS065, AP012, AP013, AP014, AP024, RM023, RM024, RM025, RM031, RM032, RM044, RM045, RM054, RM055, RM056, RM065, RM072, RM074, RM088, RM089, RM092, RM093, RM105, RM106, RM118, RM121, RM148, RM149, RM150, RM151, RM152, RM154, RM156, RM157, RM161
+
 	for _, v := range m {
 		// XXX we need to override to be "ltla" always Fran 20220831
 		v[0] = "ltla"
