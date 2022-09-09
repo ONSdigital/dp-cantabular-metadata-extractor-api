@@ -36,6 +36,7 @@ SERVICES=(
     "dp-filter-api,9e02b82e27cedc56010505b4176a2f6c12b1174c|"
     "dp-cantabular-csv-exporter,500a1e4a4646f503f7f055b85c837c6358b6ba65|"
     "dp-topic-api,df14142836c9fa95411a0347c3a372148c6778d9|"
+    "dp-data-tools,86891bad6ab850fb76f9c252c5924fce7142b977|"
 )
 
 # current directory
@@ -151,6 +152,14 @@ initDB() {
     cd "$DP_CANTABULAR_IMPORT_DIR" || exit
     make init-db
     logSuccess "Importing Recipes & Dataset documents... Done."
+    echo "Importing Topics"
+    cd "$DIR"
+    cd dp-data-tools || exit
+    mongo topics-tools/gen-topics-database/mongo-init-scripts/topics-init.js
+    cd ..
+    cd dp-topic-api/db-scripts/insert-census-topics || exit
+    mongo localhost:27017/topics insert-census-topics.js
+    logSuccess "Topics"
 }
 
 setupServices () {
