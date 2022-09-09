@@ -20,7 +20,7 @@ SERVICES=(
     "dp-cantabular-metadata-extractor-api,2809afb1228611da7cec107ae2e48483283b0270|"
     "dp-cantabular-metadata-service,d28e66ded9489a27f2e17c91ddb5897d9be7ff9c|make setup"
     "dp-cantabular-server,3a5a2e83762152b3e45df3dabb37ef5ad9bde244|make setup"
-    "dp-compose,41f6429098632ee6738bb5b06ac69e89df0332c3|"
+    "dp-compose,cc7ac20e6cdb09130beaf57a9a95383cf9e98554|"
     "dp-dataset-api,fd48f0d07455363ce0a26273a8fa51f29d643c64|"
     "dp-download-service,286dfefa44ae48d584fe83555674dec0408b571e|"
     "dp-frontend-dataset-controller,9af0dc34764eb740eb9841abb5238aeddb0d3d1f|make generate-prod"
@@ -35,7 +35,7 @@ SERVICES=(
     "The-Train,9147c1fd7c3158059ec8e5ef7354c8aaaaf582a4|make build"
     "dp-filter-api,9e02b82e27cedc56010505b4176a2f6c12b1174c|"
     "dp-cantabular-csv-exporter,500a1e4a4646f503f7f055b85c837c6358b6ba65|"
-    "dp-topic-api,df14142836c9fa95411a0347c3a372148c6778d9|"
+    "dp-topic-api,9f16fa3ed83c8c05a09f3dde39c847b3b38b71a6|"
     "dp-data-tools,86891bad6ab850fb76f9c252c5924fce7142b977|"
 )
 
