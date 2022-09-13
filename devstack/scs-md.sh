@@ -92,6 +92,10 @@ cloneServices() {
     cd "$DIR" || exit
     for service in "${SERVICES[@]}"; do
         getvalues "$service"
+        if [[ $repo == "dp-cantabular-metadata-extractor-api" ]]; then
+            echo "skipping $repo"
+            continue
+        fi
         git clone git@github.com:ONSdigital/"${repo}".git 2> /dev/null
         logSuccess "Cloned $repo"
     done
@@ -101,6 +105,10 @@ goodCloneServices() {
     cd "$DIR" || exit
     for service in "${SERVICES[@]}"; do
         getvalues "$service"
+        if [[ $repo == "dp-cantabular-metadata-extractor-api" ]]; then
+            echo "skipping $repo"
+            continue
+        fi
         git clone git@github.com:ONSdigital/"${repo}".git 2> /dev/null
         cd "$repo" || exit
         git reset --hard "$sha"
@@ -108,16 +116,6 @@ goodCloneServices() {
         logSuccess "Cloned $repo"
         echo
     done
-    bumpOurs
-}
-
-bumpOurs() {
-    cd "$DIR" || exit
-    cd dp-cantabular-metadata-extractor-api
-    git checkout feature/devstack-minimal-2021
-    git pull
-    cd ..
-    # TODO florence etc.
 }
 
 rmServices() {
@@ -126,6 +124,10 @@ rmServices() {
     chmod +w -R .
     for service in "${SERVICES[@]}"; do
         getvalues "$service"
+        if [[ $repo == "dp-cantabular-metadata-extractor-api" ]]; then
+            echo "skipping $repo"
+            continue
+        fi
         rm -rf "$repo"
     done
 }
@@ -135,6 +137,10 @@ quickCloneServices() {
     cd "$DIR" || exit
     for service in "${SERVICES[@]}"; do
         getvalues "$service"
+        if [[ $repo == "dp-cantabular-metadata-extractor-api" ]]; then
+            echo "skipping $repo"
+            continue
+        fi
         git clone --depth 1 git@github.com:ONSdigital/"${repo}".git 2> /dev/null
         logSuccess "Cloned $repo"
     done
@@ -143,6 +149,10 @@ quickCloneServices() {
 
 pull() {
     for repo in */ ; do
+        if [[ $repo == "dp-cantabular-metadata-extractor-api" ]]; then
+            echo "skipping $repo"
+            continue
+        fi
         cd "$DIR/$repo" || exit
         git pull 2> /dev/null
         logSuccess "'$repo' updated"
