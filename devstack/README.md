@@ -123,3 +123,7 @@ export FLORENCE_WEB_PW=XXXXX
 
 This is a Selenium IDE (browser plugin) script to run the "edit_metadata"
 journey on florence.  Looking at it may be useful for related journeys.
+
+PUBLISHING 
+
+Published content is at eg. http://localhost:20000/datasets/TS009/editions/2021/versions/1
