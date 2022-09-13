@@ -119,7 +119,7 @@ goodCloneServices() {
         fi
         git clone git@github.com:ONSdigital/"${repo}".git 2> /dev/null
         cd "$repo" || exit
-        git checkout "$sha"
+        git checkout -q "$sha"
         cd ..
         logSuccess "Cloned $repo"
         echo
