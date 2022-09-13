@@ -24,7 +24,7 @@ SERVICES=(
     "dp-cantabular-metadata-service,4d0bee11d392909bd89710ef09bdd04e0958173f|make setup"
     "dp-cantabular-server,4b7a6958b98d621a0c802ef5849b22c24a19c46f|make setup"
     "dp-cantabular-xlsx-exporter,f3ecb0547cd522abb01d95a980a5d16bfbb5e043|"
-    "dp-compose,e80f3e61dcf147143091c8f0a6b424a7b319bc74|"
+    "dp-compose,e80f3e61dcf147143091c8f0a6b424a7b319bc74|cd cantabular-import/minio && sudo chown -R 1001:1001 data"
     "dp-data-tools,86891bad6ab850fb76f9c252c5924fce7142b977|"
     "dp-dataset-api,7439ea1ddc32f1d8a40b288caf56387cb4fcccfb|"
     "dp-download-service,286dfefa44ae48d584fe83555674dec0408b571e|"
