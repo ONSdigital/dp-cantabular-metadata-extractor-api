@@ -126,4 +126,8 @@ journey on florence.  Looking at it may be useful for related journeys.
 
 PUBLISHING 
 
-Published content is at eg. http://localhost:20000/datasets/TS009/editions/2021/versions/1
+Published dataset landing page is at eg.
+http://localhost:20000/datasets/TS009/editions/2021/versions/1
+
+The four files are visible at http://localhost:9002/buckets/public-bucket/browse
+
