@@ -22,9 +22,9 @@ SERVICES=(
     "dp-cantabular-metadata-exporter,39b239804592ad7668c5f277ea19f83d0f88ecfb|"
     "dp-cantabular-metadata-extractor-api,e3ba4e10950473204316ef6fb0a2de92ed44011e|"
     "dp-cantabular-metadata-service,4d0bee11d392909bd89710ef09bdd04e0958173f|make setup"
-    "dp-cantabular-server,4b7a6958b98d621a0c802ef5849b22c24a19c46f|make setup"
+    "dp-cantabular-server,4b7a6958b98d621a0c802ef5849b22c24a19c46f|../dp-cantabular-metadata-extractor-api/devstack/patchcantabular.sh"
     "dp-cantabular-xlsx-exporter,f3ecb0547cd522abb01d95a980a5d16bfbb5e043|"
-    "dp-compose,e80f3e61dcf147143091c8f0a6b424a7b319bc74|cd cantabular-import/minio && sudo chown -R 1001:1001 data"
+    "dp-compose,29f9c6dda9ef4aeb26240c56d9de342eef8eff98|cd cantabular-import/minio && sudo chown -R 1001:1001 data"
     "dp-data-tools,86891bad6ab850fb76f9c252c5924fce7142b977|"
     "dp-dataset-api,7439ea1ddc32f1d8a40b288caf56387cb4fcccfb|"
     "dp-download-service,286dfefa44ae48d584fe83555674dec0408b571e|"
@@ -41,12 +41,20 @@ SERVICES=(
     "zebedee,b72fad73eeaeee792d22effc05fca874c4891ff6|make build"
 )
 #    "dp-file-downloader,e512a28e32f7686a6afcbd6929f145a198aa55ca|"
+# "dp-cantabular-server,4b7a6958b98d621a0c802ef5849b22c24a19c46f|make setup"
 #    florence
 
 # current directory
 DIR="$PWD"
 DP_COMPOSE_DIR="$DIR/dp-compose"
 ACTION=$1
+
+############# override .dat (temp?)
+
+if ! [[ -f "dp_synth_config.dat" ]]; then
+    echo "need to copy dp_synth_config.dat to $PWD"
+    exit 1
+fi
 
 ##################### FUNCTIONS ##########################
 
@@ -111,7 +119,7 @@ goodCloneServices() {
         fi
         git clone git@github.com:ONSdigital/"${repo}".git 2> /dev/null
         cd "$repo" || exit
-        git reset --hard "$sha"
+        git checkout "$sha"
         cd ..
         logSuccess "Cloned $repo"
         echo
