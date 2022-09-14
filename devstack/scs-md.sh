@@ -51,8 +51,8 @@ ACTION=$1
 
 ############# override .dat (temp?)
 
-if ! [[ -f "dp_synth_config.dat" ]]; then
-    echo "need to copy dp_synth_config.dat to $PWD"
+if ! [[ -f "dp_synth_config_1.dat" ]]; then
+    echo "need to copy dp_synth_config_1.dat to $PWD"
     exit 1
 fi
 
