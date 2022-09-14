@@ -56,11 +56,11 @@ type TableFrag struct {
 	} `json:"table_query_result"`
 }
 
-// data tested against "dp_synth_dataset" 20220830
-// XXX only cantabular dataset ids which originally used "UR" (now mapped to "dp_synth_dataset"
+// data tested against "UR" 20220830
+// XXX only cantabular dataset ids which originally used "UR" (now mapped to "UR"
 // will work)
 
-const HackedDataSetName = "dp_synth_dataset"
+const HackedDataSetName = "UR"
 
 type CreateRecipe struct {
 	ONSDataSetID string
@@ -133,7 +133,7 @@ func (cr *CreateRecipe) CheckID() bool {
 func (cr *CreateRecipe) OKDimsInDS() bool {
 
 	query := `variables={}&query={
-dataset(name:"dp_synth_dataset") {
+dataset(name:"UR") {
 	variables(names:["%s"]) {
 	  edges {
 		node {
@@ -190,7 +190,7 @@ func GetMap() map[string][]string {
 }
 
 func IsGeo(s string) bool {
-	// dp_synth_dataset
+	// UR
 	isGeo := map[string]bool{
 		"ctry": true, // England & Wales + Scotland (2022) and NI (2021)
 		"lsoa": true, // Lower Layer Super Output Areas

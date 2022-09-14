@@ -37,7 +37,7 @@ func main() {
 	if checkdims != "" {
 		cr.Dimensions = strings.Split(checkdims, ",")
 		if !cr.OKDimsInDS() {
-			log.Fatalf("dims '%#v' not fully present in '%s' dataset", cr.Dimensions, "dp_synth_dataset") // XXX
+			log.Fatalf("dims '%#v' not fully present in '%s' dataset", cr.Dimensions, "UR") // XXX
 		} else {
 			fmt.Println("dims OK")
 		}
@@ -45,7 +45,7 @@ func main() {
 	}
 
 	if !cr.OKDimsInDS() {
-		log.Fatalf("dims '%#v' not fully present in '%s' dataset", cr.Dimensions, "dp_synth_dataset") // XXX
+		log.Fatalf("dims '%#v' not fully present in '%s' dataset", cr.Dimensions, "UR") // XXX
 	}
 
 	if !cr.CheckID() {
@@ -89,7 +89,7 @@ func main() {
 
 	r := createrecipe.Recipe{
 		Alias:          alias,
-		CantabularBlob: "dp_synth_dataset", // XXX
+		CantabularBlob: "UR", // XXX
 		Format:         "cantabular_table",
 		ID:             cr.UUID,
 	}

@@ -7,7 +7,7 @@ token=$(curl -s -d "{\"email\":\"florence@magicroundabout.ons.gov.uk\",\"passwor
 
 payload='{
   "alias": "Testing for metadata demo v3",
-  "cantabular_blob": "dp_synth_dataset",
+  "cantabular_blob": "UR",
   "format": "cantabular_table",
   "id": "la2e031b-3064-427d-8fed-4b35c99bf1a0",
   "output_instances": [
