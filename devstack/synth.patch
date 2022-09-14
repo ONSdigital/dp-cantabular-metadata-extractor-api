@@ -1,5 +1,5 @@
 diff --git a/cantabular/scripts/run.sh b/cantabular/scripts/run.sh
-index e0164c3..0d2ffd2 100755
+index e0164c3..2446492 100755
 --- a/cantabular/scripts/run.sh
 +++ b/cantabular/scripts/run.sh
 @@ -6,7 +6,7 @@
