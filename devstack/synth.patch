@@ -1,0 +1,12 @@
+diff --git a/cantabular/scripts/run.sh b/cantabular/scripts/run.sh
+index e0164c3..0d2ffd2 100755
+--- a/cantabular/scripts/run.sh
++++ b/cantabular/scripts/run.sh
+@@ -6,7 +6,7 @@
+ 
+ export CANTABULAR_UI_STANDARD_TABLES_FILE=/app/data/stdtables/standard_tables.json
+ DATA_DIR=data/input
+-DAT_FILES=(example.dat 2011-census-sample.dat)
++DAT_FILES=(example.dat 2011-census-sample.dat dp_synth_config_1.dat)
+ 
+ ARGS=
