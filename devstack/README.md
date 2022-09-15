@@ -2,10 +2,17 @@
 
 ## General scripts for Cantabular Import Journey
 
-Create an "ons" directory and copy the shell scripts in this directory into it
-and run those copies.
+Create a directory named something like `ons` as a ONS root directory and
+checkout the correct version (usually develop) of this repo under it.
 
-A description of the scripts follows.
+Type `make` which will create symlinks for the shell scripts under this
+ONS root directory
+
+XXX You will also need a copy of `dp_synth_config_1.dat` under this directory.
+This file is used to create the cantabular server database (not the cantabular
+metadata server).
+
+A description of these scripts follows.
 
 * scs-md.sh
 
