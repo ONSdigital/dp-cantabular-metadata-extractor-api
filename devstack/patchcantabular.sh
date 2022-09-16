@@ -16,4 +16,4 @@ if ! [[ -f "cantabular/data/input/dp_synth_config_1.dat" ]]; then
     exit 1
 fi
 
-patch -p1 < ../dp-cantabular-metadata-extractor-api/devstack/synth.patch 
+patch -p1  --forward  --reject-file=/dev/null < ../dp-cantabular-metadata-extractor-api/devstack/synth.patch 
