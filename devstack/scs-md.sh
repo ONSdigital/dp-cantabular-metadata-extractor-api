@@ -37,7 +37,7 @@ SERVICES=(
     "dp-publishing-dataset-controller,027b4a070e538c5e73b39e1d858328a7d135828e|"
     "dp-recipe-api,44c5571c7c9c1fd8e12f60b121a6700e84563d28|"
     "dp-topic-api,9f16fa3ed83c8c05a09f3dde39c847b3b38b71a6|"
-    "florence,653bece98594b1f76d3e80238cbf7da4afa74516|make build"
+    "florence,9eef441fe8c43e2abf5a1d47239fe69f68b7e5b7|make build"
     "zebedee,b72fad73eeaeee792d22effc05fca874c4891ff6|make build"
 )
 #    "dp-file-downloader,e512a28e32f7686a6afcbd6929f145a198aa55ca|"
