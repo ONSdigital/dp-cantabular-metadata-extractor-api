@@ -82,6 +82,9 @@ in normal use.
 On macOS, you may need to increase the amount of memory committed to docker to 8G.
 On Linux, I found adding extra swap helped.
 
+Note on a low resource system it might be necessarily to run all this after a
+fresh reboot before you started browsers, slack and your IDE.
+
 It's not unusual for the whole stack to take quite a while to debug.  Look at
 the output of `health.sh` above and try to identify which services are broken
 (not running, not responding etc.).  Although this script can only contact
