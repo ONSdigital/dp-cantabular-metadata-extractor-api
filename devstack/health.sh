@@ -2,14 +2,11 @@
 
 service=$1
 
+# note some services like zebedee and babbage don't have health checks like the
+# go services.  The Train gives us some sort of response although it's mispelt.
+ 
 typeset -A port
-#port["dp-cantabular-api-ext"]=
-#port["dp-cantabular-metadata-service"]=
-#port["dp-cantabular-server"]=
-#port["dp-frontend-dataset-controller"]=20200 ???
-#port["dp-frontend-filter-flex-dataset"]=20100
 port["dp-api-router"]=23200
-port["dp-cantabular-dimension-api"]=27200
 port["dp-dataset-api"]=22000
 port["dp-download-service"]=23600
 port["dp-frontend-router"]=20000
@@ -20,7 +17,6 @@ port["dp-publishing-dataset-controller"]=24000
 port["dp-recipe-api"]=22300
 port["florence"]=8081
 port["the-train"]=8084
-#port["zebedee"]=8082
 
 if [[ $service == "list" ]]; then
   for k in "${!port[@]}"; do
