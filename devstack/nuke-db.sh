@@ -2,7 +2,7 @@
 #this has to run from the root of the ONS journey directory
 
 # stop & rm
-docker rm -f cantabular-metadata-pub-2021_mongodb_1
+docker rm -f $(docker ps --filter=name="mongodb" --format="{{.Names}}")
 # rebuild
 ./scs-md.sh up
 sleep 10
