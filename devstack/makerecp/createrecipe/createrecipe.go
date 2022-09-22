@@ -173,13 +173,17 @@ func GetMap() map[string][]string {
 		//"AP027": {"ltla", "transport_to_work"},                      // broken dataset lacks dims
 		//"RM014": {"ltla", "workplace_travel_5a", "resident_age_6a"}, // broken in MD release
 		//"RM154": {"oa", "welsh_skills_speak", "has_ever_worked"}, // WORKS
-		"TS002": {"oa", "legal_partnership_status"},  // WORKS
+		"TS002": {"oa", "legal_partnership_status"}, // WORKS
+		"TS005": {"oa", "passports_all_27a"},
+		"TS007": {"msoa", "resident_age_101a"},
+		"TS008": {"oa", "sex"},
 		"TS009": {"ltla", "sex", "resident_age_91a"}, // WORKS
-		"TS015": {"oa", "year_arrival_uk"},           // WORKS
+		"TS012": {"ltla", "country_of_birth_60a"},
+		"TS013": {"msoa", "passports_all_52a"},
+		"TS015": {"oa", "year_arrival_uk"}, // WORKS
+		"TS016": {"oa", "residence_length_6b"},
+		"TS021": {"oa", "ethnic_group_tb_20b"},
 	}
-
-	// Following should also work
-	//TS008, TS015,  TS024, TS027, TS029, TS030, TS032, TS033, TS034, TS035, TS036, TS037, TS038, TS039, TS055, TS059, TS065, AP012, AP013, AP014, AP024, RM023, RM024, RM025, RM031, RM032, RM044, RM045, RM054, RM055, RM056, RM065, RM072, RM074, RM088, RM089, RM092, RM093, RM105, RM106, RM118, RM121, RM148, RM149, RM150, RM151, RM152, RM154, RM156, RM157, RM161
 
 	for _, v := range m {
 		// XXX we need to override to be "ltla" always Fran 20220831
