@@ -163,19 +163,19 @@ dataset(name:"UR") {
 func GetMap() map[string][]string {
 	// these are the real values and we overside the geo ones, eg. oa
 	m := map[string][]string{
-		"AP001": {"oa", "sex"}, // WORKS
+		//"AP001": {"oa", "sex"}, // WORKS
 		//"AP002": {"oa", "resident_age_11a"},                         // broken in MD release
 		//"AP003": {"oa", "legal_partnership_status_6a"},              // broken in MD release
-		"AP010": {"oa", "religion_tb"}, // WORKS
+		//"AP010": {"oa", "religion_tb"}, // WORKS
 		//"AP011": {"oa", "main_language_11a"},                        // broken in MD release
 		//"AP025": {"oa", "industry_current_9a"},                      // broken in MD release
 		//"AP026": {"oa", "occupation_current_10a"},                   // broken in MD release
 		//"AP027": {"ltla", "transport_to_work"},                      // broken dataset lacks dims
 		//"RM014": {"ltla", "workplace_travel_5a", "resident_age_6a"}, // broken in MD release
-		"RM154": {"oa", "welsh_skills_speak", "has_ever_worked"}, // WORKS
-		"TS002": {"oa", "legal_partnership_status"},              // WORKS
-		"TS009": {"ltla", "sex"},                                 // WORKS
-		"TS015": {"oa", "year_arrival_uk"},                       // WORKS
+		//"RM154": {"oa", "welsh_skills_speak", "has_ever_worked"}, // WORKS
+		"TS002": {"oa", "legal_partnership_status"},  // WORKS
+		"TS009": {"ltla", "sex", "resident_age_91a"}, // WORKS
+		"TS015": {"oa", "year_arrival_uk"},           // WORKS
 	}
 
 	// Following should also work
