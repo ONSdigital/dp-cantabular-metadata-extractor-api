@@ -8,6 +8,7 @@ import (
 	"os"
 	"reflect"
 	"strings"
+	"time"
 
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/devstack/makerecp/createrecipe"
 )
@@ -16,13 +17,14 @@ func main() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	var id, host, extapihost, checkdims string
-	var check, setalias, list bool
+	var id, host, extapihost, checkdims, alias string
+	var check, autoalias, list bool
 	flag.StringVar(&id, "id", "TS009", "specify pre-defined query id")
 	flag.StringVar(&host, "host", "http://localhost:28300", "specify extractor-api url")
 	flag.StringVar(&extapihost, "extapihost", "http://localhost:8492", "specify extapi url")
 	flag.StringVar(&checkdims, "checkdims", "", "check list of dims, eg. \"ltla,sex\" ")
-	flag.BoolVar(&setalias, "setalias", false, "set alias/name automatically from metadata server label")
+	flag.StringVar(&alias, "alias", "Testing for metadata demo v3", "set alias manually")
+	flag.BoolVar(&autoalias, "setalias", false, "set alias/name automatically from metadata server label")
 	flag.BoolVar(&check, "check", false, "check specified id")
 	flag.BoolVar(&list, "list", false, "list ids known to this program")
 	flag.Parse()
@@ -52,8 +54,6 @@ func main() {
 		log.Fatalf("'%s' not in valid id list '%#v'", id, cr.ValidIDs)
 	}
 
-	alias := "Testing for metadata demo v3"
-
 	if check {
 		tf, err := cr.GetMetaData()
 		if err != nil {
@@ -78,13 +78,13 @@ func main() {
 		os.Exit(0)
 	}
 
-	if setalias {
+	if autoalias {
 		tf, err := cr.GetMetaData()
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		alias = tf.TableQueryResult.Service.Tables[0].Label
+		alias = "RTT: " + tf.TableQueryResult.Service.Tables[0].Label + "(" + id + ") " + time.Now().Format("20060102-1504:05")
 	}
 
 	r := createrecipe.Recipe{
