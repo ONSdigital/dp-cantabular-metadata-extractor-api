@@ -1,0 +1,463 @@
+{
+  "id": "a10bff91-6291-4f03-b89b-9c985867755d",
+  "version": "2.0",
+  "name": "rrt-journey",
+  "url": "http://localhost:8081",
+  "tests": [{
+    "id": "bfdc9754-08dc-4364-a7b1-8aeb24142661",
+    "name": "finaljor",
+    "commands": [{
+      "id": "48058f40-154f-4b6e-a955-eec1dd3672ea",
+      "comment": "",
+      "command": "open",
+      "target": "/florence/collections",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "86e50664-f306-4313-a2f4-ee9513274640",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1530x995",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "90fb57d7-403d-496e-9db7-22e63945dc06",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Datasets",
+      "targets": [
+        ["linkText=Datasets", "linkText"],
+        ["css=.global-nav__item:nth-child(2) > .global-nav__link", "css:finder"],
+        ["xpath=//a[contains(text(),'Datasets')]", "xpath:link"],
+        ["xpath=//div[@id='app']/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/florence/uploads/data')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Datasets')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "45d40a19-ea11-49b5-8641-c1bc02fd013c",
+      "comment": "",
+      "command": "click",
+      "target": "id=search-datasets",
+      "targets": [
+        ["id=search-datasets", "id"],
+        ["name=search-datasets", "name"],
+        ["css=#search-datasets", "css:finder"],
+        ["xpath=//input[@id='search-datasets']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a8b387c1-8c00-4ead-b299-d9d678ef8dfe",
+      "comment": "",
+      "command": "type",
+      "target": "id=search-datasets",
+      "targets": [
+        ["id=search-datasets", "id"],
+        ["name=search-datasets", "name"],
+        ["css=#search-datasets", "css:finder"],
+        ["xpath=//input[@id='search-datasets']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "test"
+    }, {
+      "id": "6d8f08a0-eed7-4450-82bb-615edd18e911",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//a[contains(text(),'RTT')]",
+      "targets": [
+        ["linkText=Testing for metadata demo v3", "linkText"],
+        ["css=h2 > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Testing for metadata demo v3')]", "xpath:link"],
+        ["xpath=//div[@id='app']/div/div/ul/li/h2/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, 'javascript:void(0)')]", "xpath:href"],
+        ["xpath=//h2/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Testing for metadata demo v3')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c65635b1-09f5-48ac-9ce6-d9394dc1cf16",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Save and continue')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "07f4324d-03cf-4dd8-9d88-09395209bb5d",
+      "comment": "",
+      "command": "click",
+      "target": "css=.radio__label",
+      "targets": [
+        ["css=.radio__label", "css:finder"],
+        ["xpath=//div[@id='app']/div/div/form/div/fieldset/ul/li/div/label", "xpath:idRelative"],
+        ["xpath=//label", "xpath:position"],
+        ["xpath=//label[contains(.,'2021')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5a44fe0b-b1d1-4e8e-8ea0-25045e5945c4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn",
+      "targets": [
+        ["css=.btn", "css:finder"],
+        ["xpath=//div[@id='app']/div/div/form/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Submit to publishing')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5e0e23da-8ba9-4882-8990-5052479f7a79",
+      "comment": "Wait for Dimensions to pop up (long timeout)",
+      "command": "waitForElementPresent",
+      "target": "css=.margin-bottom--1:nth-child(4)",
+      "targets": [],
+      "value": "90000"
+    }, {
+      "id": "52b14ba5-0d43-4a5c-bc49-ea8bd7d8fb64",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Collections",
+      "targets": [
+        ["linkText=Collections", "linkText"],
+        ["css=.global-nav__item:nth-child(1) > .global-nav__link", "css:finder"],
+        ["xpath=//a[contains(text(),'Collections')]", "xpath:link"],
+        ["xpath=//div[@id='app']/ul/li/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/florence/collections')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'Collections')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "db06243e-dc22-4385-a9b4-ae22041adf6a",
+      "comment": "",
+      "command": "click",
+      "target": "id=search_input",
+      "targets": [
+        ["id=search_input", "id"],
+        ["name=search", "name"],
+        ["css=#search_input", "css:finder"],
+        ["xpath=//input[@id='search_input']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div/form/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cd797e44-2186-4592-ab7f-7c2608485576",
+      "comment": "",
+      "command": "type",
+      "target": "id=search_input",
+      "targets": [
+        ["id=search_input", "id"],
+        ["name=search", "name"],
+        ["css=#search_input", "css:finder"],
+        ["xpath=//input[@id='search_input']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div/form/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "mycollection"
+    }, {
+      "id": "2c50676c-d122-40f3-b5a1-db0750b23363",
+      "comment": "",
+      "command": "type",
+      "target": "id=search_input",
+      "targets": [
+        ["id=search_input", "id"],
+        ["name=search", "name"],
+        ["css=#search_input", "css:finder"],
+        ["xpath=//input[@id='search_input']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div/form/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "mycollection2"
+    }, {
+      "id": "ce92ae9c-cbff-4152-90a6-d83b087df281",
+      "comment": "",
+      "command": "click",
+      "target": "css=.fieldset:nth-child(4) > .radio:nth-child(3) > .radio__label",
+      "targets": [
+        ["css=.fieldset:nth-child(4) > .radio:nth-child(3) > .radio__label", "css:finder"],
+        ["xpath=//div[@id='app']/div/div[2]/form/fieldset/div[2]/label", "xpath:idRelative"],
+        ["xpath=//fieldset/div[2]/label", "xpath:position"],
+        ["xpath=//label[contains(.,'Manual publish')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e793399f-f27e-486f-a6b0-0069288b5187",
+      "comment": "",
+      "command": "click",
+      "target": "css=.margin-top--1",
+      "targets": [
+        ["css=.margin-top--1", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/form/button", "xpath:idRelative"],
+        ["xpath=//div[2]/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Create collection')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "412db882-c8de-45ac-846f-7bf672bb689a",
+      "comment": "",
+      "command": "click",
+      "target": "id=collection-name",
+      "targets": [
+        ["id=collection-name", "id"],
+        ["name=collection-name", "name"],
+        ["css=#collection-name", "css:finder"],
+        ["xpath=//input[@id='collection-name']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/form/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/form/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3e305e0a-1d6a-42fd-a178-fe875be04081",
+      "comment": "",
+      "command": "type",
+      "target": "id=collection-name",
+      "targets": [
+        ["id=collection-name", "id"],
+        ["name=collection-name", "name"],
+        ["css=#collection-name", "css:finder"],
+        ["xpath=//input[@id='collection-name']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/form/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/form/div/input", "xpath:position"]
+      ],
+      "value": "mycollection"
+    }, {
+      "id": "a2dbe868-c62b-46d8-a35c-a10a76e04162",
+      "comment": "",
+      "command": "type",
+      "target": "id=collection-name",
+      "targets": [
+        ["id=collection-name", "id"],
+        ["name=collection-name", "name"],
+        ["css=#collection-name", "css:finder"],
+        ["xpath=//input[@id='collection-name']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/form/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/form/div/input", "xpath:position"]
+      ],
+      "value": "mycollection2"
+    }, {
+      "id": "ed90cfa8-2965-4712-a435-18d7c07722c8",
+      "comment": "",
+      "command": "click",
+      "target": "css=.margin-top--1",
+      "targets": [
+        ["css=.margin-top--1", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/form/button", "xpath:idRelative"],
+        ["xpath=//div[2]/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Create collection')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "181f4019-58b4-4aa9-9333-2385962aaea0",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.margin-top--1",
+      "targets": [
+        ["css=.margin-top--1", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/form/button", "xpath:idRelative"],
+        ["xpath=//div[2]/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Create collection')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a9214fa1-1711-45e9-b803-55e5ebfe08b8",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.margin-top--1",
+      "targets": [
+        ["css=.margin-top--1", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/form/button", "xpath:idRelative"],
+        ["xpath=//div[2]/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Create collection')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d14d3233-508b-409d-b2b4-8955fdab1eac",
+      "comment": "",
+      "command": "click",
+      "target": "id=create-edit-content",
+      "targets": [
+        ["id=create-edit-content", "id"],
+        ["linkText=Create/edit content", "linkText"],
+        ["css=#create-edit-content", "css:finder"],
+        ["xpath=//a[contains(text(),'Create/edit content')]", "xpath:link"],
+        ["xpath=//a[@id='create-edit-content']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div[2]/div/div/div[2]/div/div/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/florence/collections/mycollection2-d9285bbd1705c12ebc16090d6d468d7e75efaf9933474db045161b8e1aa2e658/create')]", "xpath:href"],
+        ["xpath=//div[2]/div/div/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Create/edit content')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f5c65101-fcd5-4a26-9f2c-71776ad86d64",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Filterable dataset",
+      "targets": [
+        ["linkText=Filterable dataset", "linkText"],
+        ["css=.simple-select-list__item:nth-child(2) .simple-select-list__title", "css:finder"],
+        ["xpath=//a[contains(text(),'Filterable dataset')]", "xpath:link"],
+        ["xpath=//div[@id='app']/div/div/ul/li[2]/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/florence/collections/mycollection2-d9285bbd1705c12ebc16090d6d468d7e75efaf9933474db045161b8e1aa2e658/datasets')]", "xpath:href"],
+        ["xpath=//li[2]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Filterable dataset')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "92dce89a-576f-487f-88f3-dc7856fe69b6",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Create new dataset",
+      "targets": [
+        ["linkText=Create new dataset", "linkText"],
+        ["css=.simple-select-list__item:nth-child(1) .simple-select-list__title", "css:finder"],
+        ["xpath=//a[contains(text(),'Create new dataset')]", "xpath:link"],
+        ["xpath=//div[@id='app']/div/div/div/ul/li/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/florence/collections/mycollection2-d9285bbd1705c12ebc16090d6d468d7e75efaf9933474db045161b8e1aa2e658/datasets/create')]", "xpath:href"],
+        ["xpath=//div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Create new dataset')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6c24b3e0-7308-424f-a14f-2105d7770398",
+      "comment": "",
+      "command": "click",
+      "target": "id=search-datasets",
+      "targets": [
+        ["id=search-datasets", "id"],
+        ["name=search-datasets", "name"],
+        ["css=#search-datasets", "css:finder"],
+        ["xpath=//input[@id='search-datasets']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "31b5e3c9-4242-48ca-8d63-5cfb8b99597f",
+      "comment": "",
+      "command": "type",
+      "target": "id=search-datasets",
+      "targets": [
+        ["id=search-datasets", "id"],
+        ["name=search-datasets", "name"],
+        ["css=#search-datasets", "css:finder"],
+        ["xpath=//input[@id='search-datasets']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div/div/div[2]/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "TS009"
+    }, {
+      "id": "b626a8c2-b580-4d04-a3c9-4a5084f2b42d",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//a[contains(text(),'RTT')]",
+      "targets": [
+        ["linkText=Testing for metadata demo v3", "linkText"],
+        ["css=.simple-select-list__title", "css:finder"],
+        ["xpath=//a[contains(text(),'Testing for metadata demo v3')]", "xpath:link"],
+        ["xpath=//div[@id='app']/div/div/div/ul/li/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/florence/collections/mycollection2-d9285bbd1705c12ebc16090d6d468d7e75efaf9933474db045161b8e1aa2e658/datasets/create/Testing-for-metadata-demo-v3/la2e031b-3064-427d-8fed-4b35c99bf1a0')]", "xpath:href"],
+        ["xpath=//div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'TS009')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d70e0785-24c2-4ac4-822f-cf7722e0096b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn--positive",
+      "targets": [
+        ["css=.btn--positive", "css:finder"],
+        ["xpath=(//button[@type='button'])[2]", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Create')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9dd9d0e1-ee2e-432e-9f60-40130e74684b",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//a[contains(text(),'TS009')]",
+      "targets": [
+        ["linkText=TS009", "linkText"],
+        ["css=.simple-select-list__item:nth-child(3) .simple-select-list__title", "css:finder"],
+        ["xpath=//a[contains(text(),'TS009')]", "xpath:link"],
+        ["xpath=//div[@id='app']/div/div/div/ul/li[3]/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/florence/collections/mycollection2-d9285bbd1705c12ebc16090d6d468d7e75efaf9933474db045161b8e1aa2e658/datasets/Testing-for-metadata-demo-v3')]", "xpath:href"],
+        ["xpath=//li[3]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'TS009')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f5d3abf0-f8dc-4134-b44a-b19c57ed7461",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=2021",
+      "targets": [
+        ["linkText=2021", "linkText"],
+        ["css=.simple-select-list__item:nth-child(2) .simple-select-list__title", "css:finder"],
+        ["xpath=//a[contains(text(),'2021')]", "xpath:link"],
+        ["xpath=//div[@id='app']/div/div/div/ul/li[2]/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/florence/collections/mycollection2-d9285bbd1705c12ebc16090d6d468d7e75efaf9933474db045161b8e1aa2e658/datasets/Testing-for-metadata-demo-v3/editions/2021')]", "xpath:href"],
+        ["xpath=//li[2]/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'2021')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e1a3b127-fbb5-4d57-bdd5-6e612fd1c581",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Version: 1",
+      "targets": [
+        ["linkText=Version: 1", "linkText"],
+        ["css=.simple-select-list__item:nth-child(2) .simple-select-list__title", "css:finder"],
+        ["xpath=//a[contains(text(),'Version: 1')]", "xpath:link"],
+        ["xpath=//div[@id='app']/div/div/div/ul/li[2]/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/florence/collections/mycollection2-d9285bbd1705c12ebc16090d6d468d7e75efaf9933474db045161b8e1aa2e658/datasets/Testing-for-metadata-demo-v3/editions/2021/versions/1')]", "xpath:href"],
+        ["xpath=//div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Version: 1')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e23577ef-f0c3-44d1-83de-eefaf35bb2a9",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "linkText=Version: 1",
+      "targets": [
+        ["linkText=Version: 1", "linkText"],
+        ["css=.simple-select-list__item:nth-child(2) .simple-select-list__title", "css:finder"],
+        ["xpath=//a[contains(text(),'Version: 1')]", "xpath:link"],
+        ["xpath=//div[@id='app']/div/div/div/ul/li[2]/div/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/florence/collections/mycollection2-d9285bbd1705c12ebc16090d6d468d7e75efaf9933474db045161b8e1aa2e658/datasets/Testing-for-metadata-demo-v3/editions/2021/versions/1')]", "xpath:href"],
+        ["xpath=//div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Version: 1')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "c26d3690-5b6d-46e9-a7d7-2ba85142b560",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["bfdc9754-08dc-4364-a7b1-8aeb24142661"]
+  }],
+  "urls": ["http://localhost:8081/"],
+  "plugins": []
+}
