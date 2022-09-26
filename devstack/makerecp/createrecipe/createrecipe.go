@@ -163,26 +163,42 @@ dataset(name:"UR") {
 func GetMap() map[string][]string {
 	// these are the real values and we overside the geo ones, eg. oa
 	m := map[string][]string{
-		//"AP001": {"oa", "sex"}, // WORKS
-		//"AP002": {"oa", "resident_age_11a"},                         // broken in MD release
-		//"AP003": {"oa", "legal_partnership_status_6a"},              // broken in MD release
-		//"AP010": {"oa", "religion_tb"}, // WORKS
-		//"AP011": {"oa", "main_language_11a"},                        // broken in MD release
-		//"AP025": {"oa", "industry_current_9a"},                      // broken in MD release
-		//"AP026": {"oa", "occupation_current_10a"},                   // broken in MD release
-		//"AP027": {"ltla", "transport_to_work"},                      // broken dataset lacks dims
-		//"RM014": {"ltla", "workplace_travel_5a", "resident_age_6a"}, // broken in MD release
-		//"RM154": {"oa", "welsh_skills_speak", "has_ever_worked"}, // WORKS
-		"TS002": {"oa", "legal_partnership_status"}, // WORKS
+		"TS002": {"oa", "legal_partnership_status"},
 		"TS005": {"oa", "passports_all_27a"},
 		"TS007": {"msoa", "resident_age_101a"},
 		"TS008": {"oa", "sex"},
-		"TS009": {"ltla", "sex", "resident_age_91a"}, // WORKS
+		"TS009": {"ltla", "sex", "resident_age_91a"},
 		"TS012": {"ltla", "country_of_birth_60a"},
 		"TS013": {"msoa", "passports_all_52a"},
-		"TS015": {"oa", "year_arrival_uk"}, // WORKS
+		"TS015": {"oa", "year_arrival_uk"},
 		"TS016": {"oa", "residence_length_6b"},
 		"TS021": {"oa", "ethnic_group_tb_20b"},
+		"TS024": {"ltla", "main_language_detailed"},
+		"TS027": {"oa", "national_identity_all"},
+		"TS028": {"oa", "national_identity_detailed"},
+		"TS029": {"oa", "english_proficiency"},
+		"TS030": {"oa", "religion_tb"},
+		"TS032": {"oa", "welsh_skills_all"},
+		"TS033": {"oa", "welsh_skills_speak"},
+		"TS034": {"oa", "welsh_skills_write"},
+		"TS035": {"oa", "welsh_skills_read"},
+		"TS036": {"oa", "welsh_skills_understand"},
+		"TS037": {"oa", "health_in_general"},
+		"TS038": {"oa", "disability"},
+		"TS039": {"oa", "is_carer"},
+		"TS056": {"oa", "alternative_address_indicator"},
+		"TS058": {"oa", "workplace_travel_10a"},
+		"TS059": {"oa", "hours_per_week_worked"},
+		"TS060": {"msoa", "industry_current_88a"},
+		"TS061": {"oa", "transport_to_workplace_12a"},
+		"TS062": {"oa", "ns_sec_10a"},
+		"TS063": {"oa", "occupation_current_10a"},
+		"TS064": {"msoa", "occupation_current_105a"},
+		"TS065": {"oa", "has_ever_worked"},
+		"TS066": {"oa", "economic_activity_status_12a"},
+		"TS067": {"oa", "highest_qualification"},
+		"TS071": {"msoa", "uk_armed_forces"},
+		"TS076": {"ltla", "welsh_skills_speak", "resident_age_86a"},
 	}
 
 	for _, v := range m {

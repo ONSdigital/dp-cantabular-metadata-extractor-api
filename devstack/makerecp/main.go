@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/devstack/makerecp/createrecipe"
+	"github.com/ryboe/q"
 )
 
 func main() {
@@ -18,16 +19,52 @@ func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	var id, host, extapihost, checkdims, alias string
-	var check, autoalias, list bool
+	var check, checkall, autoalias, list bool
 	flag.StringVar(&id, "id", "TS009", "specify pre-defined query id")
 	flag.StringVar(&host, "host", "http://localhost:28300", "specify extractor-api url")
 	flag.StringVar(&extapihost, "extapihost", "http://localhost:8492", "specify extapi url")
 	flag.StringVar(&checkdims, "checkdims", "", "check list of dims, eg. \"ltla,sex\" ")
 	flag.StringVar(&alias, "alias", "Testing for metadata demo v3", "set alias manually")
 	flag.BoolVar(&autoalias, "setalias", false, "set alias/name automatically from metadata server label")
-	flag.BoolVar(&check, "check", false, "check specified id")
+	flag.BoolVar(&check, "check", false, "check specified id use 'id=' as well")
+	flag.BoolVar(&checkall, "checkall", false, "check all ids known to this program")
 	flag.BoolVar(&list, "list", false, "list ids known to this program")
 	flag.Parse()
+
+	if checkall {
+
+		for id, v := range createrecipe.GetMap() {
+			fmt.Printf("Testing id=%s ", id)
+			cr := createrecipe.New(id, host, extapihost)
+			q.Q(id)
+			q.Q(v)
+
+			tf, err := cr.GetMetaData()
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			datasetName := tf.TableQueryResult.Service.Tables[0].DatasetName
+
+			if datasetName != createrecipe.HackedDataSetName {
+				log.Fatalf("wrong dataset name '%s' need '%s'", datasetName, createrecipe.HackedDataSetName)
+			}
+
+			_, ourVars := createrecipe.SplitVars(cr.Dimensions)
+
+			_, mdVars := createrecipe.SplitVars(tf.TableQueryResult.Service.Tables[0].Vars)
+
+			if !reflect.DeepEqual(mdVars, ourVars) {
+				log.Fatalf("expected vars '%#v' don't match metadata-server vars '%#v'", ourVars, mdVars)
+			}
+
+			fmt.Print("OK\n")
+
+		}
+
+		os.Exit(0)
+
+	}
 
 	fmt.Printf("Using id=%s\n", id)
 
