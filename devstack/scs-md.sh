@@ -24,7 +24,7 @@ SERVICES=(
     "dp-cantabular-metadata-service,e96bc56b00e250fc0b973aec8c61bfba2492d1db|make setup"
     "dp-cantabular-server,4b7a6958b98d621a0c802ef5849b22c24a19c46f|../dp-cantabular-metadata-extractor-api/devstack/patchcantabular.sh"
     "dp-cantabular-xlsx-exporter,f3ecb0547cd522abb01d95a980a5d16bfbb5e043|"
-    "dp-compose,29f9c6dda9ef4aeb26240c56d9de342eef8eff98|../dp-cantabular-metadata-extractor-api/devstack/fixminio.sh"
+    "dp-compose,f7aebfd6cfcbbd85c633010ae13eb4ac082b0eb4|../dp-cantabular-metadata-extractor-api/devstack/fixminio.sh"
     "dp-data-tools,86891bad6ab850fb76f9c252c5924fce7142b977|"
     "dp-dataset-api,7439ea1ddc32f1d8a40b288caf56387cb4fcccfb|"
     "dp-download-service,286dfefa44ae48d584fe83555674dec0408b571e|"
