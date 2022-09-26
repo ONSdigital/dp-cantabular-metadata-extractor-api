@@ -11,7 +11,6 @@ import (
 	"time"
 
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/devstack/makerecp/createrecipe"
-	"github.com/ryboe/q"
 )
 
 func main() {
@@ -26,19 +25,18 @@ func main() {
 	flag.StringVar(&checkdims, "checkdims", "", "check list of dims, eg. \"ltla,sex\" ")
 	flag.StringVar(&alias, "alias", "Testing for metadata demo v3", "set alias manually")
 	flag.BoolVar(&autoalias, "setalias", false, "set alias/name automatically from metadata server label")
-	flag.BoolVar(&check, "check", false, "check specified id use 'id=' as well")
+	flag.BoolVar(&check, "check", false, "check specified id use 'id' as well")
 	flag.BoolVar(&checkall, "checkall", false, "check all ids known to this program")
 	flag.BoolVar(&list, "list", false, "list ids known to this program")
 	flag.Parse()
 
 	if checkall {
 
-		for id, v := range createrecipe.GetMap() {
+		for id := range createrecipe.GetMap() {
 			fmt.Printf("Testing id=%s ", id)
 			cr := createrecipe.New(id, host, extapihost)
-			q.Q(id)
-			q.Q(v)
 
+			// check against metadata server
 			tf, err := cr.GetMetaData()
 			if err != nil {
 				log.Fatal(err)
@@ -58,6 +56,12 @@ func main() {
 				log.Fatalf("expected vars '%#v' don't match metadata-server vars '%#v'", ourVars, mdVars)
 			}
 
+			// check against cantabular server
+
+			if !cr.OKDimsInDS() {
+				log.Fatalf("dims '%#v' not fully present in '%s' dataset", cr.Dimensions, "UR") // XXX
+			}
+
 			fmt.Print("OK\n")
 
 		}
@@ -66,8 +70,6 @@ func main() {
 
 	}
 
-	fmt.Printf("Using id=%s\n", id)
-
 	cr := createrecipe.New(id, host, extapihost)
 
 	if list {
@@ -75,6 +77,7 @@ func main() {
 		os.Exit(0)
 	}
 
+	// check against cantabular server
 	if checkdims != "" {
 		cr.Dimensions = strings.Split(checkdims, ",")
 		if !cr.OKDimsInDS() {
