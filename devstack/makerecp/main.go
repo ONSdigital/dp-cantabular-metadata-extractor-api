@@ -29,6 +29,8 @@ func main() {
 	flag.BoolVar(&list, "list", false, "list ids known to this program")
 	flag.Parse()
 
+	fmt.Printf("Using id=%s\n", id)
+
 	cr := createrecipe.New(id, host, extapihost)
 
 	if list {
