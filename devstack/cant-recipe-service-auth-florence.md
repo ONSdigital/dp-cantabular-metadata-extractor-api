@@ -12,6 +12,9 @@ cd dp-configs/secrets/sandbox
 gpg -d zebedee.json.asc|grep SERVICE_AUTH_TOKEN|awk '{print $2}'
 ```
 
+(But note the auth used by florence is changing some point around late Sept. in
+"sec-auth" work.  It's hoped this auth method survives the change!)
+
 Use the script like
 
 `./cant-recipe-service-auth-florence.sh -id TSXXX`
