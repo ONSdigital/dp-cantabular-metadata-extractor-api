@@ -17,13 +17,14 @@ func main() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	var id, host, extapihost, checkdims, alias string
+	var id, host, extapihost, checkdims, alias, format string
 	var check, checkall, autoalias, list bool
 	flag.StringVar(&id, "id", "TS009", "specify pre-defined query id")
 	flag.StringVar(&host, "host", "http://localhost:28300", "specify extractor-api url")
 	flag.StringVar(&extapihost, "extapihost", "http://localhost:8492", "specify extapi url")
 	flag.StringVar(&checkdims, "checkdims", "", "check list of dims, eg. \"ltla,sex\" ")
 	flag.StringVar(&alias, "alias", "Testing for metadata demo v3", "set alias manually")
+	flag.StringVar(&format, "format", "cantabular_flexible_table", "'format' of table (flexible or not)")
 	flag.BoolVar(&autoalias, "setalias", false, "set alias/name automatically from metadata server label")
 	flag.BoolVar(&check, "check", false, "check specified id use 'id' as well")
 	flag.BoolVar(&checkall, "checkall", false, "check all ids known to this program")
@@ -132,7 +133,7 @@ func main() {
 	r := createrecipe.Recipe{
 		Alias:          alias,
 		CantabularBlob: "UR", // XXX
-		Format:         "cantabular_table",
+		Format:         format,
 		ID:             cr.UUID,
 	}
 
