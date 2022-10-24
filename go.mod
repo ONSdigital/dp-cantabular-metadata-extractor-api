@@ -50,14 +50,11 @@ require (
 	github.com/justinas/alice v1.2.0 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/kr/pretty v0.3.0 // indirect
-	github.com/kr/text v0.2.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/maxcnunes/httpfake v1.2.4 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/rogpeppe/go-internal v1.6.1 // indirect
-	github.com/ryboe/q v1.0.17 // indirect
 	github.com/smartystreets/assertions v1.2.1 // indirect
 	github.com/spf13/afero v1.8.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
@@ -69,7 +66,7 @@ require (
 	golang.org/x/crypto v0.0.0-20211117183948-ae814b36b871 // indirect
 	golang.org/x/net v0.0.0-20220412020605-290c469a71a5 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20220412211240-33da011f77ad // indirect
-	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f // indirect
+	golang.org/x/text v0.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
