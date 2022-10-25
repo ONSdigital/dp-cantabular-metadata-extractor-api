@@ -12,6 +12,12 @@ import (
 	"github.com/shurcooL/graphql"
 )
 
+// These represent the code we should use as an override and a validate list of those codes
+var (
+	geoCodeOverride = "ltla" // Fran 20220831
+	validGeo        = []string{"ctry", "lsoa", "ltla", "msoa", "nat", "oa", "rgn", "utla"}
+)
+
 // getMetadata is the main entry point
 func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
@@ -94,9 +100,6 @@ func (api *CantabularMetadataExtractorAPI) GetMetadataDataset(ctx context.Contex
 // the result from the metadata server matches the recipe.  This ensures also the
 // following GetMetadataDataset uses "ltla".
 func OverrideMetadataTable(dims []string, mt *cantabular.MetadataTableQuery) {
-	geoCodeOverride := "ltla" //  Fran 20220831
-	validGeo := []string{"ctry", "lsoa", "ltla", "msoa", "nat", "oa", "rgn", "utla"}
-
 	for i, v := range dims {
 		if inSlice(v, validGeo) {
 			dims[i] = geoCodeOverride
