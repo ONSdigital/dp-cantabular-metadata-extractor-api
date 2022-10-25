@@ -146,7 +146,7 @@ func getMT() (cantabular.MetadataTableQuery, error) {
           }
         }
       ]
-	  }
+      }
     }`
 
 	mtq := cantabular.MetadataTableQuery{}
