@@ -16,7 +16,7 @@ import (
 var (
 	geoCodeOverride  = "ltla"                                                               // Fran 20220831
 	validGeo         = []string{"ctry", "lsoa", "ltla", "msoa", "nat", "oa", "rgn", "utla"} // allowlist of codes
-	errNotOneGeocode = errors.New("exactly one geocode not found")
+	errNotOneGeocode = errors.New("invalid data - expected exactly one geocode")
 )
 
 // getMetadata is the main entry point
