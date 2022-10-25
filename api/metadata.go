@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
@@ -12,10 +13,10 @@ import (
 	"github.com/shurcooL/graphql"
 )
 
-// These represent the code we should use as an override and a validate list of those codes
 var (
-	geoCodeOverride = "ltla" // Fran 20220831
-	validGeo        = []string{"ctry", "lsoa", "ltla", "msoa", "nat", "oa", "rgn", "utla"}
+	geoCodeOverride  = "ltla"                                                               // Fran 20220831
+	validGeo         = []string{"ctry", "lsoa", "ltla", "msoa", "nat", "oa", "rgn", "utla"} // allowlist of codes
+	errNotOneGeocode = errors.New("exactly one geocode not found")
 )
 
 // getMetadata is the main entry point
@@ -34,7 +35,11 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 		return
 	}
 
-	OverrideMetadataTable(dimensions, mt)
+	if err := OverrideMetadataTable(dimensions, mt); err != nil {
+		log.Error(ctx, err.Error(), err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	// XXX Are all vars in the same (cantabular) dataset?
 	cantdataset := string(mt.Service.Tables[0].DatasetName)
@@ -99,25 +104,34 @@ func (api *CantabularMetadataExtractorAPI) GetMetadataDataset(ctx context.Contex
 // to always use "ltla".  This is the geocode used in the recipe and we need to ensure
 // the result from the metadata server matches the recipe.  This ensures also the
 // following GetMetadataDataset uses "ltla".
-func OverrideMetadataTable(dims []string, mt *cantabular.MetadataTableQuery) {
+func OverrideMetadataTable(dims []string, mt *cantabular.MetadataTableQuery) error {
+	found := 0
 	for i, v := range dims {
 		if inSlice(v, validGeo) {
 			dims[i] = geoCodeOverride
-
-			break
+			found++
 		}
 	}
 
-outer:
+	if found != 1 {
+		return fmt.Errorf("dimensions : %w", errNotOneGeocode)
+	}
+
+	found = 0
 	for i, v := range mt.Service.Tables {
 		for j, c := range v.Vars {
 			if inSlice(string(c), validGeo) {
 				mt.Service.Tables[i].Vars[j] = graphql.String(geoCodeOverride)
-
-				break outer
+				found++
 			}
 		}
 	}
+
+	if found != 1 {
+		return fmt.Errorf("service tables :  %w", errNotOneGeocode)
+	}
+
+	return nil
 }
 
 func inSlice(x string, xs []string) bool {

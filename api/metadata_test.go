@@ -73,9 +73,10 @@ func TestOverrideMetadataTable(t *testing.T) {
 		dims := []string{"oa", "sex"}
 
 		Convey("When we call api.OverrideMetadataDataset with dimensions and a MetadataTableQuery ", func() {
-			api.OverrideMetadataTable(dims, mt)
+			err := api.OverrideMetadataTable(dims, mt)
 
 			Convey("Then we get the correct ltla overrides for the dimensions and the MetadataTableQuery", func() {
+				So(err, ShouldBeNil)
 				So(dims[0], ShouldEqual, "ltla")
 				So(mt.Service.Tables[0].Vars[0], ShouldEqual, "ltla")
 			})
