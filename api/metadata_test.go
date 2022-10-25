@@ -25,18 +25,14 @@ func TestGetMetadataTable(t *testing.T) {
 
 			MetadataTableQueryFunc: func(ctx context.Context, req cantabular.MetadataTableQueryRequest) (*cantabular.MetadataTableQuery, error) {
 				mt, err := getMT()
-				if err != nil {
-					t.Error(err)
-				}
+				So(err, ShouldBeNil)
 				return &mt, nil
 			},
 		}
 		Convey("GetMetadataTable method should return correct dimensions", func() { // XXX
 			expected := []string{"oa", "sex"}
 			_, dims, err := cantMetadataExtractorAPI.GetMetadataTable(ctx, "UR", "en")
-			if err != nil {
-				t.Error(err)
-			}
+			So(err, ShouldBeNil)
 			So(dims, ShouldResemble, expected)
 		})
 	})
@@ -61,9 +57,7 @@ func TestGetMetadataDataset(t *testing.T) {
 
 		Convey("getDimensions method should return correct dimensions", func() { // XXX
 			md, err := cantMetadataExtractorAPI.GetMetadataDataset(ctx, "Teaching-Dataset", []string{"Age", "Sex"}, "en")
-			if err != nil {
-				t.Error(err)
-			}
+			So(err, ShouldBeNil)
 			So(md.Dataset.Description, ShouldResemble, graphql.String("This is some summary test..."))
 
 		})
@@ -73,9 +67,7 @@ func TestGetMetadataDataset(t *testing.T) {
 func TestOverrideMetadataTable(t *testing.T) {
 	Convey("Given setup of dimensions and a MetadataTableQuery", t, func() {
 		m, err := getMT()
-		if err != nil {
-			t.Error(err)
-		}
+		So(err, ShouldBeNil)
 
 		mt := &m
 		dims := []string{"oa", "sex"}
