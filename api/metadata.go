@@ -31,12 +31,14 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 
 	mt, dimensions, err := api.GetMetadataTable(ctx, params["datasetID"], params["lang"])
 	if err != nil {
+		err = fmt.Errorf("%s : %w", "api.GetMetadataTable", err)
 		log.Error(ctx, err.Error(), err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	if err := OverrideMetadataTable(dimensions, mt); err != nil {
+		err = fmt.Errorf("%s : %w", "OverrideMetadataTable", err)
 		log.Error(ctx, err.Error(), err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -53,6 +55,7 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 
 	md, err := api.GetMetadataDataset(ctx, cantdataset, dimensions, params["lang"])
 	if err != nil {
+		err = fmt.Errorf("%s : %w", "api.api.GetMetadataDataset", err)
 		log.Error(ctx, err.Error(), err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
