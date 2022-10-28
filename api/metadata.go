@@ -141,7 +141,7 @@ func OverrideMetadataTable(dims []string, mt *cantabular.MetadataTableQuery) err
 	}
 
 	if found != 1 {
-		return fmt.Errorf("service tables :  %w", errNotOneGeocode)
+		return fmt.Errorf("service tables : %w", errNotOneGeocode)
 	}
 
 	return nil
