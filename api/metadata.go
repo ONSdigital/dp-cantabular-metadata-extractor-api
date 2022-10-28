@@ -118,29 +118,29 @@ func (api *CantabularMetadataExtractorAPI) GetMetadataDataset(ctx context.Contex
 // the result from the metadata server matches the recipe.  This ensures also the
 // following GetMetadataDataset uses "ltla".
 func OverrideMetadataTable(dims []string, mt *cantabular.MetadataTableQuery) error {
-	found := 0
+	substituted := 0
 	for i, v := range dims {
 		if inSlice(v, validGeo) {
 			dims[i] = geoCodeOverride
-			found++
+			substituted++
 		}
 	}
 
-	if found != 1 {
+	if substituted != 1 {
 		return fmt.Errorf("dimensions : %w", errNotOneGeocode)
 	}
 
-	found = 0
+	substituted = 0
 	for i, v := range mt.Service.Tables {
 		for j, c := range v.Vars {
 			if inSlice(string(c), validGeo) {
 				mt.Service.Tables[i].Vars[j] = graphql.String(geoCodeOverride)
-				found++
+				substituted++
 			}
 		}
 	}
 
-	if found != 1 {
+	if substituted != 1 {
 		return fmt.Errorf("service tables : %w", errNotOneGeocode)
 	}
 
