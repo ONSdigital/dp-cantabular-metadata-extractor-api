@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   title: "dp-cantabular-metadata-extractor-api"
-  description: "Supply Cantabular metadata (2011) for Florence metadata journey."
+  description: "Supply Cantabular metadata (2021) for Florence metadata journey."
   version: 1.0.0
   license:
     name: "Open Government Licence v3.0"
@@ -30,8 +30,8 @@ paths:
         required: true
       tags:
         - public
-      summary: 2011 Metadata Endpoint
-      description: Returns all available 2011 Metadata.
+      summary: 2021 Metadata Endpoint
+      description: Returns all available 2021 Metadata.
       produces:
         - application/json
       responses:
