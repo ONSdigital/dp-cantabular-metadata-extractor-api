@@ -14,9 +14,10 @@ import (
 )
 
 var (
-	geoCodeOverride  = "ltla"                                                               // Fran 20220831
-	validGeo         = []string{"ctry", "lsoa", "ltla", "msoa", "nat", "oa", "rgn", "utla"} // allowlist of codes
-	errNotOneGeocode = errors.New("invalid data - expected exactly one geocode")
+	geoCodeOverride   = "ltla"                                                               // Fran 20220831
+	validGeo          = []string{"ctry", "lsoa", "ltla", "msoa", "nat", "oa", "rgn", "utla"} // allowlist of codes
+	errNotOneGeocode  = errors.New("invalid data - expected exactly one geocode")
+	errUnexpectedResp = errors.New("unexpected JSON response")
 )
 
 // getMetadata is the main entry point
@@ -41,7 +42,13 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 		return
 	}
 
-	// XXX Are all vars in the same (cantabular) dataset?
+	if len(mt.Service.Tables) == 0 {
+		err := fmt.Errorf("%s : %w", "mt.Service.Tables", errUnexpectedResp)
+		log.Error(ctx, err.Error(), err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	cantdataset := string(mt.Service.Tables[0].DatasetName)
 
 	md, err := api.GetMetadataDataset(ctx, cantdataset, dimensions, params["lang"])
@@ -77,7 +84,13 @@ func (api *CantabularMetadataExtractorAPI) GetMetadataTable(ctx context.Context,
 	}
 
 	if len(mt.Service.Tables) == 0 {
-		return mt, dims, errors.New("no dims/vars") // XXX
+
+		return mt, dims, fmt.Errorf("%s : %w", "mt.Service.Tables", errUnexpectedResp)
+	}
+
+	if len(mt.Service.Tables[0].Vars) == 0 {
+
+		return mt, dims, fmt.Errorf("%s : %w", "mt.Service.Tables.Vars", errUnexpectedResp)
 	}
 
 	for _, v := range mt.Service.Tables[0].Vars {
