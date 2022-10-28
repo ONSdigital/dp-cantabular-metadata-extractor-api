@@ -20,8 +20,8 @@ func TestGetMetadataTable(t *testing.T) {
 	cantMetadataExtractorAPI := &api.CantabularMetadataExtractorAPI{}
 	cantMetadataExtractorAPI.Cfg, _ = config.Get()
 
-	Convey("Given a mock CantExtAPI client and datasetID/cantabular table", t, func() {
-		cantMetadataExtractorAPI.CantExtAPI = &mock.CantExtAPIMock{
+	Convey("Given a mock CantMetaAPIMock client and datasetID/cantabular table", t, func() {
+		cantMetadataExtractorAPI.CantMetaAPI = &mock.CantMetaAPIMock{
 
 			MetadataTableQueryFunc: func(ctx context.Context, req cantabular.MetadataTableQueryRequest) (*cantabular.MetadataTableQuery, error) {
 				mt, err := getMT()
@@ -45,8 +45,8 @@ func TestGetMetadataDataset(t *testing.T) {
 	cantMetadataExtractorAPI := &api.CantabularMetadataExtractorAPI{}
 	cantMetadataExtractorAPI.Cfg, _ = config.Get()
 
-	Convey("Given a mock CantExtAPI client and datasetID/cantabular table", t, func() {
-		cantMetadataExtractorAPI.CantExtAPI = &mock.CantExtAPIMock{
+	Convey("Given a mock CantMetaAPIMock client and datasetID/cantabular table", t, func() {
+		cantMetadataExtractorAPI.CantMetaAPI = &mock.CantMetaAPIMock{
 
 			MetadataDatasetQueryFunc: func(ctx context.Context, req cantabular.MetadataDatasetQueryRequest) (*cantabular.MetadataDatasetQuery, error) {
 				md := &cantabular.MetadataDatasetQuery{}

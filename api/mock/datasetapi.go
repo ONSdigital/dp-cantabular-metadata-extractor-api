@@ -10,16 +10,16 @@ import (
 	"sync"
 )
 
-// Ensure, that CantExtAPIMock does implement api.CantExtAPI.
+// Ensure, that CantMetaAPIMock does implement api.CantMetaAPI.
 // If this is not the case, regenerate this file with moq.
-var _ api.CantExtAPI = &CantExtAPIMock{}
+var _ api.CantMetaAPI = &CantMetaAPIMock{}
 
-// CantExtAPIMock is a mock implementation of api.CantExtAPI.
+// CantMetaAPIMock is a mock implementation of api.CantMetaAPI.
 //
-// 	func TestSomethingThatUsesCantExtAPI(t *testing.T) {
+// 	func TestSomethingThatUsesCantMetaAPI(t *testing.T) {
 //
-// 		// make and configure a mocked api.CantExtAPI
-// 		mockedCantExtAPI := &CantExtAPIMock{
+// 		// make and configure a mocked api.CantMetaAPI
+// 		mockedCantMetaAPI := &CantMetaAPIMock{
 // 			MetadataDatasetQueryFunc: func(ctx context.Context, req cantabular.MetadataDatasetQueryRequest) (*cantabular.MetadataDatasetQuery, error) {
 // 				panic("mock out the MetadataDatasetQuery method")
 // 			},
@@ -28,11 +28,11 @@ var _ api.CantExtAPI = &CantExtAPIMock{}
 // 			},
 // 		}
 //
-// 		// use mockedCantExtAPI in code that requires api.CantExtAPI
+// 		// use mockedCantMetaAPI in code that requires api.CantMetaAPI
 // 		// and then make assertions.
 //
 // 	}
-type CantExtAPIMock struct {
+type CantMetaAPIMock struct {
 	// MetadataDatasetQueryFunc mocks the MetadataDatasetQuery method.
 	MetadataDatasetQueryFunc func(ctx context.Context, req cantabular.MetadataDatasetQueryRequest) (*cantabular.MetadataDatasetQuery, error)
 
@@ -61,9 +61,9 @@ type CantExtAPIMock struct {
 }
 
 // MetadataDatasetQuery calls MetadataDatasetQueryFunc.
-func (mock *CantExtAPIMock) MetadataDatasetQuery(ctx context.Context, req cantabular.MetadataDatasetQueryRequest) (*cantabular.MetadataDatasetQuery, error) {
+func (mock *CantMetaAPIMock) MetadataDatasetQuery(ctx context.Context, req cantabular.MetadataDatasetQueryRequest) (*cantabular.MetadataDatasetQuery, error) {
 	if mock.MetadataDatasetQueryFunc == nil {
-		panic("CantExtAPIMock.MetadataDatasetQueryFunc: method is nil but CantExtAPI.MetadataDatasetQuery was just called")
+		panic("CantMetaAPIMock.MetadataDatasetQueryFunc: method is nil but CantMetaAPI.MetadataDatasetQuery was just called")
 	}
 	callInfo := struct {
 		Ctx context.Context
@@ -80,8 +80,8 @@ func (mock *CantExtAPIMock) MetadataDatasetQuery(ctx context.Context, req cantab
 
 // MetadataDatasetQueryCalls gets all the calls that were made to MetadataDatasetQuery.
 // Check the length with:
-//     len(mockedCantExtAPI.MetadataDatasetQueryCalls())
-func (mock *CantExtAPIMock) MetadataDatasetQueryCalls() []struct {
+//     len(mockedCantMetaAPI.MetadataDatasetQueryCalls())
+func (mock *CantMetaAPIMock) MetadataDatasetQueryCalls() []struct {
 	Ctx context.Context
 	Req cantabular.MetadataDatasetQueryRequest
 } {
@@ -96,9 +96,9 @@ func (mock *CantExtAPIMock) MetadataDatasetQueryCalls() []struct {
 }
 
 // MetadataTableQuery calls MetadataTableQueryFunc.
-func (mock *CantExtAPIMock) MetadataTableQuery(ctx context.Context, req cantabular.MetadataTableQueryRequest) (*cantabular.MetadataTableQuery, error) {
+func (mock *CantMetaAPIMock) MetadataTableQuery(ctx context.Context, req cantabular.MetadataTableQueryRequest) (*cantabular.MetadataTableQuery, error) {
 	if mock.MetadataTableQueryFunc == nil {
-		panic("CantExtAPIMock.MetadataTableQueryFunc: method is nil but CantExtAPI.MetadataTableQuery was just called")
+		panic("CantMetaAPIMock.MetadataTableQueryFunc: method is nil but CantMetaAPI.MetadataTableQuery was just called")
 	}
 	callInfo := struct {
 		Ctx context.Context
@@ -115,8 +115,8 @@ func (mock *CantExtAPIMock) MetadataTableQuery(ctx context.Context, req cantabul
 
 // MetadataTableQueryCalls gets all the calls that were made to MetadataTableQuery.
 // Check the length with:
-//     len(mockedCantExtAPI.MetadataTableQueryCalls())
-func (mock *CantExtAPIMock) MetadataTableQueryCalls() []struct {
+//     len(mockedCantMetaAPI.MetadataTableQueryCalls())
+func (mock *CantMetaAPIMock) MetadataTableQueryCalls() []struct {
 	Ctx context.Context
 	Req cantabular.MetadataTableQueryRequest
 } {

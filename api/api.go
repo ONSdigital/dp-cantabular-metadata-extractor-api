@@ -8,27 +8,27 @@ import (
 	"github.com/gorilla/mux"
 )
 
-//go:generate moq -out mock/datasetapi.go -pkg mock . CantExtAPI
+//go:generate moq -out mock/datasetapi.go -pkg mock . CantMetaAPI
 
 // cantExtAPI
-type CantExtAPI interface {
+type CantMetaAPI interface {
 	MetadataDatasetQuery(ctx context.Context, req cantabular.MetadataDatasetQueryRequest) (*cantabular.MetadataDatasetQuery, error)
 	MetadataTableQuery(ctx context.Context, req cantabular.MetadataTableQueryRequest) (*cantabular.MetadataTableQuery, error)
 }
 
 type CantabularMetadataExtractorAPI struct {
-	Router     *mux.Router
-	CantExtAPI CantExtAPI
-	Cfg        *config.Config
+	Router      *mux.Router
+	CantMetaAPI CantMetaAPI
+	Cfg         *config.Config
 }
 
 // Setup function sets up the api and returns an api
-func Setup(ctx context.Context, r *mux.Router, config *config.Config, c CantExtAPI) *CantabularMetadataExtractorAPI {
+func Setup(ctx context.Context, r *mux.Router, config *config.Config, c CantMetaAPI) *CantabularMetadataExtractorAPI {
 
 	api := &CantabularMetadataExtractorAPI{
-		Router:     r,
-		CantExtAPI: c,
-		Cfg:        config,
+		Router:      r,
+		CantMetaAPI: c,
+		Cfg:         config,
 	}
 
 	r.HandleFunc("/cantabular-metadata/dataset/{datasetID}/lang/{lang}", api.getMetadata).Methods("GET")

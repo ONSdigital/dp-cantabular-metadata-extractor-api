@@ -16,7 +16,7 @@ func TestSetup(t *testing.T) {
 	Convey("Given an API instance", t, func() {
 		r := mux.NewRouter()
 		ctx := context.Background()
-		c := &mock.CantExtAPIMock{}
+		c := &mock.CantMetaAPIMock{}
 		cfg, err := config.Get()
 		if err != nil {
 			t.Fail()

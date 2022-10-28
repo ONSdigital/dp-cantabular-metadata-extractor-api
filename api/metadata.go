@@ -71,7 +71,7 @@ func (api *CantabularMetadataExtractorAPI) GetMetadataTable(ctx context.Context,
 	req := cantabular.MetadataTableQueryRequest{Variables: []string{cantDataset}, Lang: lang}
 
 	var dims []string
-	mt, err := api.CantExtAPI.MetadataTableQuery(context.Background(), req)
+	mt, err := api.CantMetaAPI.MetadataTableQuery(context.Background(), req)
 	if err != nil {
 		return mt, dims, err
 	}
@@ -94,7 +94,7 @@ func (api *CantabularMetadataExtractorAPI) GetMetadataDataset(ctx context.Contex
 	req.Variables = dimensions
 	req.Lang = lang
 
-	md, err := api.CantExtAPI.MetadataDatasetQuery(ctx, req)
+	md, err := api.CantMetaAPI.MetadataDatasetQuery(ctx, req)
 
 	return md, err
 
