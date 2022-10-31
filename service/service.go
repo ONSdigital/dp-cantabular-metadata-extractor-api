@@ -124,11 +124,11 @@ func (svc *Service) Close(ctx context.Context) error {
 func registerCheckers(ctx context.Context, hc HealthChecker, c *cantabular.Client) (err error) {
 	hasErrors := false
 
-	if err = hc.AddCheck("cantabular-api-ext", c.CheckerAPIExt); err != nil {
+	if err = hc.AddCheck("dp-cantabular-metadata-service", c.CheckerMetadataService); err != nil {
 		hasErrors = true
-		log.Error(ctx, "error adding check for cantabular-api-ext", err)
+		log.Error(ctx, "error adding check for dp-cantabular-metadata-service", err)
 	} else {
-		log.Info(ctx, "added check for cantabular-api-ext")
+		log.Info(ctx, "added check for dp-cantabular-metadata-service")
 	}
 
 	if hasErrors {
