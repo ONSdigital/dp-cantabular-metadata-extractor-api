@@ -49,8 +49,8 @@ github.com/ONSdigital/dp-component-test v0.7.0 h1:VfAxUPDSSt106qxDVF9NQ/5S9GwJai
 github.com/ONSdigital/dp-component-test v0.7.0/go.mod h1:6nvnxyPDFxEhVVIciXdMJ5e2nG8wS8XGhciCtuan5xo=
 github.com/ONSdigital/dp-healthcheck v1.0.5/go.mod h1:2wbVAUHMl9+4tWhUlxYUuA1dnf2+NrwzC+So5f5BMLk=
 github.com/ONSdigital/dp-healthcheck v1.1.0/go.mod h1:vZwyjMJiCHjp/sJ2R1ZEqzZT0rJ0+uHVGwxqdP4J5vg=
-github.com/ONSdigital/dp-healthcheck v1.3.0 h1:WQLajH8Ne47fHcz3of9dZKCvqeBmjw+Kyx4bHzpzZLk=
-github.com/ONSdigital/dp-healthcheck v1.3.0/go.mod h1:XUhXoDIWPCdletDtpDOoXhmDFcc9b/kbedx96jN75aI=
+github.com/ONSdigital/dp-healthcheck v1.5.0 h1:w3iMuq+CIr8lyu8xPgXPlU3MQGXWlm4eiQgsQHyqRWc=
+github.com/ONSdigital/dp-healthcheck v1.5.0/go.mod h1:oz2V3rz3D0GNso9GnIjxl8g4GhBExHTCRtTl/T4+iOk=
 github.com/ONSdigital/dp-mocking v0.0.0-20190905163309-fee2702ad1b9/go.mod h1:BcIRgitUju//qgNePRBmNjATarTtynAgc0yV29VpLEk=
 github.com/ONSdigital/dp-mongodb-in-memory v1.2.0 h1:rv4fMJXul4KLU2INlzGF73/EWz4Zezndn53ZAKY4gAo=
 github.com/ONSdigital/dp-mongodb-in-memory v1.2.0/go.mod h1:AQaNcbSS18WtldA4iWUlHQDn9FCLB2K6ff68QnvZBqM=
@@ -62,8 +62,8 @@ github.com/ONSdigital/dp-net v1.0.12/go.mod h1:2lvIKOlD4T3BjWQwjHhBUO2UNWDk82u/+
 github.com/ONSdigital/dp-net v1.2.0/go.mod h1:NinlaqcsPbIR+X7j5PXCl3UI5G2zCL041SDF6WIiiO4=
 github.com/ONSdigital/dp-net v1.5.0 h1:H47O5N+eXyXCYqPoQGWwuK12uLds3pCgzxpYwepg+bQ=
 github.com/ONSdigital/dp-net v1.5.0/go.mod h1:d/S4n6FJlQwmVIa2rnVt1HnAUgM8XsG0QEJBQp48uGg=
-github.com/ONSdigital/dp-net/v2 v2.4.0 h1:GYJM8ZFGfWOAjUUMO8rXavowAT700q3Zi/vYjc2jh8o=
-github.com/ONSdigital/dp-net/v2 v2.4.0/go.mod h1:8X7E1wiJxL59qaDFt3ShDfFLfIGs4WMRPx1sZIgAqbU=
+github.com/ONSdigital/dp-net/v2 v2.6.0 h1:orxdb0SVDrJgz/zma0QXgQCAGJdLDhp6g2XqH6VFUZw=
+github.com/ONSdigital/dp-net/v2 v2.6.0/go.mod h1:4/2ZyId//hFa7AtbbRNQctY729C1Vbw4UEdOliRvpZI=
 github.com/ONSdigital/go-ns v0.0.0-20191104121206-f144c4ec2e58/go.mod h1:iWos35il+NjbvDEqwtB736pyHru0MPFE/LqcwkV1wDc=
 github.com/ONSdigital/log.go v1.0.0/go.mod h1:UnGu9Q14gNC+kz0DOkdnLYGoqugCvnokHBRBxFRpVoQ=
 github.com/ONSdigital/log.go v1.0.1-0.20200805084515-ee61165ea36a/go.mod h1:dDnQATFXCBOknvj6ZQuKfmDhbOWf3e8mtV+dPEfWJqs=
@@ -73,8 +73,8 @@ github.com/ONSdigital/log.go v1.1.0/go.mod h1:0hOVuYR3bDUI30VRo48d5KHfJIoe+spuPX
 github.com/ONSdigital/log.go/v2 v2.0.0/go.mod h1:PR7vXrv9dZKUc7SI/0toxBbStk84snmybBnWpe+xY2o=
 github.com/ONSdigital/log.go/v2 v2.0.5/go.mod h1:PR7vXrv9dZKUc7SI/0toxBbStk84snmybBnWpe+xY2o=
 github.com/ONSdigital/log.go/v2 v2.0.9/go.mod h1:VyTDkL82FtiAkaNFaT+bURBhLbP7NsIx4rkVbdpiuEg=
-github.com/ONSdigital/log.go/v2 v2.2.0 h1:Rkv6Gbfa3Jzy5AfPWkUDEnpFNhzYyaGQ6f7YUdBKnHs=
-github.com/ONSdigital/log.go/v2 v2.2.0/go.mod h1:i0eFlPDlF1fI4k0/SvXhQIkyQxs676EySpYPj3rQy+I=
+github.com/ONSdigital/log.go/v2 v2.3.0 h1:go+KkUR36/CClez+UCCwVIVqFie1w3PYgvAyoclKVYM=
+github.com/ONSdigital/log.go/v2 v2.3.0/go.mod h1:s5iqJuW0jDE8V7VQJqLHT73nn/H8u1c+A2Nqw2QPEeo=
 github.com/aws/aws-sdk-go v1.44.76 h1:5e8yGO/XeNYKckOjpBKUd5wStf0So3CrQIiOMCVLpOI=
 github.com/aws/aws-sdk-go v1.44.76/go.mod h1:y4AeaBuwd2Lk+GepC1E9v0qOiTws0MIWAX4oIKwKHZo=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
