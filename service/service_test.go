@@ -9,6 +9,8 @@ import (
 	"time"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/health"
+	"github.com/ONSdigital/dp-authorisation/v2/authorisation"
+	authorisationMock "github.com/ONSdigital/dp-authorisation/v2/authorisation/mock"
 	"github.com/ONSdigital/dp-healthcheck/healthcheck"
 
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
@@ -46,6 +48,15 @@ func TestRun(t *testing.T) {
 		cfg, err := config.Get()
 		So(err, ShouldBeNil)
 
+		authorisationMiddleware := &authorisationMock.MiddlewareMock{
+			RequireFunc: func(permission string, handlerFunc http.HandlerFunc) http.HandlerFunc {
+				return handlerFunc
+			},
+			CloseFunc: func(ctx context.Context) error {
+				return nil
+			},
+		}
+
 		hcMock := &serviceMock.HealthCheckerMock{
 			AddCheckFunc: func(name string, checker healthcheck.Checker) error { return nil },
 			StartFunc:    func(ctx context.Context) {},
@@ -64,6 +75,10 @@ func TestRun(t *testing.T) {
 				serverWg.Done()
 				return errServer
 			},
+		}
+
+		funcDoGetAuthOk := func(ctx context.Context, authorisationConfig *authorisation.Config) (authorisation.Middleware, error) {
+			return authorisationMiddleware, nil
 		}
 
 		funcDoGetHealthcheckOk := func(cfg *config.Config, buildTime string, gitCommit string, version string) (service.HealthChecker, error) {
@@ -89,9 +104,10 @@ func TestRun(t *testing.T) {
 
 			// setup (run before each `Convey` at this scope / indentation):
 			initMock := &serviceMock.InitialiserMock{
-				DoGetHTTPServerFunc:   funcDoGetHTTPServerNil,
-				DoGetHealthCheckFunc:  funcDoGetHealthcheckErr,
-				DoGetHealthClientFunc: funcDoGetHealthClientOk,
+				DoGetHTTPServerFunc:              funcDoGetHTTPServerNil,
+				DoGetHealthCheckFunc:             funcDoGetHealthcheckErr,
+				DoGetHealthClientFunc:            funcDoGetHealthClientOk,
+				DoGetAuthorisationMiddlewareFunc: funcDoGetAuthOk,
 			}
 			svcErrors := make(chan error, 1)
 			svcList := service.NewServiceList(initMock)
@@ -111,9 +127,10 @@ func TestRun(t *testing.T) {
 
 			// setup (run before each `Convey` at this scope / indentation):
 			initMock := &serviceMock.InitialiserMock{
-				DoGetHTTPServerFunc:   funcDoGetHTTPServer,
-				DoGetHealthCheckFunc:  funcDoGetHealthcheckOk,
-				DoGetHealthClientFunc: funcDoGetHealthClientOk,
+				DoGetHTTPServerFunc:              funcDoGetHTTPServer,
+				DoGetHealthCheckFunc:             funcDoGetHealthcheckOk,
+				DoGetHealthClientFunc:            funcDoGetHealthClientOk,
+				DoGetAuthorisationMiddlewareFunc: funcDoGetAuthOk,
 			}
 			svcErrors := make(chan error, 1)
 			svcList := service.NewServiceList(initMock)
@@ -181,6 +198,7 @@ func TestRun(t *testing.T) {
 				DoGetHealthCheckFunc:  funcDoGetHealthcheckOk,
 				DoGetHTTPServerFunc:   funcDoGetFailingHTTPSerer,
 				DoGetHealthClientFunc: funcDoGetHealthClientOk,
+				DoGetAuthorisationMiddlewareFunc: funcDoGetAuthOk,
 			}
 			svcErrors := make(chan error, 1)
 			svcList := service.NewServiceList(initMock)
@@ -210,6 +228,15 @@ func TestClose(t *testing.T) {
 
 		hcStopped := false
 
+		authorisationMiddleware := &authorisationMock.MiddlewareMock{
+			RequireFunc: func(permission string, handlerFunc http.HandlerFunc) http.HandlerFunc {
+				return handlerFunc
+			},
+			CloseFunc: func(ctx context.Context) error {
+				return nil
+			},
+		}
+
 		// healthcheck Stop does not depend on any other service being closed/stopped
 		hcMock := &serviceMock.HealthCheckerMock{
 			AddCheckFunc: func(name string, checker healthcheck.Checker) error { return nil },
@@ -236,6 +263,9 @@ func TestClose(t *testing.T) {
 					return hcMock, nil
 				},
 				DoGetHealthClientFunc: func(name, url string) *health.Client { return &health.Client{} },
+				DoGetAuthorisationMiddlewareFunc: func(ctx context.Context, authorisationConfig *authorisation.Config) (authorisation.Middleware, error) {
+					return authorisationMiddleware, nil
+				},
 			}
 
 			svcErrors := make(chan error, 1)
@@ -264,6 +294,9 @@ func TestClose(t *testing.T) {
 					return hcMock, nil
 				},
 				DoGetHealthClientFunc: func(name, url string) *health.Client { return &health.Client{} },
+				DoGetAuthorisationMiddlewareFunc: func(ctx context.Context, authorisationConfig *authorisation.Config) (authorisation.Middleware, error) {
+					return authorisationMiddleware, nil
+				},
 			}
 
 			svcErrors := make(chan error, 1)
@@ -293,7 +326,7 @@ func TestClose(t *testing.T) {
 				Config:      cfg,
 				ServiceList: svcList,
 				Server:      timeoutServerMock,
-				HealthCheck: hcMock,
+				HealthCheck: hcMock,				
 			}
 
 			err = svc.Close(context.Background())

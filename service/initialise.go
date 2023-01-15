@@ -1,8 +1,10 @@
 package service
 
 import (
+	"context"
 	"net/http"
 
+	"github.com/ONSdigital/dp-authorisation/v2/authorisation"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/health"
@@ -27,6 +29,11 @@ func NewServiceList(initialiser Initialiser) *ExternalServiceList {
 // Init implements the Initialiser interface to initialise dependencies
 type Init struct{}
 
+// GetAuthorisationMiddleware creates a new instance of authorisation.Middlware
+func (e *ExternalServiceList) GetAuthorisationMiddleware(ctx context.Context, authorisationConfig *authorisation.Config) (authorisation.Middleware, error) {
+	return e.Init.DoGetAuthorisationMiddleware(ctx, authorisationConfig)
+}
+
 // GetHTTPServer creates an http server
 func (e *ExternalServiceList) GetHTTPServer(bindAddr string, router http.Handler) HTTPServer {
 	s := e.Init.DoGetHTTPServer(bindAddr, router)
@@ -46,6 +53,11 @@ func (e *ExternalServiceList) GetHealthCheck(cfg *config.Config, buildTime, gitC
 // GetHealthClient returns a healthclient for the provided URL
 func (e *ExternalServiceList) GetHealthClient(name, url string) *health.Client {
 	return e.Init.DoGetHealthClient(name, url)
+}
+
+// DoGetAuthorisationMiddleware creates authorisation middleware for the given config
+func (e *Init) DoGetAuthorisationMiddleware(ctx context.Context, authorisationConfig *authorisation.Config) (authorisation.Middleware, error) {
+	return authorisation.NewFeatureFlaggedMiddleware(ctx, authorisationConfig, nil)
 }
 
 // DoGetHTTPServer creates an HTTP Server with the provided bind address and router

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
+	"github.com/ONSdigital/dp-authorisation/v2/authorisation"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 	"github.com/ONSdigital/log.go/v2/log"
@@ -15,13 +16,14 @@ import (
 
 // Service contains all the configs, server and clients to run the API
 type Service struct {
-	Config      *config.Config
-	Server      HTTPServer
-	Router      *mux.Router
-	API         *api.CantabularMetadataExtractorAPI
-	ServiceList *ExternalServiceList
-	HealthCheck HealthChecker
-	Client      *cantabular.Client
+	Config                  *config.Config
+	Server                  HTTPServer
+	Router                  *mux.Router
+	API                     *api.CantabularMetadataExtractorAPI
+	ServiceList             *ExternalServiceList
+	HealthCheck             HealthChecker
+	Client                  *cantabular.Client
+	authorisationMiddleware authorisation.Middleware
 }
 
 // Run the service
@@ -38,8 +40,14 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 
 	c := cantabular.NewClient(cantabular.Config{ExtApiHost: cfg.CantabularMetadataURL}, dphttp.NewClient(), nil)
 
+	auth, err := serviceList.GetAuthorisationMiddleware(ctx, cfg.AuthorisationConfig)
+	if err != nil {
+		log.Fatal(ctx, "could not instantiate authorisation middleware", err)
+		return nil, err
+	}
+	
 	// Setup the API
-	a := api.Setup(ctx, r, cfg, c)
+	a := api.Setup(ctx, r, cfg, c, auth)
 
 	// Get HealthCheck
 	hc, err := serviceList.GetHealthCheck(cfg, buildTime, gitCommit, version)

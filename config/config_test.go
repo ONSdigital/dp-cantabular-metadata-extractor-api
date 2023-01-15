@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/ONSdigital/dp-authorisation/v2/authorisation"
 	. "github.com/smartystreets/goconvey/convey"
 )
 
@@ -30,6 +31,7 @@ func TestConfig(t *testing.T) {
 					HealthCheckCriticalTimeout: 90 * time.Second,
 					CantabularMetadataURL:      "http://localhost:8493",
 					ServiceAuthToken:           "FD0108EA-825D-411C-9B1D-41EF7727F465",
+					AuthorisationConfig:        authorisation.NewDefaultConfig(),
 				})
 			})
 

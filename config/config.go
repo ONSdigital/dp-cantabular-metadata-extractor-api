@@ -3,6 +3,7 @@ package config
 import (
 	"time"
 
+	"github.com/ONSdigital/dp-authorisation/v2/authorisation"
 	"github.com/kelseyhightower/envconfig"
 )
 
@@ -14,6 +15,7 @@ type Config struct {
 	HealthCheckCriticalTimeout time.Duration `envconfig:"HEALTHCHECK_CRITICAL_TIMEOUT"`
 	CantabularMetadataURL      string        `envconfig:"CANTABULAR_METADATA_URL"`
 	ServiceAuthToken           string        `envconfig:"SERVICE_AUTH_TOKEN"               json:"-"`
+	AuthorisationConfig        *authorisation.Config
 }
 
 var cfg *Config
@@ -25,6 +27,9 @@ func Get() (*Config, error) {
 		return cfg, nil
 	}
 
+	auth := authorisation.NewDefaultConfig()
+	auth.Enabled = false
+
 	cfg = &Config{
 		BindAddr:                   "localhost:28300",
 		GracefulShutdownTimeout:    5 * time.Second,
@@ -32,6 +37,7 @@ func Get() (*Config, error) {
 		HealthCheckCriticalTimeout: 90 * time.Second,
 		CantabularMetadataURL:      "http://localhost:8493",
 		ServiceAuthToken:           "FD0108EA-825D-411C-9B1D-41EF7727F465",
+		AuthorisationConfig:        auth,
 	}
 
 	return cfg, envconfig.Process("", cfg)

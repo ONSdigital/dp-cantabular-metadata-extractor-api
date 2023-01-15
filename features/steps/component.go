@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/ONSdigital/dp-authorisation/v2/authorisation"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/service"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/service/mock"
@@ -40,9 +41,10 @@ func NewComponent() (*Component, error) {
 	}
 
 	initMock := &mock.InitialiserMock{
-		DoGetHealthCheckFunc:  c.DoGetHealthcheckOk,
-		DoGetHTTPServerFunc:   c.DoGetHTTPServer,
-		DoGetHealthClientFunc: c.DoGetHealthClient,
+		DoGetHealthCheckFunc:             c.DoGetHealthcheckOk,
+		DoGetHTTPServerFunc:              c.DoGetHTTPServer,
+		DoGetHealthClientFunc:            c.DoGetHealthClient,
+		DoGetAuthorisationMiddlewareFunc: c.DoGetAuthorisationMiddleware,
 	}
 
 	c.svcList = service.NewServiceList(initMock)
@@ -74,6 +76,14 @@ func (c *Component) InitialiseService() (http.Handler, error) {
 
 	c.ServiceRunning = true
 	return c.HTTPServer.Handler, nil
+}
+
+func (f *Component) DoGetAuthorisationMiddleware(ctx context.Context, cfg *authorisation.Config) (authorisation.Middleware, error) {
+	middleware, err := authorisation.NewMiddlewareFromConfig(ctx, cfg, cfg.JWTVerificationPublicKeys)
+	if err != nil {
+		return nil, err
+	}
+	return middleware, nil
 }
 
 func (c *Component) DoGetHealthcheckOk(cfg *config.Config, buildTime string, gitCommit string, version string) (service.HealthChecker, error) {
