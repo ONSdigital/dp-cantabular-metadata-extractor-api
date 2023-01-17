@@ -57,6 +57,9 @@ func (e *ExternalServiceList) GetHealthClient(name, url string) *health.Client {
 
 // DoGetAuthorisationMiddleware creates authorisation middleware for the given config
 func (e *Init) DoGetAuthorisationMiddleware(ctx context.Context, authorisationConfig *authorisation.Config) (authorisation.Middleware, error) {
+	if authorisationConfig.Enabled {
+		return authorisation.NewMiddlewareFromConfig(ctx, authorisationConfig, nil)
+	}
 	return authorisation.NewFeatureFlaggedMiddleware(ctx, authorisationConfig, nil)
 }
 
