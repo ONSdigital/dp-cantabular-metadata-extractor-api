@@ -14,7 +14,6 @@ type Config struct {
 	HealthCheckInterval        time.Duration `envconfig:"HEALTHCHECK_INTERVAL"`
 	HealthCheckCriticalTimeout time.Duration `envconfig:"HEALTHCHECK_CRITICAL_TIMEOUT"`
 	CantabularMetadataURL      string        `envconfig:"CANTABULAR_METADATA_URL"`
-	ServiceAuthToken           string        `envconfig:"SERVICE_AUTH_TOKEN"               json:"-"`
 	AuthorisationConfig        *authorisation.Config
 }
 
@@ -36,7 +35,6 @@ func Get() (*Config, error) {
 		HealthCheckInterval:        30 * time.Second,
 		HealthCheckCriticalTimeout: 90 * time.Second,
 		CantabularMetadataURL:      "http://localhost:8493",
-		ServiceAuthToken:           "FD0108EA-825D-411C-9B1D-41EF7727F465",
 		AuthorisationConfig:        auth,
 	}
 
