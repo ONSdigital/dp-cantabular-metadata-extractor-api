@@ -1,11 +1,12 @@
 # dp-cantabular-metadata-extractor-api
+
 Supply Cantabular metadata for Florence metadata journey.
 
-### Getting started
+## Getting started
 
 * Run `make debug`
 
-### Dependencies
+## Dependencies
 
 * Requires Cantabular Server running on port 8491 (see [dp-cantabular-server](https://github.com/ONSdigital/dp-cantabular-server))
 * Requires Cantabular UI running on port 8080 (see [dp-cantabular-ui](https://github.com/ONSdigital/dp-cantabular-ui))
@@ -18,7 +19,7 @@ There are the following further dependencies if running with AUTHORISATION_ENABL
 
 * No further dependencies other than those defined in `go.mod`
 
-### Configuration
+## Configuration
 
 | Environment variable                      | Default                  | Description
 | ----------------------------------------- | ------------------------ | -----------
@@ -36,17 +37,14 @@ There are the following further dependencies if running with AUTHORISATION_ENABL
 | IDENTITY_WEB_KEY_SET_URL                  | http://localhost:25600   | Identity web key set URL
 | AUTHORISATION_IDENTITY_CLIENT_MAX_RETRIES | 2                        | Identity client max retries
 
-### Running with Authentication Enabled
+## Running with Authentication Enabled
 
-
-
-### Contributing
+## Contributing
 
 See [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-### License
+## License
 
 Copyright © 2022, Office for National Statistics (https://www.ons.gov.uk)
 
 Released under MIT license, see [LICENSE](LICENSE.md) for details.
-
