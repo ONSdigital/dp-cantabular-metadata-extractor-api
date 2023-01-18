@@ -77,8 +77,12 @@ Bearer eyJraWQiOiJqeFlva3pnVER5UVVNb1VTM0c0ODNoa0VjY3hFSklKdCtHVjAraHVSRUpBPSIsI
 ```
 
 * export AUTHORISATION_ENABLED=true
-* Run the cantabular metatdata exporter api on port 28300:
+* Run the cantabular metatdata exporter api on port 28300
+
+```shell
 make debug
+```
+
 * Send a GET request to the following endpoint:
 
 ```hp
