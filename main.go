@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 	"os/signal"
+	"syscall"
 
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/service"
@@ -34,7 +35,7 @@ func main() {
 
 func run(ctx context.Context) error {
 	signals := make(chan os.Signal, 1)
-	signal.Notify(signals, os.Interrupt, os.Kill)
+	signal.Notify(signals, os.Interrupt, syscall.SIGTERM)
 
 	// Run the service, providing an error channel for fatal errors
 	svcErrors := make(chan error, 1)
@@ -57,11 +58,12 @@ func run(ctx context.Context) error {
 	// blocks until an os interrupt or a fatal error occurs
 	select {
 	case err := <-svcErrors:
-		// TODO: call svc.Close(ctx) (or something specific)
-		//  if there are any service connections like Kafka that you need to shut down
 		return errors.Wrap(err, "service error received")
 	case sig := <-signals:
+		ctx := context.Background()
 		log.Info(ctx, "os signal received", log.Data{"signal": sig})
+		// Close already uses the GracefulShutdownTimeout - so will not block
+		svc.Close(ctx)
 	}
-	return svc.Close(ctx)
+	return nil
 }
