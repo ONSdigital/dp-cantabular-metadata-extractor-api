@@ -108,25 +108,25 @@ definitions:
     properties:
       name:
         type: string
-        description: "The name of external service used by API"
-        enum: ["mongodb"]
+        description: "The name of service used by API"
+        enum: ["dp-cantabular-metadata-service"]
       status:
         type: string
-        description: "The status of the external service"
+        description: "The status of the service"
         enum: ["OK", "WARNING", "CRITICAL"]
       message:
         type: string
-        description: "The message status of the external service"
-        example: "mongodb is OK"
+        description: "The message status of the service"
+        example: "dp-cantabular-metadata-service is ok"
       last_checked:
         type: string
-        description: "The last health check date and time of the external service"
+        description: "The last health check date and time of the service"
         example: "2020-06-11T11:49:50.330089Z"
       last_success:
         type: string
-        description: "The last successful health check date and time of the external service"
+        description: "The last successful health check date and time of the service"
         example: "2020-06-11T11:49:50.330089Z"
       last_failure:
         type: string
-        description: "The last failed health check date and time of the external service"
+        description: "The last failed health check date and time of the service"
         example: "2019-09-22T11:48:51.0000001Z"
