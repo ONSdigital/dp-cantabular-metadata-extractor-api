@@ -45,7 +45,7 @@ func Run(ctx context.Context, cfg *config.Config, serviceList *ExternalServiceLi
 		log.Fatal(ctx, "could not instantiate authorisation middleware", err)
 		return nil, err
 	}
-	
+
 	// Setup the API
 	a := api.Setup(ctx, r, cfg, c, auth)
 
@@ -105,8 +105,6 @@ func (svc *Service) Close(ctx context.Context) error {
 			log.Error(ctx, "failed to shutdown http server", err)
 			hasShutdownError = true
 		}
-
-		// TODO: Close other dependencies, in the expected order
 	}()
 
 	// wait for shutdown success (via cancel) or failure (timeout)

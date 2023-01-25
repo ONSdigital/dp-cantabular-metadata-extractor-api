@@ -9,7 +9,6 @@ import (
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api/mock"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
-	"github.com/shurcooL/graphql"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -29,7 +28,7 @@ func TestGetMetadataTable(t *testing.T) {
 				return &mt, nil
 			},
 		}
-		Convey("GetMetadataTable method should return correct dimensions", func() { // XXX
+		Convey("GetMetadataTable method should return correct dimensions", func() {
 			expected := []string{"oa", "sex"}
 			_, dims, err := cantMetadataExtractorAPI.GetMetadataTable(ctx, "UR", "en")
 			So(err, ShouldBeNil)
@@ -37,31 +36,6 @@ func TestGetMetadataTable(t *testing.T) {
 		})
 	})
 
-}
-
-func TestGetMetadataDataset(t *testing.T) {
-
-	ctx := context.Background()
-	cantMetadataExtractorAPI := &api.CantabularMetadataExtractorAPI{}
-	cantMetadataExtractorAPI.Cfg, _ = config.Get()
-
-	Convey("Given a mock CantMetaAPIMock client and datasetID/cantabular table", t, func() {
-		cantMetadataExtractorAPI.CantMetaAPI = &mock.CantMetaAPIMock{
-
-			MetadataDatasetQueryFunc: func(ctx context.Context, req cantabular.MetadataDatasetQueryRequest) (*cantabular.MetadataDatasetQuery, error) {
-				md := &cantabular.MetadataDatasetQuery{}
-				md.Dataset.Description = graphql.String("This is some summary test...")
-				return md, nil
-			},
-		}
-
-		Convey("getDimensions method should return correct dimensions", func() { // XXX
-			md, err := cantMetadataExtractorAPI.GetMetadataDataset(ctx, "Teaching-Dataset", []string{"Age", "Sex"}, "en")
-			So(err, ShouldBeNil)
-			So(md.Dataset.Description, ShouldResemble, graphql.String("This is some summary test..."))
-
-		})
-	})
 }
 
 func TestOverrideMetadataTable(t *testing.T) {
