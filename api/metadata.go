@@ -53,9 +53,13 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 
 	cantdataset := string(mt.Service.Tables[0].DatasetName)
 
-	md, err := api.GetMetadataDataset(ctx, cantdataset, dimensions, params["lang"])
+	md, err := api.CantMetaAPI.MetadataDatasetQuery(ctx, cantabular.MetadataDatasetQueryRequest{
+		Dataset:   cantdataset,
+		Variables: dimensions,
+		Lang:      params["lang"],
+	})
 	if err != nil {
-		err = fmt.Errorf("%s : %w", "api.api.GetMetadataDataset", err)
+		err = fmt.Errorf("%s : %w", "api.CantMetaAPI.MetadataDatasetQuery", err)
 		log.Error(ctx, err.Error(), err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -101,19 +105,6 @@ func (api *CantabularMetadataExtractorAPI) GetMetadataTable(ctx context.Context,
 	}
 
 	return mt, dims, err
-}
-
-func (api *CantabularMetadataExtractorAPI) GetMetadataDataset(ctx context.Context, cantDataset string, dimensions []string, lang string) (*cantabular.MetadataDatasetQuery, error) {
-
-	req := cantabular.MetadataDatasetQueryRequest{}
-	req.Dataset = cantDataset
-	req.Variables = dimensions
-	req.Lang = lang
-
-	md, err := api.CantMetaAPI.MetadataDatasetQuery(ctx, req)
-
-	return md, err
-
 }
 
 // OverrideMetadataTable modifies the dimensions and results of the MetadataTableQuery
