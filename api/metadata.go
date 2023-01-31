@@ -20,52 +20,24 @@ var (
 	errUnexpectedResp = errors.New("unexpected JSON response")
 )
 
-// getMetadata is the main entry point
-func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r *http.Request) {
+// getMetadataHandler is the main entry point
+func (api *CantabularMetadataExtractorAPI) getMetadataHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	params := mux.Vars(r)
 
-	if params["lang"] == "" {
-		params["lang"] = "en"
+	datasetID := params["datasetID"]
+	lang := params["lang"]
+	if lang == "" {
+		lang = "en"
 	}
 
-	mt, dimensions, err := api.GetMetadataTable(ctx, params["datasetID"], params["lang"])
+	m, err := api.GetMetadata(ctx, datasetID, lang)
 	if err != nil {
-		err = fmt.Errorf("%s : %w", "api.GetMetadataTable", err)
+		err = fmt.Errorf("%s : %w", "api.GetMetadata", err)
 		log.Error(ctx, err.Error(), err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
-	if err := OverrideMetadataTable(dimensions, mt); err != nil {
-		err = fmt.Errorf("%s : %w", "OverrideMetadataTable", err)
-		log.Error(ctx, err.Error(), err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	if len(mt.Service.Tables) == 0 {
-		err := fmt.Errorf("%s : %w", "mt.Service.Tables", errUnexpectedResp)
-		log.Error(ctx, err.Error(), err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	cantdataset := string(mt.Service.Tables[0].DatasetName)
-
-	md, err := api.CantMetaAPI.MetadataDatasetQuery(ctx, cantabular.MetadataDatasetQueryRequest{
-		Dataset:   cantdataset,
-		Variables: dimensions,
-		Lang:      params["lang"],
-	})
-	if err != nil {
-		err = fmt.Errorf("%s : %w", "api.CantMetaAPI.MetadataDatasetQuery", err)
-		log.Error(ctx, err.Error(), err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	m := cantabular.MetadataQueryResult{TableQueryResult: mt, DatasetQueryResult: md}
 
 	json, err := json.Marshal(m)
 	if err != nil {
@@ -80,10 +52,38 @@ func (api *CantabularMetadataExtractorAPI) getMetadata(w http.ResponseWriter, r 
 	}
 }
 
-func (api *CantabularMetadataExtractorAPI) GetMetadataTable(ctx context.Context, cantDataset string, lang string) (*cantabular.MetadataTableQuery, []string, error) {
+func (api *CantabularMetadataExtractorAPI) GetMetadata(ctx context.Context, datasetID string, lang string) (*cantabular.MetadataQueryResult, error) {
+	mt, dimensions, err := api.GetMetadataTable(ctx, cantabular.MetadataTableQueryRequest{
+		Variables: []string{datasetID},
+		Lang:      lang,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("%s : %w", "api.GetMetadataTable", err)
+	}
 
-	req := cantabular.MetadataTableQueryRequest{Variables: []string{cantDataset}, Lang: lang}
+	if err := OverrideMetadataTable(dimensions, mt); err != nil {
+		return nil, fmt.Errorf("%s : %w", "OverrideMetadataTable", err)
+	}
 
+	if len(mt.Service.Tables) == 0 {
+		return nil, fmt.Errorf("%s : %w", "mt.Service.Tables", errUnexpectedResp)
+	}
+
+	cantdataset := string(mt.Service.Tables[0].DatasetName)
+
+	md, err := api.CantMetaAPI.MetadataDatasetQuery(ctx, cantabular.MetadataDatasetQueryRequest{
+		Dataset:   cantdataset,
+		Variables: dimensions,
+		Lang:      lang,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("%s : %w", "api.CantMetaAPI.MetadataDatasetQuery", err)
+	}
+
+	return &cantabular.MetadataQueryResult{TableQueryResult: mt, DatasetQueryResult: md}, nil
+}
+
+func (api *CantabularMetadataExtractorAPI) GetMetadataTable(ctx context.Context, req cantabular.MetadataTableQueryRequest) (*cantabular.MetadataTableQuery, []string, error) {
 	var dims []string
 	mt, err := api.CantMetaAPI.MetadataTableQuery(context.Background(), req)
 	if err != nil {

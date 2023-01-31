@@ -30,7 +30,10 @@ func TestGetMetadataTable(t *testing.T) {
 		}
 		Convey("GetMetadataTable method should return correct dimensions", func() {
 			expected := []string{"oa", "sex"}
-			_, dims, err := cantMetadataExtractorAPI.GetMetadataTable(ctx, "UR", "en")
+			_, dims, err := cantMetadataExtractorAPI.GetMetadataTable(ctx, cantabular.MetadataTableQueryRequest{
+				Lang:      "en",
+				Variables: []string{"UR"},
+			})
 			So(err, ShouldBeNil)
 			So(dims, ShouldResemble, expected)
 		})
