@@ -10,7 +10,7 @@ Supply Cantabular metadata for Florence metadata journey.
 
 * Requires Cantabular Server running on port 8491 (see [dp-cantabular-server](https://github.com/ONSdigital/dp-cantabular-server))
 * Requires Cantabular UI running on port 8080 (see [dp-cantabular-ui](https://github.com/ONSdigital/dp-cantabular-ui))
-* Requires Cantabular Metadata running on port 8493 (see [dp-cantabular-metadata](https://github.com/ONSdigital/dp-cantabular-server))
+* Requires Cantabular Metadata running on port 8493 (see [dp-cantabular-metadata-service](https://github.com/ONSdigital/dp-cantabular-metadata-service))
 
 There are also the following further dependencies if running with AUTHORISATION_ENABLED=true (see [Running with Authorisation Enabled](README.md#running-with-authorisation-enabled)) :-
 
