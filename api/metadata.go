@@ -14,8 +14,8 @@ import (
 )
 
 var (
-	geoCodeOverride   = "ltla"                                                               // Fran 20220831
-	validGeo          = []string{"ctry", "lsoa", "ltla", "msoa", "nat", "oa", "rgn", "utla"} // allowlist of codes
+	geoCodeOverride   = "ltla"                                                                      // Fran 20220831
+	validGeo          = []string{"ctry", "lsoa", "ltla", "msoa", "nat", "oa", "rgn", "utla", "wpc"} // allowlist of codes
 	errNotOneGeocode  = errors.New("invalid data - expected exactly one geocode")
 	errUnexpectedResp = errors.New("unexpected JSON response")
 )
