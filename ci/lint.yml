@@ -13,4 +13,3 @@ inputs:
 
 run:
   path: dp-cantabular-metadata-extractor-api/ci/scripts/lint.sh
-  modules-download-mode: vendor
