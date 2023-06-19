@@ -10,7 +10,6 @@ require (
 	github.com/ONSdigital/dp-authorisation/v2 v2.30.0
 	github.com/ONSdigital/dp-component-test v0.9.2
 	github.com/ONSdigital/dp-healthcheck v1.6.1
-	github.com/ONSdigital/dp-net v1.5.0
 	github.com/ONSdigital/dp-net/v2 v2.10.0
 	github.com/ONSdigital/log.go/v2 v2.4.1
 	github.com/cucumber/godog v0.12.6
@@ -23,7 +22,6 @@ require (
 )
 
 require (
-	github.com/ONSdigital/dp-api-clients-go v1.43.0 // indirect
 	github.com/ONSdigital/dp-mongodb-in-memory v1.6.0 // indirect
 	github.com/ONSdigital/dp-permissions-api v0.22.0 // indirect
 	github.com/aws/aws-sdk-go v1.44.284 // indirect
@@ -45,7 +43,6 @@ require (
 	github.com/hashicorp/go-memdb v1.3.4 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/hokaccha/go-prettyjson v0.0.0-20211117102719-0474bc63780f // indirect
-	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/jtolds/gls v4.20.0+incompatible // indirect
 	github.com/justinas/alice v1.2.0 // indirect

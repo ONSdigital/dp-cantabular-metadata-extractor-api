@@ -10,7 +10,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
 
-	dphttp "github.com/ONSdigital/dp-net/http"
+	dphttp "github.com/ONSdigital/dp-net/v2/http"
 )
 
 // Service contains all the configs, server and clients to run the API
