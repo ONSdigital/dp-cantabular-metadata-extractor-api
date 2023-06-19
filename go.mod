@@ -26,7 +26,7 @@ require (
 	github.com/ONSdigital/dp-api-clients-go v1.43.0 // indirect
 	github.com/ONSdigital/dp-mongodb-in-memory v1.6.0 // indirect
 	github.com/ONSdigital/dp-permissions-api v0.22.0 // indirect
-	github.com/aws/aws-sdk-go v1.44.204 // indirect
+	github.com/aws/aws-sdk-go v1.44.284 // indirect
 	github.com/chromedp/cdproto v0.0.0-20230419194459-b5ff65bc57a3 // indirect
 	github.com/chromedp/chromedp v0.9.1 // indirect
 	github.com/chromedp/sysutil v1.0.0 // indirect
@@ -53,7 +53,7 @@ require (
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
-	github.com/mattn/go-isatty v0.0.18 // indirect
+	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/maxcnunes/httpfake v1.2.4 // indirect
 	github.com/montanaflynn/stats v0.7.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
@@ -65,10 +65,10 @@ require (
 	github.com/xdg-go/stringprep v1.0.4 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a // indirect
 	go.mongodb.org/mongo-driver v1.11.4 // indirect
-	golang.org/x/crypto v0.8.0 // indirect
-	golang.org/x/net v0.9.0 // indirect
+	golang.org/x/crypto v0.10.0 // indirect
+	golang.org/x/net v0.11.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
-	golang.org/x/sys v0.7.0 // indirect
-	golang.org/x/text v0.9.0 // indirect
+	golang.org/x/sys v0.9.0 // indirect
+	golang.org/x/text v0.10.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
