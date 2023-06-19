@@ -154,6 +154,9 @@ dataset(name:"UR") {
 	}
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Print(err)
+	}
 
 	return !strings.Contains(string(body), "does not exist")
 

@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/ONSdigital/dp-api-clients-go/v2/cantabular"
-	"github.com/ONSdigital/dp-authorisation/v2/authorisation"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
 	"github.com/ONSdigital/log.go/v2/log"
@@ -16,14 +15,13 @@ import (
 
 // Service contains all the configs, server and clients to run the API
 type Service struct {
-	Config                  *config.Config
-	Server                  HTTPServer
-	Router                  *mux.Router
-	API                     *api.CantabularMetadataExtractorAPI
-	ServiceList             *ExternalServiceList
-	HealthCheck             HealthChecker
-	Client                  *cantabular.Client
-	authorisationMiddleware authorisation.Middleware
+	Config      *config.Config
+	Server      HTTPServer
+	Router      *mux.Router
+	API         *api.CantabularMetadataExtractorAPI
+	ServiceList *ExternalServiceList
+	HealthCheck HealthChecker
+	Client      *cantabular.Client
 }
 
 // Run the service

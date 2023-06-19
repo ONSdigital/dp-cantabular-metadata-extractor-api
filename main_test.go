@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"os"
 	"testing"
@@ -17,21 +18,23 @@ type ComponentTest struct {
 	MongoFeature *componenttest.MongoFeature
 }
 
-func (f *ComponentTest) InitializeScenario(ctx *godog.ScenarioContext) {
+func (f *ComponentTest) InitializeScenario(godogCtx *godog.ScenarioContext) {
 	component, err := steps.NewComponent()
 	if err != nil {
 		panic(err)
 	}
 
-	ctx.BeforeScenario(func(*godog.Scenario) {
+	godogCtx.Before(func(ctx context.Context, sc *godog.Scenario) (context.Context, error) {
 		component.Reset()
+		return ctx, nil
 	})
 
-	ctx.AfterScenario(func(*godog.Scenario, error) {
-		_ = component.Close()
+	godogCtx.After(func(ctx context.Context, sc *godog.Scenario, err error) (context.Context, error) {
+		component.Close()
+		return ctx, nil
 	})
 
-	component.RegisterSteps(ctx)
+	component.RegisterSteps(godogCtx)
 }
 
 func (f *ComponentTest) InitializeTestSuite(ctx *godog.TestSuiteContext) {
