@@ -2,9 +2,6 @@ module github.com/ONSdigital/dp-cantabular-metadata-extractor-api
 
 go 1.20
 
-// Fix security issues
-replace github.com/spf13/cobra => github.com/spf13/cobra v1.4.0
-
 require (
 	github.com/ONSdigital/dp-api-clients-go/v2 v2.254.0
 	github.com/ONSdigital/dp-authorisation/v2 v2.30.0
