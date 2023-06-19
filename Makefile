@@ -16,6 +16,7 @@ audit:	## run nancy auditor
 .PHONY: lint
 lint:
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.53.3
+	GO111MODULE=off
 	golangci-lint run ./...
 
 .PHONY: build
