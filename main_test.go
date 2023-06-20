@@ -37,7 +37,7 @@ func (f *ComponentTest) InitializeScenario(godogCtx *godog.ScenarioContext) {
 	component.RegisterSteps(godogCtx)
 }
 
-func (f *ComponentTest) InitializeTestSuite(ctx *godog.TestSuiteContext) {
+func (f *ComponentTest) InitializeTestSuite(_ *godog.TestSuiteContext) {
 
 }
 

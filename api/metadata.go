@@ -39,20 +39,20 @@ func (api *CantabularMetadataExtractorAPI) getMetadataHandler(w http.ResponseWri
 		return
 	}
 
-	json, err := json.Marshal(m)
+	jsonMarshall, err := json.Marshal(m)
 	if err != nil {
 		log.Error(ctx, err.Error(), err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	_, err = w.Write(json)
+	_, err = w.Write(jsonMarshall)
 	if err != nil {
 		log.Error(ctx, err.Error(), err)
 	}
 }
 
-func (api *CantabularMetadataExtractorAPI) GetMetadata(ctx context.Context, datasetID string, lang string) (*cantabular.MetadataQueryResult, error) {
+func (api *CantabularMetadataExtractorAPI) GetMetadata(ctx context.Context, datasetID, lang string) (*cantabular.MetadataQueryResult, error) {
 	mt, dimensions, err := api.GetMetadataTable(ctx, cantabular.MetadataTableQueryRequest{
 		Variables: []string{datasetID},
 		Lang:      lang,
@@ -83,20 +83,18 @@ func (api *CantabularMetadataExtractorAPI) GetMetadata(ctx context.Context, data
 	return &cantabular.MetadataQueryResult{TableQueryResult: mt, DatasetQueryResult: md}, nil
 }
 
-func (api *CantabularMetadataExtractorAPI) GetMetadataTable(ctx context.Context, req cantabular.MetadataTableQueryRequest) (*cantabular.MetadataTableQuery, []string, error) {
-	var dims []string
+func (api *CantabularMetadataExtractorAPI) GetMetadataTable(_ context.Context, req cantabular.MetadataTableQueryRequest) (*cantabular.MetadataTableQuery, []string, error) {
+	var dims = []string{}
 	mt, err := api.CantMetaAPI.MetadataTableQuery(context.Background(), req)
 	if err != nil {
 		return mt, dims, err
 	}
 
 	if len(mt.Service.Tables) == 0 {
-
 		return mt, dims, fmt.Errorf("%s : %w", "mt.Service.Tables", errUnexpectedResp)
 	}
 
 	if len(mt.Service.Tables[0].Vars) == 0 {
-
 		return mt, dims, fmt.Errorf("%s : %w", "mt.Service.Tables.Vars", errUnexpectedResp)
 	}
 
@@ -125,9 +123,9 @@ func OverrideMetadataTable(dims []string, mt *cantabular.MetadataTableQuery) err
 	}
 
 	substituted = 0
-	for i, v := range mt.Service.Tables {
-		for j, c := range v.Vars {
-			if inSlice(string(c), validGeo) {
+	for i := range mt.Service.Tables {
+		for j := range mt.Service.Tables[i].Vars {
+			if inSlice(string(mt.Service.Tables[i].Vars[j]), validGeo) {
 				mt.Service.Tables[i].Vars[j] = graphql.String(geoCodeOverride)
 				substituted++
 			}

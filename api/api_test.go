@@ -32,10 +32,10 @@ func TestSetup(t *testing.T) {
 			t.Fail()
 		}
 
-		api := api.Setup(ctx, r, cfg, c, authorisationMiddleware)
+		apiSetup := api.Setup(ctx, r, cfg, c, authorisationMiddleware)
 
 		Convey("When created the following routes should have been added", func() {
-			So(hasRoute(api.Router, "/cantabular-metadata/dataset/{datasetID}/lang/{lang}", "GET"), ShouldBeTrue)
+			So(hasRoute(apiSetup.Router, "/cantabular-metadata/dataset/{datasetID}/lang/{lang}", "GET"), ShouldBeTrue)
 		})
 	})
 }

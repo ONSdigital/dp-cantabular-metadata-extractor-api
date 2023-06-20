@@ -38,7 +38,6 @@ func TestGetMetadataTable(t *testing.T) {
 			So(dims, ShouldResemble, expected)
 		})
 	})
-
 }
 
 func TestOverrideMetadataTable(t *testing.T) {
@@ -59,7 +58,6 @@ func TestOverrideMetadataTable(t *testing.T) {
 			})
 		})
 	})
-
 }
 
 func getMT() (cantabular.MetadataTableQuery, error) {

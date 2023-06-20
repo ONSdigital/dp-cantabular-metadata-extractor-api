@@ -14,7 +14,6 @@ import (
 )
 
 func main() {
-
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	var id, host, extapihost, checkdims, alias, format string
@@ -32,7 +31,6 @@ func main() {
 	flag.Parse()
 
 	if checkall {
-
 		for id := range createrecipe.GetMap() {
 			fmt.Printf("Testing id=%s ", id)
 			cr := createrecipe.New(id, host, extapihost)
@@ -64,11 +62,9 @@ func main() {
 			}
 
 			fmt.Print("OK\n")
-
 		}
 
 		os.Exit(0)
-
 	}
 
 	cr := createrecipe.New(id, host, extapihost)
@@ -83,9 +79,8 @@ func main() {
 		cr.Dimensions = strings.Split(checkdims, ",")
 		if !cr.OKDimsInDS() {
 			log.Fatalf("dims '%#v' not fully present in '%s' dataset", cr.Dimensions, "UR") // XXX
-		} else {
-			fmt.Println("dims OK")
 		}
+		fmt.Println("dims OK")
 		os.Exit(0)
 	}
 
@@ -149,5 +144,4 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println(string(u))
-
 }

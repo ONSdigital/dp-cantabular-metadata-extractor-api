@@ -3,6 +3,7 @@ package steps
 import (
 	"context"
 	"net/http"
+	"time"
 
 	"github.com/ONSdigital/dp-authorisation/v2/authorisation"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
@@ -26,9 +27,10 @@ type Component struct {
 }
 
 func NewComponent() (*Component, error) {
-
 	c := &Component{
-		HTTPServer:     &http.Server{},
+		HTTPServer: &http.Server{
+			ReadHeaderTimeout: time.Duration(5) * time.Second,
+		},
 		errorChan:      make(chan error),
 		ServiceRunning: false,
 	}
@@ -78,7 +80,7 @@ func (c *Component) InitialiseService() (http.Handler, error) {
 	return c.HTTPServer.Handler, nil
 }
 
-func (f *Component) DoGetAuthorisationMiddleware(ctx context.Context, cfg *authorisation.Config) (authorisation.Middleware, error) {
+func (c *Component) DoGetAuthorisationMiddleware(ctx context.Context, cfg *authorisation.Config) (authorisation.Middleware, error) {
 	middleware, err := authorisation.NewMiddlewareFromConfig(ctx, cfg, cfg.JWTVerificationPublicKeys)
 	if err != nil {
 		return nil, err
@@ -86,7 +88,7 @@ func (f *Component) DoGetAuthorisationMiddleware(ctx context.Context, cfg *autho
 	return middleware, nil
 }
 
-func (c *Component) DoGetHealthcheckOk(cfg *config.Config, buildTime string, gitCommit string, version string) (service.HealthChecker, error) {
+func (c *Component) DoGetHealthcheckOk(_ *config.Config, _, _, _ string) (service.HealthChecker, error) {
 	return &mock.HealthCheckerMock{
 		AddCheckFunc: func(name string, checker healthcheck.Checker) error { return nil },
 		StartFunc:    func(ctx context.Context) {},
