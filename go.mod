@@ -2,8 +2,6 @@ module github.com/ONSdigital/dp-cantabular-metadata-extractor-api
 
 go 1.22
 
-toolchain go1.22.0
-
 // [CVE-2024-24786] CWE-835: Loop with Unreachable Exit Condition ('Infinite Loop')
 replace google.golang.org/protobuf => google.golang.org/protobuf v1.33.0
 
