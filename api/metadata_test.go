@@ -9,6 +9,7 @@ import (
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/api/mock"
 	"github.com/ONSdigital/dp-cantabular-metadata-extractor-api/config"
+	"github.com/shurcooL/graphql"
 
 	. "github.com/smartystreets/goconvey/convey"
 )
@@ -54,7 +55,7 @@ func TestOverrideMetadataTable(t *testing.T) {
 			Convey("Then we get the correct ltla overrides for the dimensions and the MetadataTableQuery", func() {
 				So(err, ShouldBeNil)
 				So(dims[0], ShouldEqual, "ltla")
-				So(mt.Service.Tables[0].Vars[0], ShouldEqual, "ltla")
+				So(mt.Service.Tables[0].Vars[0], ShouldEqual, graphql.String("ltla"))
 			})
 		})
 	})
