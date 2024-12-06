@@ -7,6 +7,18 @@ run:
   # timeout for analysis, e.g. 30s, 5m, default is 1m
   timeout: 10m
 linters-settings:
+  depguard:
+    rules:
+      # Name of a rule.
+      main:
+        # Used to determine the package matching priority.
+        # There are three different modes: `original`, `strict`, and `lax`.
+        # Default: "original"
+        list-mode: lax
+        # List of allowed packages.
+        allow:
+          - $gostd
+          - github.com/ONSDigital
   govet:
     check-shadowing: true
   golint:
@@ -88,6 +100,6 @@ issues:
 # golangci.com configuration
 # https://github.com/golangci/golangci/wiki/Configuration
 service:
-  golangci-lint-version: 1.52.x # use the fixed version to not introduce new linters unexpectedly
+  golangci-lint-version: 1.62.1 # use the fixed version to not introduce new linters unexpectedly
   prepare:
     - echo "here I can run custom commands, but no preparation needed for this repo"
