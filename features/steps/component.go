@@ -90,10 +90,10 @@ func (c *Component) DoGetAuthorisationMiddleware(ctx context.Context, cfg *autho
 
 func (c *Component) DoGetHealthcheckOk(_ *config.Config, _, _, _ string) (service.HealthChecker, error) {
 	return &mock.HealthCheckerMock{
-		AddCheckFunc: func(name string, checker healthcheck.Checker) error { return nil },
-		StartFunc:    func(ctx context.Context) {},
+		AddCheckFunc: func(_ string, _ healthcheck.Checker) error { return nil },
+		StartFunc:    func(_ context.Context) {},
 		StopFunc:     func() {},
-		HandlerFunc:  func(w http.ResponseWriter, req *http.Request) {},
+		HandlerFunc:  func(_ http.ResponseWriter, _ *http.Request) {},
 	}, nil
 }
 
