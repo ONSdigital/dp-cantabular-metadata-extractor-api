@@ -5,10 +5,10 @@ run:
   concurrency: 4
 
   # timeout for analysis, e.g. 30s, 5m, default is 1m
-  timeout: 10m
+  timeout: 5m
 linters-settings:
   govet:
-    check-shadowing: true
+    shadow: true
   golint:
     min-confidence: 0
   gocyclo:
@@ -21,7 +21,7 @@ linters-settings:
     threshold: 100
   goconst:
     min-len: 2
-    min-occurrences: 2
+    min-occurrences: 4
   misspell:
     locale: UK
   lll:
@@ -41,7 +41,17 @@ linters-settings:
       - ifElseChain
       - octalLiteral
       - hugeParam
-      - unnamedResult
+  revive:
+    rules:
+      # disabled as parameter names are useful for context even when unused, especially in interface implementations
+      - name: unused-parameter
+        severity: warning
+        disabled: true
+    include:
+      - "**/*_test.go" # Specify test files to include
+  funlen:
+  # lines: 100
+  # statements: 100
 
 linters:
   # please, do not use `enable-all`: it's deprecated and will be removed soon.
@@ -79,11 +89,10 @@ issues:
         - errcheck
         - dupl
         - gosec
-    - linters:
-      - govet
-      text: 'declaration of "(err|ctx)" shadows declaration at'
+    # Allow dot import in test files for goconvey
+    - path: _test.go
+      text: "dot-imports"
+      linters:
+        - revive
+      source: "github.com/smartystreets/goconvey/convey"
   new: false
-
-# golangci.com configuration
-# https://github.com/golangci/golangci/wiki/Configuration
-
