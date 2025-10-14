@@ -11,7 +11,7 @@ all: audit test build ## run audit, test and build
 
 .PHONY: audit
 audit:	## run nancy auditor
-	go list -json -m all | nancy sleuth
+	dis-vulncheck
 
 .PHONY: lint
 lint:
