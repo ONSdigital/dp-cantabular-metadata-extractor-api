@@ -1,8 +1,14 @@
 version: "2"
+# This file was inspired by the golangci-lint one:
+# https://github.com/golangci/golangci-lint/blob/master/.golangci.yml
 run:
+  # default concurrency is a available CPU number
   concurrency: 4
+  # timeout for analysis, e.g. 30s, 5m, default is 1m
   timeout: 5m
 linters:
+  # please, do not use `enable-all`: it's deprecated and will be removed soon.
+  # inverted configuration with `enable-all` and `disable` is not scalable during updates of golangci-lint
   default: none
   enable:
     - dogsled
